@@ -106,12 +106,8 @@ def solve_puzzle(puzzle: dict) -> bytes:
     message = bytes([c ^ k for c, k in zip(ciphertext, fTx_bytes)])
     return message
 
-# =======================
-# Example Usage
-# =======================
-
 if __name__ == "__main__":
-    T = 20  # Use small T for demonstration; large T will increase delay
+    T = 2**12  # Use small T for demonstration; large T will increase delay
     message = b"This is a secret msg!"
 
     print("[*] Generating puzzle...")
