@@ -1,4 +1,3 @@
-from multiprocessing.spawn import prepare
 import numpy as np
 import math
 from qiskit import QuantumCircuit, QuantumRegister, transpile
@@ -22,8 +21,8 @@ class HamiltonianCompiler:
         # e.g., 5 steps requires times 0..5 -> 3 bits.
         self.num_clock_qubits = math.ceil(math.log2(self.num_time_steps + 1))
         
-        print(f"[Compiler] Input Circuit Depth: {self.num_time_steps}")
-        print(f"[Compiler] Required Clock Qubits: {self.num_clock_qubits}")
+        print(f"In Compiler - Input Circuit Depth: {self.num_time_steps}")
+        print(f"In Compiler - Required Clock Qubits: {self.num_clock_qubits}")
 
     def _prepare(self):
         """
@@ -31,22 +30,17 @@ class HamiltonianCompiler:
         1. Decomposes complex blocks (like Initialize/QFT) to expose hidden Resets.
         2. Removes non-unitary ops (Measure, Reset, Barrier).
         """
-        print("[Cleaner] Decomposing to basis gates...")
+        print("In Compiler - Decomposing to basis gates...")
 
         qc = self.user_circuit
         
-        # 1. DECOMPOSE FIRST
-        # This breaks 'Initialize' into 'Reset' + 'Rotations'
-        # This breaks 'QFT' into 'H' + 'CP', etc.
         basis = ['u', 'cx', 'h', 'p', 'cp', 'ry', 'rz', 'x', 'z', 'ccx']
         
-        # Optimization level 1 or 2 helps merge redundant gates
+        # Decompose to basis gates that expose resets and basic gates
         decomposed = transpile(qc, basis_gates=basis, optimization_level=1)
-        
-        # 2. FILTER SECOND
-        # Now that 'Reset' is exposed, we can delete it.
         clean_qc = QuantumCircuit(decomposed.qubits, decomposed.clbits)
         
+        # Filter out non-unitary ops
         ignored_ops = ['measure', 'barrier', 'reset', 'save_statevector', 'snapshot']
         
         for instr in decomposed.data:

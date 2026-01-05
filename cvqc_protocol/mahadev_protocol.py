@@ -4,21 +4,44 @@ import math
 from qiskit import QuantumCircuit
 from qiskit.circuit.library import UnitaryGate
 from qiskit.quantum_info import Statevector
+from hamiltonian_compiler import HamiltonianCompiler
 
-# --- CONFIGURATION --
-Q = 8  # Modulus (for security should be ~512)
-N = 2   # Dimension of vectors (for security should be ~512)
-BITS_PER_INT = int(math.log2(Q)) 
+class LWE:
+    def __init__(self, circuit_qubits, Q=16):
+        self.Q = Q
+        self.bits_per_int = int(math.log2(Q))
+        
+        # Calculate N: We need N * bits >= circuit_qubits
+        # N must be large enough to embed the whole history state as input 'x'
+        self.N = math.ceil(circuit_qubits / self.bits_per_int)
+        
+        # Security/Stability floor: Ensure N is at least 2
+        if self.N < 2: 
+            self.N = 2
+            
+        self.capacity = self.N * self.bits_per_int
+        
+        print(f"(Config) -- Circuit Size: {circuit_qubits} qubits")
+        print(f"(Config) -- LWE Parameters: N={self.N}, Q={self.Q} ({self.bits_per_int} bits/int)")
+        print(f"(Config) -- Total Capacity: {self.capacity} bits")
+    
+    # Generate LWE Keys
+    def generate(self):
 
-class LWE_KeyGen:
-    @staticmethod
-    def generate():
-        # Generate keys in Z_Q
+        Q = self.Q
+        N = self.N
+        
+        # Generate keys using the passed dimensions
         s = np.random.randint(0, Q, size=N)
         A = np.random.randint(0, Q, size=(N, N))
-        e = 0 # Small error vector; for simplicity, we set it to zero. In real LWE, this is small noise.
-        u = np.dot(A, s) % Q + e
-        return {'A': A, 'u': u}, {'s': s}
+        e = np.zeros(N, dtype=int) # No noise for simulation
+        u = (np.dot(A, s) + e) % Q
+        
+        # Pack Q and N into the key so the Prover knows them!
+        pk = {'A': A, 'u': u, 'Q': Q, 'N': N}
+        sk = {'s': s, 'Q': Q, 'N': N}
+        
+        return pk, sk
 
 class QuantumAdder:
     """
@@ -43,7 +66,7 @@ class QuantumAdder:
         return gate
 
     @staticmethod
-    def add_const_controlled(qc, ctrl_qubit, target_qubits, val):
+    def add_const_controlled(qc, ctrl_qubit, target_qubits, val, Q):
         """
         Applies Controlled-Add(val).
         If ctrl_qubit is 1, add 'val' to target_qubits (modulo Q).
@@ -61,13 +84,16 @@ class QuantumAdder:
         # args: [control_bit] + [list of target bits]
         qc.append(c_add_gate, [ctrl_qubit] + target_qubits)
 
-class Prover_Mahadev:
+class ProverMahadev:
     def __init__(self):
         pass
 
-    def build_oracle_mod_q(self, qc, pk, b_idx, x_indices, y_indices):
+    def build_oracle(self, qc, pk, b_idx, x_indices, y_indices):
+       
         A = pk['A']
         u = pk['u']
+        N = pk['N']
+        Q = pk['Q']
         
         # 1. Compute Ax (Mod Q)
         for j in range(N): # For each input integer x_j
@@ -81,28 +107,61 @@ class Prover_Mahadev:
                 # We need to add (A[i][j] * bit_value) to y_i
                 for i in range(N):
                     scalar = (A[i][j] * bit_value)
-                    QuantumAdder.add_const_controlled(qc, ctrl_qubit, y_indices[i], scalar)
+                    QuantumAdder.add_const_controlled(qc, ctrl_qubit, y_indices[i], scalar, Q)
 
         # 2. Add bu (Mod Q)
         for i in range(N):
             scalar = u[i]
-            QuantumAdder.add_const_controlled(qc, b_idx, y_indices[i], scalar)
+            QuantumAdder.add_const_controlled(qc, b_idx, y_indices[i], scalar, Q)
 
-    def step2_commit(self, pk):
-        print(f"[Prover] Initializing Quantum Memory for Q={Q}...")
-        
-        num_x_qubits = N * BITS_PER_INT
+    def step2_commit(self, pk, hist_circuit):
+        """
+        Args:
+            pk: Public Key (A, u)
+            history_circuit: The QuantumCircuit output from HamiltonianCompiler
+        """
+
+        N = pk['N']
+        Q = pk['Q']
+        BITS_PER_INT = int(math.log2(Q))
+
+        print(f"(P2) -- Initializing Quantum Memory for Q={Q}...")
+
+        #num_x_qubits = N * BITS_PER_INT
+        # The history state acts as the input 'x' to the LWE function.
+        num_x_qubits = hist_circuit.num_qubits
         num_y_qubits = N * BITS_PER_INT
         total_qubits = 1 + num_x_qubits + num_y_qubits
         
-        qc = QuantumCircuit(total_qubits)
+        max_capacity = N * BITS_PER_INT
+        if num_x_qubits > max_capacity:
+            raise ValueError(f"LWE Key is too small! Key supports {max_capacity} qubits, but circuit needs {num_x_qubits}.")
         
-        # 1. Superposition
-        qc.h(range(1 + num_x_qubits))
+        # 1. Setup Circuit
+        #qc.h(range(1 + num_x_qubits))    # Superposition
+
+        # Structure: [b (1)] + [x (History)] + [y (Commitment)]
+        num_y_qubits = max_capacity # y must match x capacity in LWE
+        total_qubits = 1 + max_capacity + num_y_qubits
+
+        qc = QuantumCircuit(total_qubits)
+
+        # Paste the hist_circuit into the 'x' register.
+        # 'x' starts at qubit 1 (qubit 0 is 'b').
+        
+        # We map hist_circuit[0] -> qc[1]
+        # We map hist_circuit[1] -> qc[2] ...
+        qubit_map = list(range(1, 1 + num_x_qubits))
+        
+        qc.compose(hist_circuit, qubits=qubit_map, inplace=True)
+        
+        # Note: If max_capacity > num_x_qubits, the remaining x qubits 
+        # stay at |0>. This effectively pads the vector x with zeros.
         
         # 2. Oracle
         b_idx = 0
-        # Helper to slice qubit indices into chunks of size BITS_PER_INT
+
+        # Need to tell the Oracle where to find x and y
         x_indices = []
         for i in range(N):
             start = 1 + (i * BITS_PER_INT)
@@ -110,62 +169,74 @@ class Prover_Mahadev:
             
         y_indices = []
         for i in range(N):
-            start = 1 + num_x_qubits + (i * BITS_PER_INT)
+            start = 1 + max_capacity + (i * BITS_PER_INT)
             y_indices.append(list(range(start, start + BITS_PER_INT)))
             
-        self.build_oracle_mod_q(qc, pk, b_idx, x_indices, y_indices)
+        self.build_oracle(qc, pk, b_idx, x_indices, y_indices)
         
-        # --- STATEVECTOR SIMULATION ---
-        print(f"[Prover] Computing wavefunction (Total Qubits: {total_qubits})...")
-        current_state = Statevector.from_instruction(qc)
+        # STATEVECTOR SIMULATION
+        print(f"(P2) -- Simulating Full State (Qubits: {total_qubits})...")
+        state = Statevector.from_instruction(qc)
         
         # Measure Y register
-        y_qubits = list(range(1 + num_x_qubits, total_qubits))
-        commitment_y, prover_state = current_state.measure(y_qubits)
+        y_qubits = list(range(1 + max_capacity, total_qubits))
+        commitment_y, prover_state = state.measure(y_qubits)
         
         # Parse bits to int for display (Little Endian in Qiskit)
-        # We just show the raw bitstring here for simplicity
-        print(f"[Prover] Measured y (bits): {commitment_y}")
+        # Show the raw bitstring here for simplicity
+        print(f"(P2) -- Measured y (bits): {commitment_y}")
         
         return commitment_y, prover_state
 
     def step4_respond(self, prover_state, challenge):
-        num_x_qubits = N * BITS_PER_INT
-        current_state = prover_state
+        
+        total_qubits = prover_state.num_qubits
+        num_y = (total_qubits - 1) // 2
         
         if challenge == 1:
-            print("[Prover] Challenge=1 (Hadamard). Rotating Basis...")
-            qc_chal = QuantumCircuit(current_state.num_qubits)
-            qc_chal.h(range(1 + num_x_qubits))
-            current_state = current_state.evolve(qc_chal)
+            print("(P4) -- Received c = 1 (Hadamard). Rotating Basis...")
+            num_x = num_y
+            qc = QuantumCircuit(total_qubits)
+            qc.h(range(1,1 + num_x))
+            prover_state = prover_state.evolve(qc)
         else:
-            print("[Prover] Challenge=0 (Standard).")
+            print("(P4) -- Received c = 0 (Standard).")
 
-        # Measure Input Register
-        input_qubits = list(range(1 + num_x_qubits))
-        response, _ = current_state.measure(input_qubits)
+        # Measure Input (b + x)
+        # We measure EVERYTHING except the Y register (which was already measured)
+        # Actually, standard protocol measures b + x.
+        input_range = range(0, 1 + num_y)
+        response, _ = prover_state.measure(list(input_range))
         return response
 
-class Verifier_Mahadev:
-    def step1_setup(self):
-        self.pk, self.sk = LWE_KeyGen.generate()
-        print(f"[Verifier] Generated LWE Keys (Q={Q})")
+class VerifierMahadev:
+    
+    def step1_setup(self, hist_circuit, Q=16):
+
+        circuit_size = hist_circuit.num_qubits
+        lwe = LWE(circuit_size, Q)        
+        self.pk, self.sk = lwe.generate()
+        print(f"(V1) -- Generated LWE Keys (Q={Q})")
         print(f"   > Trapdoor s: {self.sk['s']}")
         return self.pk, self.sk
     
     def step3_challenge(self):
-        return secrets.choice([0, 1])
 
-    def step5_verify(self, answer, pk, y, challenge, sk):
+        c = secrets.choice([0, 1])
+        print(f"(V3) -- Generated Random Challenge: c = {c}")
+        return c
+
+    def step5_verify(self, pk, sk, y, c, a):
             """
-            Verifies the Prover's response under the NO NOISE assumption.
-            Calculations are exact modulo Q.
+            Verifies the Prover's response
             """
-            print(f"\n[Verifier] Verifying Response (Challenge c={challenge})...")
+            print(f"(Vout) -- Verifying Response (Challenge c = {c})...")
+            N = pk['N']
+            Q = pk['Q']
             
             # --- 1. PARSE THE ANSWER (b, x) ---
             # Qiskit returns little-endian strings (reversed). 
-            ans_bits = answer[::-1] 
+            ans_bits = a[::-1] 
             
             b_val = int(ans_bits[0])
             
@@ -187,7 +258,7 @@ class Verifier_Mahadev:
 
             # --- 2. VERIFICATION LOGIC ---
             
-            if challenge == 0:
+            if c == 0:
                 # === TEST ROUND (Exact Match) ===
                 # Logic: Check if Ax + bu == y (Exactly)
                 
@@ -209,7 +280,7 @@ class Verifier_Mahadev:
                         if bit == '1': val += 2**idx
                     y_integers.append(val)
                     
-                print(f"   > Math Check: {calculated_y}")
+                print(f"   > Check: {calculated_y}")
                 print(f"   > Commitment: {y_integers}")
                 
                 # C. STRICT EXACT COMPARISON
@@ -240,14 +311,18 @@ class Verifier_Mahadev:
                     return False, "Hadamard Round Failed"
 
 if __name__ == "__main__":
-    verifier = Verifier_Mahadev()
-    prover = Prover_Mahadev()
     
-    pk, sk = verifier.step1_setup()
-    y, state = prover.step2_commit(pk)
+    verifier = VerifierMahadev()
+    prover = ProverMahadev()
     
+    hhl_circuit = QuantumCircuit(4)         ## This would be replaced with the actual HHL circuit
+    hhl_circuit.h(0)
+    hhl_circuit.cx(0,1)
+    compiler = HamiltonianCompiler(hhl_circuit)
+    hist_circuit = compiler.compile()
+
+    pk, sk = verifier.step1_setup(hist_circuit, Q=16)
+    y, state = prover.step2_commit(pk, hist_circuit)
     c = verifier.step3_challenge()          # send y to V to trigger the challenge
-    print(f"[Verifier] Challenge: {c}")
-    
     ans = prover.step4_respond(state, c)
-    verifier.step5_verify(ans, pk, y, c, sk)
+    verifier.step5_verify(pk, sk, y, c, ans)

@@ -191,6 +191,6 @@ if __name__ == "__main__":
     print(f"Qubits Used: {hhl_circuit.num_qubits}")
     print(f"Depth: {hhl_circuit.depth()}")
     
-    compiler = HamiltonianCompiler(hhl_circuit)
-    hist_qc = compiler.compile()
-    print("Compiled successfully!")
+    #compiler = HamiltonianCompiler(hhl_circuit)
+    #hist_qc = compiler.compile()
+    #print("Compiled successfully!")
