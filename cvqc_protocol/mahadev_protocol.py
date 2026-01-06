@@ -318,8 +318,9 @@ if __name__ == "__main__":
     hhl_circuit = QuantumCircuit(4)         ## This would be replaced with the actual HHL circuit
     hhl_circuit.h(0)
     hhl_circuit.cx(0,1)
+    
     compiler = HamiltonianCompiler(hhl_circuit)
-    hist_circuit = compiler.compile()
+    hist_circuit = compiler.compile()       # Generate the Feynman-Kitaev history state circuit for the user circuit
 
     pk, sk = verifier.step1_setup(hist_circuit, Q=16)
     y, state = prover.step2_commit(pk, hist_circuit)
