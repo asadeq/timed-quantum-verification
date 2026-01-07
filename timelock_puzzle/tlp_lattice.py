@@ -1,6 +1,6 @@
 import secrets
-from timelock_puzzle.reusable_garbled_circuit import ReusableGarbledCircuit
-from timelock_puzzle.lattice_sequential_function import SequentialFunction
+from .reusable_garbled_circuit import ReusableGarbledCircuit
+from .lattice_sequential_function import SequentialFunction
 
 class TimeLockPuzzle:
     """
