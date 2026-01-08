@@ -213,7 +213,7 @@ def main():
     print("\n" + "█" * 70)
     print("TEST 2: Small circuit, SHA-256 (cryptographic)")
     print("█" * 70)
-    result = test_configuration(T=5, lam=256, use_sha256=True, num_puzzles=30, save_circuit=False)
+    result = test_configuration(T=40, lam=256, use_sha256=True, num_puzzles=30, save_circuit=False)
     all_results.append(result)
     
     # Test 3: Medium circuit with XOR mixing

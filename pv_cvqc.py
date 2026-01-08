@@ -6,6 +6,7 @@ from cvqc_protocol.ccy_protocol import Verifier, Prover
 from cvqc_protocol.hamiltonian_compiler import HamiltonianCompiler
 from timelock_puzzle.tlp_lattice import TimeLockPuzzle
 from utils import random_oracle
+from timelock_puzzle.tlp_garbling import PythonGarbledTLP
 
 class PV_CVQC:
     """
@@ -24,6 +25,9 @@ class PV_CVQC:
         tlp = TimeLockPuzzle(T=T)
         pp = tlp.setup()
 
+        tlp2 = PythonGarbledTLP(T=T)
+        pp2 = tlp2.PSetup_Garble()
+
         # Run phase 1 of CCY
         ccy_verifier = Verifier()
         pk, sk = ccy_verifier.round1(hist_circuit, Q=16) 
@@ -33,6 +37,8 @@ class PV_CVQC:
 
         # Generate puzzle
         puzzle = tlp.generate(pp, sk)
+
+        puzzle2 = tlp2.PGen(1,pp2)
 
         return (pp, pk, puzzle, d)
 
