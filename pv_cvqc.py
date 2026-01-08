@@ -12,7 +12,11 @@ class PV_CVQC:
     """
     Implements our publicly verifiable CVQC protocol using the 2-round CCY protocol and the TLP
     """
-    def setup(secp, circuit):
+
+    def __init__(self):
+        self.tlp = None
+
+    def setup(self, secp, circuit):
         
         circuit = QuantumCircuit(4)                 # this is the true structure of the circuit we want to verify (would be provided the user e.g. hhl_circuit)
         compiler = HamiltonianCompiler(circuit)     # compile it to a Hamiltonian
@@ -22,8 +26,8 @@ class PV_CVQC:
         T = hist_circuit.depth()
 
         # Prepare the public parameters of the TLP
-        tlp = TimeLockPuzzle(T=T)
-        pp = tlp.setup()
+        self.tlp = TimeLockPuzzle(T=T)
+        pp = self.tlp.setup()
 
         tlp2 = PythonGarbledTLP(T=T)
         pp2 = tlp2.PSetup_Garble()
@@ -37,7 +41,7 @@ class PV_CVQC:
         d = random_oracle(sk + r, output_length=secp // 8)
 
         # Generate puzzle
-        puzzle = tlp.generate(pp, sk)
+        puzzle = self.tlp.generate(pp, sk)
 
         puzzle2 = tlp2.PGen(1,pp2)
 
@@ -46,7 +50,7 @@ class PV_CVQC:
 
         return crs, sk
 
-    def prove(crs, circuit):
+    def prove(self, crs, circuit):
 
         (_, pk, _, d) = crs
 
@@ -55,17 +59,16 @@ class PV_CVQC:
         proof = ccy_prover.round2(circuit, pk)
         return proof
 
-    def reveal(crs, circuit):
+    def reveal(self, crs, circuit):
 
         (pp, _, puzzle, _) = crs
 
         # Solve the puzzle to get sk
-        tlp = TimeLockPuzzle(T=puzzle.T)
-        y = tlp.solve(pp, puzzle)
+        y = self.tlp.solve(pp, puzzle)
 
         return y
 
-    def verify(crs, proof, y):
+    def verify(self, crs, proof, y):
 
         (_, pk, _, d) = crs
 
