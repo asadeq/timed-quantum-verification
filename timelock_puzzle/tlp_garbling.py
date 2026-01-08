@@ -37,11 +37,12 @@ class PythonGarbledTLP:
     
     Performance: Garbling is one-time, amortized over many puzzle generations.
     """
-    
-    def __init__(self, lam: int = 256, T: int = 4, use_sha256: bool = True):
+
+    def __init__(self, lam: int = 256, message_size: int = 256, T: int = 4, use_sha256: bool = True):
         """
         Args:
             lam: Security parameter (bits)
+            message_size: Size of messages in bits
             T: Number of sequential iterations
             use_sha256: If True, use SHA-256 circuit (proper cryptographic security);
                        if False, use XOR mixing (lightweight, for testing)
@@ -58,7 +59,7 @@ class PythonGarbledTLP:
         seq_mode = 'sha256' if use_sha256 else 'xor_mixing'
         self.circuit = create_tlp_unrolled_circuit(
             T=T,
-            message_bits=lam,
+            message_bits=message_size,
             sequential_func=create_sequential_function_for_circuit(seq_mode)
         )
         

@@ -3,6 +3,7 @@ class SequentialFunction:
     def __init__(self, difficulty_delay=0.0):
         self.delay = difficulty_delay
 
+    # Should be changed into lattice
     def evaluate(self, x):
         """
         Computes f(x).

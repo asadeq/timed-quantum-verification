@@ -48,7 +48,7 @@ class PV_CVQC:
 
     def prove(crs, circuit):
 
-        (pp, pk, puzzle, d) = crs
+        (_, pk, _, d) = crs
 
         # Run round 2 of CCY
         ccy_prover = Prover()
@@ -81,11 +81,23 @@ class PV_CVQC:
         
 # main
 if __name__ == "__main__":
-    circuit = QuantumCircuit(4)
-    secp = 128
+    
+    circuit = QuantumCircuit(4)                         # The user circuit
+    secp = 256
     pp, pk, puzzle, d = PV_CVQC.setup(secp, circuit)
     print("Public parameters:", pp)
     print("Public key:", pk)
     print("Puzzle:", puzzle)
     print("Commitment:", d) 
+
+    proof = PV_CVQC.prove((pp, pk, puzzle, d), circuit)
+    print("Proof:", proof)
+
+    y = PV_CVQC.reveal((pp, pk, puzzle, d), circuit)
+    print("Revealed secret:", y)
+
+    result = PV_CVQC.verify((pp, pk, puzzle, d), proof, y)
+    print("Verification result:", result)
+
+
         
