@@ -32,22 +32,60 @@ class PV_CVQC:
         ccy_verifier = Verifier()
         pk, sk = ccy_verifier.round1(hist_circuit, Q=16) 
 
-        # TODO: Commitmment to the sk (use a hash function) why are we truncating???
-        d = random_oracle(sk)
+        # Hash the concatenation sk with random r of same length
+        r = rand(secp // 8).numpy().tobytes()
+        d = random_oracle(sk + r, output_length=secp // 8)
 
         # Generate puzzle
         puzzle = tlp.generate(pp, sk)
 
         puzzle2 = tlp2.PGen(1,pp2)
 
-        return (pp, pk, puzzle, d)
+        # CRS
+        crs = (pp, pk, puzzle, d)
 
-    def prove(circuit):
-        pass
+        return crs, sk
 
-    def reveal():
-        pass
+    def prove(crs, circuit):
 
-    def verify():
-        pass
+        (pp, pk, puzzle, d) = crs
+
+        # Run round 2 of CCY
+        ccy_prover = Prover()
+        proof = ccy_prover.round2(circuit, pk)
+        return proof
+
+    def reveal(crs, circuit):
+
+        (pp, _, puzzle, _) = crs
+
+        # Solve the puzzle to get sk
+        tlp = TimeLockPuzzle(T=puzzle.T)
+        y = tlp.solve(pp, puzzle)
+
+        return y
+
+    def verify(crs, proof, y):
+
+        (_, pk, _, d) = crs
+
+        # Deconcatenate s to get sk and r
+        secp = len(d) * 8
+        sk = y[:-secp // 8]
+        r = y[-secp // 8:]
+
+        ccy_verifier = Verifier()   
+        result = ccy_verifier.verify(pk, sk, proof)
+
+        return result
+        
+# main
+if __name__ == "__main__":
+    circuit = QuantumCircuit(4)
+    secp = 128
+    pp, pk, puzzle, d = PV_CVQC.setup(secp, circuit)
+    print("Public parameters:", pp)
+    print("Public key:", pk)
+    print("Puzzle:", puzzle)
+    print("Commitment:", d) 
         

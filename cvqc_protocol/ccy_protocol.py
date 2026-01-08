@@ -20,7 +20,7 @@ class Verifier:
 
     def verify(self, k, td, proof_tuple):
         """
-        Verification: The verifier computes c = H(y), runs V_out... 
+        Verification: The verifier computes c = H(y), then runs V_out 
         """
         y, a = proof_tuple
         
@@ -29,9 +29,7 @@ class Verifier:
         
         print(f"[Verifier] Computed challenge c = H(y): {c}")
         
-        # Run the underlying Mahadev verification
         result = self.VerMahadev.step5_verify(k, td, y, c, a)
-        #result = MahadevAbstractions.V_out(self.k, self.td, y, c, a)
         
         if result:
             return "Accept" 
