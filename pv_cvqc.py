@@ -17,8 +17,7 @@ class PV_CVQC:
         self.tlp = None
 
     def setup(self, secp, circuit):
-        
-        circuit = QuantumCircuit(4)                 # this is the true structure of the circuit we want to verify (would be provided the user e.g. hhl_circuit)
+    
         compiler = HamiltonianCompiler(circuit)     # compile it to a Hamiltonian
         hist_circuit = compiler.compile()           
 
