@@ -158,7 +158,7 @@ def test_configuration(T, lam, use_sha256, num_puzzles=5, save_circuit=False):
     
     for i, (original_secret, puzzle_Z) in enumerate(puzzles):
         solve_start = time.perf_counter()
-        recovered = tlp.PSolve_Garbled(puzzle_Z, pp)
+        recovered = tlp.PSolve(puzzle_Z, pp)
         solve_time = (time.perf_counter() - solve_start) * 1000
         solve_times.append(solve_time)
         

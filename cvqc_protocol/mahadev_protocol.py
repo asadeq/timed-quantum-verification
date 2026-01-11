@@ -4,7 +4,7 @@ import math
 from qiskit import QuantumCircuit
 from qiskit.circuit.library import UnitaryGate
 from qiskit.quantum_info import Statevector
-from hamiltonian_compiler import HamiltonianCompiler
+from .hamiltonian_compiler import HamiltonianCompiler
 
 class LWE:
     def __init__(self, circuit_qubits, Q=16):
@@ -74,14 +74,34 @@ class QuantumAdder:
         val = val % Q
         if val == 0: return
 
-        # 1. Generate the adder gate for this specific constant
-        add_gate = QuantumAdder.get_add_gate(val, len(target_qubits))
+        # OLD IMPLEMENTATION (caused Rust panic during synthesis):
+        # add_gate = QuantumAdder.get_add_gate(val, len(target_qubits))
+        # c_add_gate = add_gate.control(1)
+        # qc.append(c_add_gate, [ctrl_qubit] + target_qubits)
         
-        # 2. Make it controlled (Standard C-U operation)
-        c_add_gate = add_gate.control(1)
+
+        #WARNING: LLM-GENERATED, we need to manually review this
+        # NEW IMPLEMENTATION: Manually construct controlled-unitary matrix
+        num_target_qubits = len(target_qubits)
+        dim_target = 2 ** num_target_qubits
         
-        # 3. Append to circuit
-        # args: [control_bit] + [list of target bits]
+        # Build controlled-unitary matrix manually
+        # Control qubit dimension is 2, target dimension is dim_target
+        # Total dimension is 2 * dim_target
+        total_dim = 2 * dim_target
+        c_matrix = np.eye(total_dim, dtype=complex)
+        
+        # When control = 1 (second half of the matrix), apply the addition
+        for i in range(dim_target):
+            target = (i + val) % dim_target
+            # Set the controlled portion (bottom-right block)
+            c_matrix[dim_target + i, dim_target + i] = 0
+            c_matrix[dim_target + target, dim_target + i] = 1
+        
+        # Create controlled gate
+        c_add_gate = UnitaryGate(c_matrix, label=f"C-Add({val})")
+        
+        # Append to circuit: [control_bit] + [list of target bits]
         qc.append(c_add_gate, [ctrl_qubit] + target_qubits)
 
 class ProverMahadev:
@@ -145,6 +165,11 @@ class ProverMahadev:
         total_qubits = 1 + max_capacity + num_y_qubits
 
         qc = QuantumCircuit(total_qubits)
+
+        
+        #WARNING: LLM-GENERATED, we need to manually review this
+        # Initialize b qubit in superposition
+        qc.h(0)
 
         # Paste the hist_circuit into the 'x' register.
         # 'x' starts at qubit 1 (qubit 0 is 'b').

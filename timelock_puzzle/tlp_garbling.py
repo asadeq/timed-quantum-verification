@@ -47,8 +47,6 @@ class PythonGarbledTLP:
             use_sha256: If True, use SHA-256 circuit (proper cryptographic security);
                        if False, use XOR mixing (lightweight, for testing)
                        
-        Note: SHA-256 circuit now has proper padding and IV implementation!
-        Runtime verification also uses SHA-256 via hashlib for ground truth.
         """
         self.lam = lam
         self.T = T
@@ -224,7 +222,7 @@ class PythonGarbledTLP:
         Z = (x_tilde, r, r_dot_m_xor_s)
         return Z
     
-    def PSolve_Garbled(self, Z: Tuple, pp: Tuple = None) -> int:
+    def PSolve(self, Z: Tuple, pp: Tuple = None) -> int:
         """
         PSolve(pp, Z) - Puzzle solving algorithm from paper
         
@@ -281,7 +279,7 @@ class PythonGarbledTLP:
         """
         pp = self.PSetup_Garble()
         Z = self.PGen(s, pp)
-        s_recovered = self.PSolve_Garbled(Z, pp)
+        s_recovered = self.PSolve(Z, pp)
         
         return s_recovered == s
 

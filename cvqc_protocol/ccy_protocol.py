@@ -1,7 +1,7 @@
 from utils import random_oracle
 from qiskit import QuantumCircuit
-from hamiltonian_compiler import HamiltonianCompiler
-from mahadev_protocol import ProverMahadev, VerifierMahadev
+from .hamiltonian_compiler import HamiltonianCompiler
+from .mahadev_protocol import ProverMahadev, VerifierMahadev
 
 class Verifier:
 
@@ -29,12 +29,12 @@ class Verifier:
         
         print(f"[Verifier] Computed challenge c = H(y): {c}")
         
-        result = self.VerMahadev.step5_verify(k, td, y, c, a)
+        (passed, output) = self.VerMahadev.step5_verify(k, td, y, c, a)
         
-        if result:
-            return "Accept" 
+        if passed:
+            return f"Accept- {output}" 
         else:
-            return "Reject"
+            return f"Reject - {output}"
 
 class Prover:
     def __init__(self, m=5):
