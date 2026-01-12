@@ -164,8 +164,6 @@ if __name__ == "__main__":
             work_bits = key[compiler.num_clock_qubits :]
             
             # Since Qiskit keys are reversed string order (LSB is rightmost char), 
-            # let's just print the raw key for clarity or invert logic if needed.
-            # Actually, let's just print raw to avoid confusion:
             print(f"State |{key}> : {amp:.3f}")
 
     print("\nInterpretation:")

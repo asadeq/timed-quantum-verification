@@ -4,10 +4,10 @@ import math
 from qiskit import QuantumCircuit
 from qiskit.circuit.library import UnitaryGate
 from qiskit.quantum_info import Statevector
-from .hamiltonian_compiler import HamiltonianCompiler
+from cvqc_protocol.hamiltonian_compiler import HamiltonianCompiler
 
 class LWE:
-    def __init__(self, circuit_qubits, Q=16):
+    def __init__(self, circuit_qubits, Q):
         self.Q = Q
         self.bits_per_int = int(math.log2(Q))
         
@@ -15,7 +15,7 @@ class LWE:
         # N must be large enough to embed the whole history state as input 'x'
         self.N = math.ceil(circuit_qubits / self.bits_per_int)
         
-        # Security/Stability floor: Ensure N is at least 2
+        # Ensure N is at least 2
         if self.N < 2: 
             self.N = 2
             
@@ -37,7 +37,7 @@ class LWE:
         e = np.zeros(N, dtype=int) # No noise for simulation
         u = (np.dot(A, s) + e) % Q
         
-        # Pack Q and N into the key so the Prover knows them!
+    
         pk = {'A': A, 'u': u, 'Q': Q, 'N': N}
         sk = {'s': s, 'Q': Q, 'N': N}
         
@@ -48,22 +48,22 @@ class QuantumAdder:
     A generic arithmetic unit that works for any Modulo Q that is a power of 2.
     It builds the unitary matrix for 'x + C mod Q' and applies it.
     """
-    @staticmethod
-    def get_add_gate(const_val, num_qubits):
-        """
-        Creates a Quantum Gate that performs: |y> -> |(y + const_val) % Q>
-        """
-        dim = 2 ** num_qubits
-        matrix = np.zeros((dim, dim))
+    # @staticmethod
+    # def get_add_gate(const_val, num_qubits):
+    #     """
+    #     Creates a Quantum Gate that performs: |y> -> |(y + const_val) % Q>
+    #     """
+    #     dim = 2 ** num_qubits
+    #     matrix = np.zeros((dim, dim))
         
-        # Build the permutation matrix for addition mod 2^k
-        for i in range(dim):
-            target = (i + const_val) % dim
-            matrix[target, i] = 1.0
+    #     # Build the permutation matrix for addition mod 2^k
+    #     for i in range(dim):
+    #         target = (i + const_val) % dim
+    #         matrix[target, i] = 1.0
             
-        # Create a Qiskit Gate from this matrix
-        gate = UnitaryGate(matrix, label=f"Add({const_val})")
-        return gate
+    #     # Create a Qiskit Gate from this matrix
+    #     gate = UnitaryGate(matrix, label=f"Add({const_val})")
+    #     return gate
 
     @staticmethod
     def add_const_controlled(qc, ctrl_qubit, target_qubits, val, Q):
@@ -79,9 +79,7 @@ class QuantumAdder:
         # c_add_gate = add_gate.control(1)
         # qc.append(c_add_gate, [ctrl_qubit] + target_qubits)
         
-
-        #WARNING: LLM-GENERATED, we need to manually review this
-        # NEW IMPLEMENTATION: Manually construct controlled-unitary matrix
+        # Manually construct controlled-unitary matrix
         num_target_qubits = len(target_qubits)
         dim_target = 2 ** num_target_qubits
         
@@ -101,19 +99,23 @@ class QuantumAdder:
         # Create controlled gate
         c_add_gate = UnitaryGate(c_matrix, label=f"C-Add({val})")
         
-        # Append to circuit: [control_bit] + [list of target bits]
-        qc.append(c_add_gate, [ctrl_qubit] + target_qubits)
+        # Append to circuit: [list of target bits] + [ctrl_bit]
+        qc.append(c_add_gate, target_qubits + [ctrl_qubit])
 
 class ProverMahadev:
     def __init__(self):
         pass
 
-    def build_oracle(self, qc, pk, b_idx, x_indices, y_indices):
+    # Used to build clawfree TDF circuit which will be applied coherently
+    def build_clawfree_tdf_circuit(self, qc, pk, b_idx, x_indices, y_indices):
        
         A = pk['A']
         u = pk['u']
         N = pk['N']
         Q = pk['Q']
+
+        # The clawfree function used is f(b, x) = Ax + bu (Mod Q)
+        # This is only true for e=0 (no noise). See [BCM+18]. 
         
         # 1. Compute Ax (Mod Q)
         for j in range(N): # For each input integer x_j
@@ -156,9 +158,6 @@ class ProverMahadev:
         max_capacity = N * BITS_PER_INT
         if num_x_qubits > max_capacity:
             raise ValueError(f"LWE Key is too small! Key supports {max_capacity} qubits, but circuit needs {num_x_qubits}.")
-        
-        # 1. Setup Circuit
-        #qc.h(range(1 + num_x_qubits))    # Superposition
 
         # Structure: [b (1)] + [x (History)] + [y (Commitment)]
         num_y_qubits = max_capacity # y must match x capacity in LWE
@@ -166,8 +165,6 @@ class ProverMahadev:
 
         qc = QuantumCircuit(total_qubits)
 
-        
-        #WARNING: LLM-GENERATED, we need to manually review this
         # Initialize b qubit in superposition
         qc.h(0)
 
@@ -197,7 +194,7 @@ class ProverMahadev:
             start = 1 + max_capacity + (i * BITS_PER_INT)
             y_indices.append(list(range(start, start + BITS_PER_INT)))
             
-        self.build_oracle(qc, pk, b_idx, x_indices, y_indices)
+        self.build_clawfree_tdf_circuit(qc, pk, b_idx, x_indices, y_indices)
         
         # STATEVECTOR SIMULATION
         print(f"(P2) -- Simulating Full State (Qubits: {total_qubits})...")
@@ -222,7 +219,7 @@ class ProverMahadev:
             print("(P4) -- Received c = 1 (Hadamard). Rotating Basis...")
             num_x = num_y
             qc = QuantumCircuit(total_qubits)
-            qc.h(range(1,1 + num_x))
+            qc.h(range(0,1 + num_x))
             prover_state = prover_state.evolve(qc)
         else:
             print("(P4) -- Received c = 0 (Standard).")
@@ -236,9 +233,15 @@ class ProverMahadev:
 
 class VerifierMahadev:
     
-    def step1_setup(self, hist_circuit, Q=16):
+    def step1_setup(self, hist_circuit, Q):
 
         circuit_size = hist_circuit.num_qubits
+
+        # h[i] = 0 corresponds to Z-basis (Standard)
+        # h[i] = 1 corresponds to X-basis (Hadamard)
+        #self.h = np.random.randint(0, 2, size=circuit_size)
+        #print(f"(V1) -- Selected Hamiltonian Basis h: {self.h}")
+
         lwe = LWE(circuit_size, Q)        
         self.pk, self.sk = lwe.generate()
         print(f"(V1) -- Generated LWE Keys (Q={Q})")
@@ -284,8 +287,8 @@ class VerifierMahadev:
             # --- 2. VERIFICATION LOGIC ---
             
             if c == 0:
-                # === TEST ROUND (Exact Match) ===
-                # Logic: Check if Ax + bu == y (Exactly)
+                # === TEST ROUND ===
+                # Logic: Check if Ax + bu == y
                 
                 # A. Calculate the expected y
                 Ax = np.dot(pk['A'], x_vec)
@@ -308,8 +311,7 @@ class VerifierMahadev:
                 print(f"   > Check: {calculated_y}")
                 print(f"   > Commitment: {y_integers}")
                 
-                # C. STRICT EXACT COMPARISON
-                # Numpy array comparison
+                # C. Numpy array comparison
                 if np.array_equal(calculated_y, y_integers):
                     print("   > RESULT: PASS (Exact Match)")
                     return True, "Test Round Passed"
@@ -347,8 +349,11 @@ if __name__ == "__main__":
     compiler = HamiltonianCompiler(hhl_circuit)
     hist_circuit = compiler.compile()       # Generate the Feynman-Kitaev history state circuit for the user circuit
 
-    pk, sk = verifier.step1_setup(hist_circuit, Q=16)
+    Q = 4                                    # LWE Modulus
+
+    pk, sk = verifier.step1_setup(hist_circuit, Q)
     y, state = prover.step2_commit(pk, hist_circuit)
     c = verifier.step3_challenge()          # send y to V to trigger the challenge
+    #c=1 (testing)
     ans = prover.step4_respond(state, c)
     verifier.step5_verify(pk, sk, y, c, ans)
