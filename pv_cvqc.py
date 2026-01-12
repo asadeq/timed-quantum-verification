@@ -26,15 +26,20 @@ class PV_CVQC:
         self.reveal_time = 0
         self.verify_time = 0
 
-    def setup(self, secp, circuit):
+    def setup(self, secp, circuit, testing_T=None):
         setup_start = time.perf_counter()
         
         compiler = HamiltonianCompiler(circuit)     # compile it to a Hamiltonian
         hist_circuit = compiler.compile()           
 
         # TODO: T will be the depth of hist_circuit (or some function of it)
-        T = hist_circuit.depth()
-        print(f"[Setup] Using T = {T} for TLP")
+        # If testing_T is provided, use it instead of calculating from circuit depth
+        if testing_T is not None:
+            T = testing_T
+            print(f"[Setup] Using testing T = {T} for TLP")
+        else:
+            T = hist_circuit.depth()
+            print(f"[Setup] Using T = {T} for TLP (from circuit depth)")
         # Prepare the public parameters of the TLP
         # self.tlp = TimeLockPuzzle(T=T)
         # pp = self.tlp.setup()
