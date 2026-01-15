@@ -1,0 +1,240 @@
+{
+  "config": {
+    "T": 14,
+    "lambda": 256,
+    "algorithm": "SHA-256",
+    "num_puzzles": 20
+  },
+  "circuit": {
+    "num_gates": 1866602,
+    "num_wires": 1893359
+  },
+  "timing": {
+    "circuit_creation_ms": 2914.192792002723,
+    "garbling_ms": 83892.29429099942,
+    "setup_total_ms": 86806.48708300214,
+    "generation": {
+      "times_ms": [
+        0.10812500113388523,
+        0.05158400017535314,
+        0.0503330011270009,
+        0.06008299897075631,
+        0.05016599970986135,
+        0.05950000195298344,
+        0.050833001296268776,
+        0.054250001994660124,
+        0.049666999984765425,
+        0.05479199899127707,
+        0.06116599979577586,
+        0.0552079982298892,
+        0.053333002142608166,
+        0.04954200267093256,
+        0.04920799983665347,
+        0.06291699901339598,
+        0.04875000013271347,
+        0.04945899854646996,
+        0.049375001253793016,
+        0.05058300303062424
+      ],
+      "avg_ms": 0.055943700499483384,
+      "std_ms": 0.013061680578371128,
+      "min_ms": 0.04875000013271347,
+      "max_ms": 0.10812500113388523
+    },
+    "solving": {
+      "times_ms": [
+        160.91187500205706,
+        155.8876249982859,
+        156.2350409985811,
+        157.83087499949033,
+        156.51949999664794,
+        157.44529199946555,
+        158.0734589988424,
+        159.00849999889033,
+        159.55491599743254,
+        160.99575000043842,
+        160.79608400104917,
+        161.64949999802047,
+        156.8476249995001,
+        164.2762910014426,
+        193.28320799832,
+        164.64595899742562,
+        172.61325000072247,
+        165.16300000148476,
+        159.20270800052094,
+        157.57866700005252
+      ],
+      "avg_ms": 161.9259562494335,
+      "std_ms": 8.39845365756902,
+      "min_ms": 155.8876249982859,
+      "max_ms": 193.28320799832
+    }
+  },
+  "puzzles": [
+    {
+      "puzzle_id": 1,
+      "original_secret": 1,
+      "recovered_secret": 1,
+      "success": true,
+      "gen_time_ms": 0.05058300303062424,
+      "solve_time_ms": 160.91187500205706
+    },
+    {
+      "puzzle_id": 2,
+      "original_secret": 0,
+      "recovered_secret": 0,
+      "success": true,
+      "gen_time_ms": 0.05058300303062424,
+      "solve_time_ms": 155.8876249982859
+    },
+    {
+      "puzzle_id": 3,
+      "original_secret": 0,
+      "recovered_secret": 0,
+      "success": true,
+      "gen_time_ms": 0.05058300303062424,
+      "solve_time_ms": 156.2350409985811
+    },
+    {
+      "puzzle_id": 4,
+      "original_secret": 1,
+      "recovered_secret": 1,
+      "success": true,
+      "gen_time_ms": 0.05058300303062424,
+      "solve_time_ms": 157.83087499949033
+    },
+    {
+      "puzzle_id": 5,
+      "original_secret": 0,
+      "recovered_secret": 0,
+      "success": true,
+      "gen_time_ms": 0.05058300303062424,
+      "solve_time_ms": 156.51949999664794
+    },
+    {
+      "puzzle_id": 6,
+      "original_secret": 1,
+      "recovered_secret": 1,
+      "success": true,
+      "gen_time_ms": 0.05058300303062424,
+      "solve_time_ms": 157.44529199946555
+    },
+    {
+      "puzzle_id": 7,
+      "original_secret": 1,
+      "recovered_secret": 1,
+      "success": true,
+      "gen_time_ms": 0.05058300303062424,
+      "solve_time_ms": 158.0734589988424
+    },
+    {
+      "puzzle_id": 8,
+      "original_secret": 1,
+      "recovered_secret": 1,
+      "success": true,
+      "gen_time_ms": 0.05058300303062424,
+      "solve_time_ms": 159.00849999889033
+    },
+    {
+      "puzzle_id": 9,
+      "original_secret": 1,
+      "recovered_secret": 1,
+      "success": true,
+      "gen_time_ms": 0.05058300303062424,
+      "solve_time_ms": 159.55491599743254
+    },
+    {
+      "puzzle_id": 10,
+      "original_secret": 0,
+      "recovered_secret": 0,
+      "success": true,
+      "gen_time_ms": 0.05058300303062424,
+      "solve_time_ms": 160.99575000043842
+    },
+    {
+      "puzzle_id": 11,
+      "original_secret": 1,
+      "recovered_secret": 1,
+      "success": true,
+      "gen_time_ms": 0.05058300303062424,
+      "solve_time_ms": 160.79608400104917
+    },
+    {
+      "puzzle_id": 12,
+      "original_secret": 1,
+      "recovered_secret": 1,
+      "success": true,
+      "gen_time_ms": 0.05058300303062424,
+      "solve_time_ms": 161.64949999802047
+    },
+    {
+      "puzzle_id": 13,
+      "original_secret": 0,
+      "recovered_secret": 0,
+      "success": true,
+      "gen_time_ms": 0.05058300303062424,
+      "solve_time_ms": 156.8476249995001
+    },
+    {
+      "puzzle_id": 14,
+      "original_secret": 0,
+      "recovered_secret": 0,
+      "success": true,
+      "gen_time_ms": 0.05058300303062424,
+      "solve_time_ms": 164.2762910014426
+    },
+    {
+      "puzzle_id": 15,
+      "original_secret": 1,
+      "recovered_secret": 1,
+      "success": true,
+      "gen_time_ms": 0.05058300303062424,
+      "solve_time_ms": 193.28320799832
+    },
+    {
+      "puzzle_id": 16,
+      "original_secret": 1,
+      "recovered_secret": 1,
+      "success": true,
+      "gen_time_ms": 0.05058300303062424,
+      "solve_time_ms": 164.64595899742562
+    },
+    {
+      "puzzle_id": 17,
+      "original_secret": 0,
+      "recovered_secret": 0,
+      "success": true,
+      "gen_time_ms": 0.05058300303062424,
+      "solve_time_ms": 172.61325000072247
+    },
+    {
+      "puzzle_id": 18,
+      "original_secret": 0,
+      "recovered_secret": 0,
+      "success": true,
+      "gen_time_ms": 0.05058300303062424,
+      "solve_time_ms": 165.16300000148476
+    },
+    {
+      "puzzle_id": 19,
+      "original_secret": 1,
+      "recovered_secret": 1,
+      "success": true,
+      "gen_time_ms": 0.05058300303062424,
+      "solve_time_ms": 159.20270800052094
+    },
+    {
+      "puzzle_id": 20,
+      "original_secret": 0,
+      "recovered_secret": 0,
+      "success": true,
+      "gen_time_ms": 0.05058300303062424,
+      "solve_time_ms": 157.57866700005252
+    }
+  ],
+  "summary": {
+    "success_count": 20,
+    "success_rate": 100.0,
+    "total_time_ms": 90046.1250820008
+  }
+}

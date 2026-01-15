@@ -1,0 +1,340 @@
+{
+  "config": {
+    "num_qubits": 15,
+    "depth": 120,
+    "num_trials": 20,
+    "shots": 1024
+  },
+  "circuit": {
+    "avg_gates": 740.95,
+    "avg_depth": 121
+  },
+  "statistics": {
+    "generation": {
+      "avg_ms": 4.8178957991694915,
+      "std_ms": 0.7251834835148788,
+      "min_ms": 3.7236249991110526,
+      "max_ms": 5.870999997569015
+    },
+    "transpile": {
+      "avg_ms": 42.32363744995382,
+      "std_ms": 1.553485840716158,
+      "min_ms": 40.33662499932689,
+      "max_ms": 45.24166699775378
+    },
+    "execution": {
+      "avg_ms": 111.36613144990406,
+      "std_ms": 51.70741776423315,
+      "min_ms": 51.83562499951222,
+      "max_ms": 211.36879199912073
+    },
+    "total": {
+      "avg_ms": 158.50766469902737,
+      "std_ms": 52.31980874401188,
+      "min_ms": 96.62899999966612,
+      "max_ms": 259.5637499980512
+    }
+  },
+  "trials": [
+    {
+      "trial": 1,
+      "circuit": {
+        "num_qubits": 15,
+        "depth": 121,
+        "num_gates": 569,
+        "num_unique_outcomes": 997
+      },
+      "timing": {
+        "generation_ms": 3.895082998496946,
+        "transpile_ms": 41.52062499997555,
+        "execution_ms": 127.97854199743597,
+        "total_ms": 173.39424999590847
+      }
+    },
+    {
+      "trial": 2,
+      "circuit": {
+        "num_qubits": 15,
+        "depth": 121,
+        "num_gates": 494,
+        "num_unique_outcomes": 983
+      },
+      "timing": {
+        "generation_ms": 3.7236249991110526,
+        "transpile_ms": 43.585957999312086,
+        "execution_ms": 196.83549999899697,
+        "total_ms": 244.1450829974201
+      }
+    },
+    {
+      "trial": 3,
+      "circuit": {
+        "num_qubits": 15,
+        "depth": 121,
+        "num_gates": 808,
+        "num_unique_outcomes": 992
+      },
+      "timing": {
+        "generation_ms": 5.240708000201266,
+        "transpile_ms": 45.24166699775378,
+        "execution_ms": 55.125582999608014,
+        "total_ms": 105.60795799756306
+      }
+    },
+    {
+      "trial": 4,
+      "circuit": {
+        "num_qubits": 15,
+        "depth": 121,
+        "num_gates": 733,
+        "num_unique_outcomes": 984
+      },
+      "timing": {
+        "generation_ms": 4.868541996984277,
+        "transpile_ms": 40.51620800237288,
+        "execution_ms": 64.6349589987949,
+        "total_ms": 110.01970899815205
+      }
+    },
+    {
+      "trial": 5,
+      "circuit": {
+        "num_qubits": 15,
+        "depth": 121,
+        "num_gates": 741,
+        "num_unique_outcomes": 991
+      },
+      "timing": {
+        "generation_ms": 4.553333001240389,
+        "transpile_ms": 43.363332999433624,
+        "execution_ms": 152.91054200133658,
+        "total_ms": 200.8272080020106
+      }
+    },
+    {
+      "trial": 6,
+      "circuit": {
+        "num_qubits": 15,
+        "depth": 121,
+        "num_gates": 518,
+        "num_unique_outcomes": 997
+      },
+      "timing": {
+        "generation_ms": 3.9495829987572506,
+        "transpile_ms": 44.245375000173226,
+        "execution_ms": 211.36879199912073,
+        "total_ms": 259.5637499980512
+      }
+    },
+    {
+      "trial": 7,
+      "circuit": {
+        "num_qubits": 15,
+        "depth": 121,
+        "num_gates": 865,
+        "num_unique_outcomes": 1001
+      },
+      "timing": {
+        "generation_ms": 5.690833000699058,
+        "transpile_ms": 41.17945799953304,
+        "execution_ms": 73.11904200105346,
+        "total_ms": 119.98933300128556
+      }
+    },
+    {
+      "trial": 8,
+      "circuit": {
+        "num_qubits": 15,
+        "depth": 121,
+        "num_gates": 900,
+        "num_unique_outcomes": 1002
+      },
+      "timing": {
+        "generation_ms": 4.995499999495223,
+        "transpile_ms": 42.71833299935679,
+        "execution_ms": 110.583666999446,
+        "total_ms": 158.297499998298
+      }
+    },
+    {
+      "trial": 9,
+      "circuit": {
+        "num_qubits": 15,
+        "depth": 121,
+        "num_gates": 803,
+        "num_unique_outcomes": 988
+      },
+      "timing": {
+        "generation_ms": 4.313249999540858,
+        "transpile_ms": 41.1994579990278,
+        "execution_ms": 80.68583400017815,
+        "total_ms": 126.1985419987468
+      }
+    },
+    {
+      "trial": 10,
+      "circuit": {
+        "num_qubits": 15,
+        "depth": 121,
+        "num_gates": 1001,
+        "num_unique_outcomes": 991
+      },
+      "timing": {
+        "generation_ms": 5.864708000444807,
+        "transpile_ms": 42.09233399888035,
+        "execution_ms": 52.493708000838524,
+        "total_ms": 100.45075000016368
+      }
+    },
+    {
+      "trial": 11,
+      "circuit": {
+        "num_qubits": 15,
+        "depth": 121,
+        "num_gates": 899,
+        "num_unique_outcomes": 994
+      },
+      "timing": {
+        "generation_ms": 5.404957999417093,
+        "transpile_ms": 40.85833399949479,
+        "execution_ms": 101.3640419987496,
+        "total_ms": 147.62733399766148
+      }
+    },
+    {
+      "trial": 12,
+      "circuit": {
+        "num_qubits": 15,
+        "depth": 121,
+        "num_gates": 707,
+        "num_unique_outcomes": 986
+      },
+      "timing": {
+        "generation_ms": 4.4567500008270144,
+        "transpile_ms": 40.33662499932689,
+        "execution_ms": 51.83562499951222,
+        "total_ms": 96.62899999966612
+      }
+    },
+    {
+      "trial": 13,
+      "circuit": {
+        "num_qubits": 15,
+        "depth": 121,
+        "num_gates": 585,
+        "num_unique_outcomes": 995
+      },
+      "timing": {
+        "generation_ms": 4.014416997961234,
+        "transpile_ms": 43.86254199926043,
+        "execution_ms": 173.27595799724804,
+        "total_ms": 221.1529169944697
+      }
+    },
+    {
+      "trial": 14,
+      "circuit": {
+        "num_qubits": 15,
+        "depth": 121,
+        "num_gates": 634,
+        "num_unique_outcomes": 994
+      },
+      "timing": {
+        "generation_ms": 4.85804199706763,
+        "transpile_ms": 43.2564580005419,
+        "execution_ms": 158.71120899828384,
+        "total_ms": 206.82570899589336
+      }
+    },
+    {
+      "trial": 15,
+      "circuit": {
+        "num_qubits": 15,
+        "depth": 121,
+        "num_gates": 908,
+        "num_unique_outcomes": 1002
+      },
+      "timing": {
+        "generation_ms": 5.870999997569015,
+        "transpile_ms": 43.1707079987973,
+        "execution_ms": 129.53016700339504,
+        "total_ms": 178.57187499976135
+      }
+    },
+    {
+      "trial": 16,
+      "circuit": {
+        "num_qubits": 15,
+        "depth": 121,
+        "num_gates": 620,
+        "num_unique_outcomes": 994
+      },
+      "timing": {
+        "generation_ms": 4.597082999680424,
+        "transpile_ms": 44.84304200013867,
+        "execution_ms": 181.91658300202107,
+        "total_ms": 231.35670800184016
+      }
+    },
+    {
+      "trial": 17,
+      "circuit": {
+        "num_qubits": 15,
+        "depth": 121,
+        "num_gates": 837,
+        "num_unique_outcomes": 993
+      },
+      "timing": {
+        "generation_ms": 5.777749996923376,
+        "transpile_ms": 40.46866600037902,
+        "execution_ms": 71.84050000068964,
+        "total_ms": 118.08691599799204
+      }
+    },
+    {
+      "trial": 18,
+      "circuit": {
+        "num_qubits": 15,
+        "depth": 121,
+        "num_gates": 718,
+        "num_unique_outcomes": 993
+      },
+      "timing": {
+        "generation_ms": 4.994083999918075,
+        "transpile_ms": 42.26129200105788,
+        "execution_ms": 79.45362499958719,
+        "total_ms": 126.70900100056315
+      }
+    },
+    {
+      "trial": 19,
+      "circuit": {
+        "num_qubits": 15,
+        "depth": 121,
+        "num_gates": 575,
+        "num_unique_outcomes": 982
+      },
+      "timing": {
+        "generation_ms": 3.7780419988848735,
+        "transpile_ms": 40.52758300167625,
+        "execution_ms": 88.71779200126184,
+        "total_ms": 133.02341700182296
+      }
+    },
+    {
+      "trial": 20,
+      "circuit": {
+        "num_qubits": 15,
+        "depth": 121,
+        "num_gates": 904,
+        "num_unique_outcomes": 991
+      },
+      "timing": {
+        "generation_ms": 5.510625000169966,
+        "transpile_ms": 41.22475000258419,
+        "execution_ms": 64.94095900052343,
+        "total_ms": 111.67633400327759
+      }
+    }
+  ]
+}
