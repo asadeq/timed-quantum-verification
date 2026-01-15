@@ -6,15 +6,34 @@ A Publicly verifiable Classical Verification of Quantum Computation Scheme utili
 
 It uses a garbled circuit of $\mu$ repetitions of a sequential function (in our case SHA-256 which is considered Post-Quantum Secure), which must be computed $\mu$ times by the prover such that the time it takes to solve the puzzle and recover the puzzle secret is strictly greater than the time it takes to run the Quantum Circuit. 
 
+_NOTE:_ This repo refers to the repititions parameter as T, however in later material we refer to it as $\mu$.
+
 We chose the __Harrow-Hassidim-Lloyd (HHL)__ algorithm which solves systems of linear equations for a given matrix $A∈ℂ^{𝑁×𝑁}$ and input vector $𝑥∈ℂ^{𝑁}$, as an example of this protocol (More specifically we used a Hybrid version called _Enhanced Hybrid HHL_ to deal with constraints of current Quantum architecture).
 
 ![Workflow Diagram](./HHL_circuit.png)
 
 
 ## Experimental Specifications
+### HHL 
 - We Used AWS Braket's SV1 Quantum Simulator to run the simulation using the t3.medium computer. Scripts related to running and retrieving Quantum results are AWS-specific, but could be modified to run on any Quantum hardware.
 
-- The results of the computations have been stored in the enhanced_hybrid_hhl/experiments/aws_braket directory.
+
+
+##### Results:
+- enhanced_hybrid_hhl/experiments/aws_braket
+
+### Relationship between TLP - Time and Quantum Circuit - Time
+- We generalized the experiment to test the strong relationship between the Time locked puzzle to time and Any quantum circuit to time (not necessarily HHL). 
+
+The experiment used a multitude of randomly generated circuits of 5,10,15,20 qubits and a range of circuit depths to test the affect on execution time and a number of randomly generated puzzles for T 1 to 30
+
+##### Code:
+- benchmark_tlp_random.py
+- benchmark_qiskit_random.py
+
+##### Results: 
+- benchmark_results_qiskit_random
+- benchmark_results_T1_30
 
 ## Project Structure
 * circuits/ - Contains the SHA256 circuit in Bristol Fashion
@@ -145,5 +164,9 @@ retrieval_file_path = run_braket_projection_retrieval(
 
 ### References
 Our work utilizes the Reusable Garbling Circuits and Enhanced Hybrid HHL from these repos:
-- CRGC: https://github.com/chart21/CRGC.git
-- Enhanced Hybrid HHL: https://github.com/Greenstan/Enhanced-Hybrid-HHL.git
+- CRGC
+    - repo: https://github.com/chart21/CRGC.git
+    - paper:https://www.scitepress.org/PublishedPapers/2022/111453/111453.pdf
+- Enhanced Hybrid HHL:
+    - repo: https://github.com/Greenstan/Enhanced-Hybrid-HHL.git
+    - paper: https://arxiv.org/abs/2404.10103
