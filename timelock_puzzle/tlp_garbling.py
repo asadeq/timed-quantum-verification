@@ -134,11 +134,21 @@ class PythonGarbledTLP:
         bitlength_outputs = self.circuit.details.bitlengthOutputs
         output_start = num_wires - num_outputs * bitlength_outputs
         
+     
+        num_random_bits = inputa_len + max(0, output_start - inputa_len - inputb_len)
+        if num_random_bits > 0:
+            random_bits_int = secrets.randbits(num_random_bits)
+            random_bits = [(random_bits_int >> i) & 1 for i in range(num_random_bits)]
+        else:
+            random_bits = []
+        
+        random_idx = 0
         base_flipped = []
         for i in range(num_wires):
             if i < inputa_len:
                 # InputA wire: random flip
-                base_flipped.append(secrets.choice([True, False]))
+                base_flipped.append(bool(random_bits[random_idx]))
+                random_idx += 1
             elif i < inputa_len + inputb_len:
                 # InputB wire: never flipped (matches C++ implementation)
                 base_flipped.append(False)
@@ -147,9 +157,12 @@ class PythonGarbledTLP:
                 base_flipped.append(False)
             else:
                 # Internal wire: random initial value (will be modified by get_flipped_circuit)
-                base_flipped.append(secrets.choice([True, False]))
+                base_flipped.append(bool(random_bits[random_idx]))
+                random_idx += 1
         
+
         C_tilde = copy.deepcopy(self.circuit)
+        
         get_flipped_circuit(C_tilde, base_flipped)
         
         pk = {'base_flipped': base_flipped}

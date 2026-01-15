@@ -8,7 +8,8 @@ import argparse
 import time
 from pathlib import Path
 import sys
-
+# Import Python function and compile to circuit
+from .. import PythonCircuitCompiler, export_to_bristol
 # Add parent directory to path
 sys.path.insert(0, str(Path(__file__).parent))
 
@@ -46,11 +47,10 @@ def main():
     t1 = time.time()
     
     if args.type == 'python':
-        # Import Python function and compile to circuit
-        from crgc import PythonCircuitCompiler, export_to_bristol
+        
         
         # Import the Python module containing the circuit function
-        circuit_module_path = Path(__file__).parent / 'circuits' / f"{args.circuit}.py"
+        circuit_module_path = Path(__file__).parent.parent / 'circuits' / f"{args.circuit}.py"
         if not circuit_module_path.exists():
             print(f"Error: Python circuit file not found: {circuit_module_path}")
             return 1

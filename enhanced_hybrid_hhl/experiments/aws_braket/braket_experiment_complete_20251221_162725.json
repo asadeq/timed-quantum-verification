@@ -1,0 +1,5865 @@
+{
+  "experiment_type": "braket_hhl_circuit_depth",
+  "parameters": {
+    "matrix_sizes": [
+      2,
+      4,
+      8,
+      16
+    ],
+    "num_trials": 20,
+    "k_qubits": 7,
+    "shots": 3000,
+    "preprocessing_mode": "ideal",
+    "aws_region": "eu-west-2",
+    "device_arn": "SV1"
+  },
+  "submission_results": [
+    {
+      "matrix_size": 2,
+      "trial": 0,
+      "circuit_depth": 818,
+      "num_projections": 2,
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153516.json",
+      "submission_time": 14.628410816192627,
+      "max_eigenvalue": 1.8822633691504231,
+      "timestamp": "2025-12-21T15:35:16.853638"
+    },
+    {
+      "matrix_size": 2,
+      "trial": 1,
+      "circuit_depth": 816,
+      "num_projections": 2,
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153528.json",
+      "submission_time": 12.033686876296997,
+      "max_eigenvalue": 2.4278527642016465,
+      "timestamp": "2025-12-21T15:35:28.887701"
+    },
+    {
+      "matrix_size": 2,
+      "trial": 2,
+      "circuit_depth": 818,
+      "num_projections": 2,
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153548.json",
+      "submission_time": 19.401756048202515,
+      "max_eigenvalue": 2.3634707755884152,
+      "timestamp": "2025-12-21T15:35:48.289778"
+    },
+    {
+      "matrix_size": 2,
+      "trial": 3,
+      "circuit_depth": 817,
+      "num_projections": 2,
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153600.json",
+      "submission_time": 12.492034912109375,
+      "max_eigenvalue": 2.0941839365001456,
+      "timestamp": "2025-12-21T15:36:00.782110"
+    },
+    {
+      "matrix_size": 2,
+      "trial": 4,
+      "circuit_depth": 817,
+      "num_projections": 2,
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153613.json",
+      "submission_time": 12.390781164169312,
+      "max_eigenvalue": 0.3753780036593869,
+      "timestamp": "2025-12-21T15:36:13.173264"
+    },
+    {
+      "matrix_size": 2,
+      "trial": 5,
+      "circuit_depth": 817,
+      "num_projections": 2,
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153625.json",
+      "submission_time": 12.457574129104614,
+      "max_eigenvalue": 2.2507783077009353,
+      "timestamp": "2025-12-21T15:36:25.631128"
+    },
+    {
+      "matrix_size": 2,
+      "trial": 6,
+      "circuit_depth": 816,
+      "num_projections": 2,
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153638.json",
+      "submission_time": 13.32419228553772,
+      "max_eigenvalue": 2.6395755913850842,
+      "timestamp": "2025-12-21T15:36:38.955634"
+    },
+    {
+      "matrix_size": 2,
+      "trial": 7,
+      "circuit_depth": 817,
+      "num_projections": 2,
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153651.json",
+      "submission_time": 12.09564995765686,
+      "max_eigenvalue": 2.726425262366707,
+      "timestamp": "2025-12-21T15:36:51.051481"
+    },
+    {
+      "matrix_size": 2,
+      "trial": 8,
+      "circuit_depth": 816,
+      "num_projections": 2,
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153704.json",
+      "submission_time": 13.552700996398926,
+      "max_eigenvalue": 2.599018176926423,
+      "timestamp": "2025-12-21T15:37:04.604440"
+    },
+    {
+      "matrix_size": 2,
+      "trial": 9,
+      "circuit_depth": 818,
+      "num_projections": 2,
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153716.json",
+      "submission_time": 12.16585111618042,
+      "max_eigenvalue": 2.0284411581800947,
+      "timestamp": "2025-12-21T15:37:16.770615"
+    },
+    {
+      "matrix_size": 2,
+      "trial": 10,
+      "circuit_depth": 817,
+      "num_projections": 2,
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153728.json",
+      "submission_time": 12.14027190208435,
+      "max_eigenvalue": 2.5252403827345296,
+      "timestamp": "2025-12-21T15:37:28.911221"
+    },
+    {
+      "matrix_size": 2,
+      "trial": 11,
+      "circuit_depth": 818,
+      "num_projections": 2,
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153741.json",
+      "submission_time": 12.505603075027466,
+      "max_eigenvalue": 2.19105057671566,
+      "timestamp": "2025-12-21T15:37:41.417232"
+    },
+    {
+      "matrix_size": 2,
+      "trial": 12,
+      "circuit_depth": 818,
+      "num_projections": 2,
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153753.json",
+      "submission_time": 12.26798415184021,
+      "max_eigenvalue": 2.2205823279186006,
+      "timestamp": "2025-12-21T15:37:53.685466"
+    },
+    {
+      "matrix_size": 2,
+      "trial": 13,
+      "circuit_depth": 816,
+      "num_projections": 2,
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153807.json",
+      "submission_time": 13.604914903640747,
+      "max_eigenvalue": 2.952805075464201,
+      "timestamp": "2025-12-21T15:38:07.290624"
+    },
+    {
+      "matrix_size": 2,
+      "trial": 14,
+      "circuit_depth": 818,
+      "num_projections": 2,
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153820.json",
+      "submission_time": 13.369109153747559,
+      "max_eigenvalue": 2.1324498165320156,
+      "timestamp": "2025-12-21T15:38:20.659997"
+    },
+    {
+      "matrix_size": 2,
+      "trial": 15,
+      "circuit_depth": 816,
+      "num_projections": 2,
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153833.json",
+      "submission_time": 13.253888130187988,
+      "max_eigenvalue": 2.974722312843041,
+      "timestamp": "2025-12-21T15:38:33.914109"
+    },
+    {
+      "matrix_size": 2,
+      "trial": 16,
+      "circuit_depth": 817,
+      "num_projections": 2,
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153846.json",
+      "submission_time": 12.295181035995483,
+      "max_eigenvalue": 2.785270552427228,
+      "timestamp": "2025-12-21T15:38:46.209528"
+    },
+    {
+      "matrix_size": 2,
+      "trial": 17,
+      "circuit_depth": 818,
+      "num_projections": 2,
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153858.json",
+      "submission_time": 12.050873756408691,
+      "max_eigenvalue": 1.2113555259453166,
+      "timestamp": "2025-12-21T15:38:58.260755"
+    },
+    {
+      "matrix_size": 2,
+      "trial": 18,
+      "circuit_depth": 818,
+      "num_projections": 2,
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153911.json",
+      "submission_time": 13.47647476196289,
+      "max_eigenvalue": 1.414479463940203,
+      "timestamp": "2025-12-21T15:39:11.737558"
+    },
+    {
+      "matrix_size": 2,
+      "trial": 19,
+      "circuit_depth": 817,
+      "num_projections": 2,
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153924.json",
+      "submission_time": 12.77075481414795,
+      "max_eigenvalue": 1.2074448721270987,
+      "timestamp": "2025-12-21T15:39:24.508615"
+    },
+    {
+      "matrix_size": 4,
+      "trial": 0,
+      "circuit_depth": 1839,
+      "num_projections": 4,
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_153940.json",
+      "submission_time": 16.488335132598877,
+      "max_eigenvalue": 4.476555282869639,
+      "timestamp": "2025-12-21T15:39:40.998475"
+    },
+    {
+      "matrix_size": 4,
+      "trial": 1,
+      "circuit_depth": 1839,
+      "num_projections": 4,
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_153957.json",
+      "submission_time": 16.28021216392517,
+      "max_eigenvalue": 4.81486226989975,
+      "timestamp": "2025-12-21T15:39:57.278977"
+    },
+    {
+      "matrix_size": 4,
+      "trial": 2,
+      "circuit_depth": 1839,
+      "num_projections": 4,
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154013.json",
+      "submission_time": 16.077980041503906,
+      "max_eigenvalue": 3.789622820893431,
+      "timestamp": "2025-12-21T15:40:13.357225"
+    },
+    {
+      "matrix_size": 4,
+      "trial": 3,
+      "circuit_depth": 1839,
+      "num_projections": 4,
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154030.json",
+      "submission_time": 16.680926084518433,
+      "max_eigenvalue": 3.7513956456076496,
+      "timestamp": "2025-12-21T15:40:30.038460"
+    },
+    {
+      "matrix_size": 4,
+      "trial": 4,
+      "circuit_depth": 1839,
+      "num_projections": 4,
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154046.json",
+      "submission_time": 16.600372076034546,
+      "max_eigenvalue": 4.002911251313705,
+      "timestamp": "2025-12-21T15:40:46.639129"
+    },
+    {
+      "matrix_size": 4,
+      "trial": 5,
+      "circuit_depth": 1839,
+      "num_projections": 4,
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154102.json",
+      "submission_time": 16.075758695602417,
+      "max_eigenvalue": 4.468105922908169,
+      "timestamp": "2025-12-21T15:41:02.715252"
+    },
+    {
+      "matrix_size": 4,
+      "trial": 6,
+      "circuit_depth": 1839,
+      "num_projections": 4,
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154118.json",
+      "submission_time": 15.869453191757202,
+      "max_eigenvalue": 4.545162661074214,
+      "timestamp": "2025-12-21T15:41:18.584934"
+    },
+    {
+      "matrix_size": 4,
+      "trial": 7,
+      "circuit_depth": 1839,
+      "num_projections": 4,
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154134.json",
+      "submission_time": 15.981584072113037,
+      "max_eigenvalue": 4.031524797380321,
+      "timestamp": "2025-12-21T15:41:34.566850"
+    },
+    {
+      "matrix_size": 4,
+      "trial": 8,
+      "circuit_depth": 1839,
+      "num_projections": 4,
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154151.json",
+      "submission_time": 16.481072902679443,
+      "max_eigenvalue": 4.334838967082617,
+      "timestamp": "2025-12-21T15:41:51.048318"
+    },
+    {
+      "matrix_size": 4,
+      "trial": 9,
+      "circuit_depth": 1839,
+      "num_projections": 4,
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154207.json",
+      "submission_time": 16.180222988128662,
+      "max_eigenvalue": 4.336490807748357,
+      "timestamp": "2025-12-21T15:42:07.228934"
+    },
+    {
+      "matrix_size": 4,
+      "trial": 10,
+      "circuit_depth": 1839,
+      "num_projections": 4,
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154223.json",
+      "submission_time": 16.027884006500244,
+      "max_eigenvalue": 4.09500098356561,
+      "timestamp": "2025-12-21T15:42:23.257181"
+    },
+    {
+      "matrix_size": 4,
+      "trial": 11,
+      "circuit_depth": 1839,
+      "num_projections": 4,
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154239.json",
+      "submission_time": 16.64038395881653,
+      "max_eigenvalue": 4.5990948077003395,
+      "timestamp": "2025-12-21T15:42:39.897902"
+    },
+    {
+      "matrix_size": 4,
+      "trial": 12,
+      "circuit_depth": 1839,
+      "num_projections": 4,
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154255.json",
+      "submission_time": 15.561470031738281,
+      "max_eigenvalue": 4.429970924073419,
+      "timestamp": "2025-12-21T15:42:55.459715"
+    },
+    {
+      "matrix_size": 4,
+      "trial": 13,
+      "circuit_depth": 1839,
+      "num_projections": 4,
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154311.json",
+      "submission_time": 15.878232717514038,
+      "max_eigenvalue": 3.8017216991763254,
+      "timestamp": "2025-12-21T15:43:11.338272"
+    },
+    {
+      "matrix_size": 4,
+      "trial": 14,
+      "circuit_depth": 1840,
+      "num_projections": 4,
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154331.json",
+      "submission_time": 20.16498589515686,
+      "max_eigenvalue": 5.1350355220159045,
+      "timestamp": "2025-12-21T15:43:31.503527"
+    },
+    {
+      "matrix_size": 4,
+      "trial": 15,
+      "circuit_depth": 1840,
+      "num_projections": 4,
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154347.json",
+      "submission_time": 16.388973712921143,
+      "max_eigenvalue": 5.143126327086863,
+      "timestamp": "2025-12-21T15:43:47.892837"
+    },
+    {
+      "matrix_size": 4,
+      "trial": 16,
+      "circuit_depth": 1839,
+      "num_projections": 4,
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154404.json",
+      "submission_time": 16.691718101501465,
+      "max_eigenvalue": 4.770948945419598,
+      "timestamp": "2025-12-21T15:44:04.584888"
+    },
+    {
+      "matrix_size": 4,
+      "trial": 17,
+      "circuit_depth": 1839,
+      "num_projections": 4,
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154420.json",
+      "submission_time": 16.35812211036682,
+      "max_eigenvalue": 3.958281685270147,
+      "timestamp": "2025-12-21T15:44:20.943346"
+    },
+    {
+      "matrix_size": 4,
+      "trial": 18,
+      "circuit_depth": 1839,
+      "num_projections": 4,
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154437.json",
+      "submission_time": 16.51045870780945,
+      "max_eigenvalue": 4.392123624007254,
+      "timestamp": "2025-12-21T15:44:37.454171"
+    },
+    {
+      "matrix_size": 4,
+      "trial": 19,
+      "circuit_depth": 1839,
+      "num_projections": 4,
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154454.json",
+      "submission_time": 16.94042205810547,
+      "max_eigenvalue": 4.886229807430112,
+      "timestamp": "2025-12-21T15:44:54.394925"
+    },
+    {
+      "matrix_size": 8,
+      "trial": 0,
+      "circuit_depth": 4832,
+      "num_projections": 8,
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154522.json",
+      "submission_time": 27.98784112930298,
+      "max_eigenvalue": 8.439779162769966,
+      "timestamp": "2025-12-21T15:45:22.383072"
+    },
+    {
+      "matrix_size": 8,
+      "trial": 1,
+      "circuit_depth": 4887,
+      "num_projections": 8,
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154549.json",
+      "submission_time": 27.36087679862976,
+      "max_eigenvalue": 8.726168610395181,
+      "timestamp": "2025-12-21T15:45:49.744206"
+    },
+    {
+      "matrix_size": 8,
+      "trial": 2,
+      "circuit_depth": 4386,
+      "num_projections": 8,
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154619.json",
+      "submission_time": 29.91655993461609,
+      "max_eigenvalue": 7.678637414765015,
+      "timestamp": "2025-12-21T15:46:19.661010"
+    },
+    {
+      "matrix_size": 8,
+      "trial": 3,
+      "circuit_depth": 4700,
+      "num_projections": 8,
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154647.json",
+      "submission_time": 28.056320905685425,
+      "max_eigenvalue": 8.97681308059071,
+      "timestamp": "2025-12-21T15:46:47.717605"
+    },
+    {
+      "matrix_size": 8,
+      "trial": 4,
+      "circuit_depth": 4892,
+      "num_projections": 8,
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154715.json",
+      "submission_time": 28.162665128707886,
+      "max_eigenvalue": 7.905709190856732,
+      "timestamp": "2025-12-21T15:47:15.880573"
+    },
+    {
+      "matrix_size": 8,
+      "trial": 5,
+      "circuit_depth": 4366,
+      "num_projections": 8,
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154744.json",
+      "submission_time": 28.973057746887207,
+      "max_eigenvalue": 6.990809779804815,
+      "timestamp": "2025-12-21T15:47:44.853994"
+    },
+    {
+      "matrix_size": 8,
+      "trial": 6,
+      "circuit_depth": 4348,
+      "num_projections": 8,
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154812.json",
+      "submission_time": 27.957778215408325,
+      "max_eigenvalue": 8.486539872216495,
+      "timestamp": "2025-12-21T15:48:12.812176"
+    },
+    {
+      "matrix_size": 8,
+      "trial": 7,
+      "circuit_depth": 4680,
+      "num_projections": 8,
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154843.json",
+      "submission_time": 30.72146201133728,
+      "max_eigenvalue": 8.760665681675569,
+      "timestamp": "2025-12-21T15:48:43.533912"
+    },
+    {
+      "matrix_size": 8,
+      "trial": 8,
+      "circuit_depth": 4712,
+      "num_projections": 8,
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154913.json",
+      "submission_time": 29.59297513961792,
+      "max_eigenvalue": 8.536627835983502,
+      "timestamp": "2025-12-21T15:49:13.127166"
+    },
+    {
+      "matrix_size": 8,
+      "trial": 9,
+      "circuit_depth": 4501,
+      "num_projections": 8,
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154940.json",
+      "submission_time": 27.242543935775757,
+      "max_eigenvalue": 7.123037192653015,
+      "timestamp": "2025-12-21T15:49:40.370018"
+    },
+    {
+      "matrix_size": 8,
+      "trial": 10,
+      "circuit_depth": 4719,
+      "num_projections": 8,
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155008.json",
+      "submission_time": 27.89595890045166,
+      "max_eigenvalue": 8.578660176318646,
+      "timestamp": "2025-12-21T15:50:08.266340"
+    },
+    {
+      "matrix_size": 8,
+      "trial": 11,
+      "circuit_depth": 4699,
+      "num_projections": 8,
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155035.json",
+      "submission_time": 27.70527482032776,
+      "max_eigenvalue": 8.079017254949663,
+      "timestamp": "2025-12-21T15:50:35.971886"
+    },
+    {
+      "matrix_size": 8,
+      "trial": 12,
+      "circuit_depth": 4509,
+      "num_projections": 8,
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155103.json",
+      "submission_time": 27.044456958770752,
+      "max_eigenvalue": 8.45110101622161,
+      "timestamp": "2025-12-21T15:51:03.016599"
+    },
+    {
+      "matrix_size": 8,
+      "trial": 13,
+      "circuit_depth": 4564,
+      "num_projections": 8,
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155133.json",
+      "submission_time": 30.906234979629517,
+      "max_eigenvalue": 8.13586649871226,
+      "timestamp": "2025-12-21T15:51:33.923211"
+    },
+    {
+      "matrix_size": 8,
+      "trial": 14,
+      "circuit_depth": 4709,
+      "num_projections": 8,
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155202.json",
+      "submission_time": 28.134183883666992,
+      "max_eigenvalue": 9.03439798339637,
+      "timestamp": "2025-12-21T15:52:02.057676"
+    },
+    {
+      "matrix_size": 8,
+      "trial": 15,
+      "circuit_depth": 4829,
+      "num_projections": 8,
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155230.json",
+      "submission_time": 28.18296790122986,
+      "max_eigenvalue": 8.234838151297755,
+      "timestamp": "2025-12-21T15:52:30.240904"
+    },
+    {
+      "matrix_size": 8,
+      "trial": 16,
+      "circuit_depth": 4714,
+      "num_projections": 8,
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155259.json",
+      "submission_time": 28.864970922470093,
+      "max_eigenvalue": 7.983878468226031,
+      "timestamp": "2025-12-21T15:52:59.106156"
+    },
+    {
+      "matrix_size": 8,
+      "trial": 17,
+      "circuit_depth": 4861,
+      "num_projections": 8,
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155330.json",
+      "submission_time": 31.534652948379517,
+      "max_eigenvalue": 8.358069997757486,
+      "timestamp": "2025-12-21T15:53:30.641111"
+    },
+    {
+      "matrix_size": 8,
+      "trial": 18,
+      "circuit_depth": 4884,
+      "num_projections": 8,
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155359.json",
+      "submission_time": 29.33362102508545,
+      "max_eigenvalue": 7.57784506525473,
+      "timestamp": "2025-12-21T15:53:59.975083"
+    },
+    {
+      "matrix_size": 8,
+      "trial": 19,
+      "circuit_depth": 4865,
+      "num_projections": 8,
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155430.json",
+      "submission_time": 30.57492709159851,
+      "max_eigenvalue": 7.559383659079276,
+      "timestamp": "2025-12-21T15:54:30.550343"
+    },
+    {
+      "matrix_size": 16,
+      "trial": 0,
+      "circuit_depth": 13172,
+      "num_projections": 16,
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_155551.json",
+      "submission_time": 80.82149600982666,
+      "max_eigenvalue": 16.114632084635357,
+      "timestamp": "2025-12-21T15:55:51.372196"
+    },
+    {
+      "matrix_size": 16,
+      "trial": 1,
+      "circuit_depth": 13359,
+      "num_projections": 16,
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_155727.json",
+      "submission_time": 95.6807508468628,
+      "max_eigenvalue": 15.591204576081068,
+      "timestamp": "2025-12-21T15:57:27.053368"
+    },
+    {
+      "matrix_size": 16,
+      "trial": 2,
+      "circuit_depth": 12997,
+      "num_projections": 16,
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_155859.json",
+      "submission_time": 92.64443492889404,
+      "max_eigenvalue": 16.70726150315695,
+      "timestamp": "2025-12-21T15:58:59.698121"
+    },
+    {
+      "matrix_size": 16,
+      "trial": 3,
+      "circuit_depth": 13344,
+      "num_projections": 16,
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_160032.json",
+      "submission_time": 92.9913969039917,
+      "max_eigenvalue": 15.95997233205917,
+      "timestamp": "2025-12-21T16:00:32.689866"
+    },
+    {
+      "matrix_size": 16,
+      "trial": 4,
+      "circuit_depth": 13530,
+      "num_projections": 16,
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_160205.json",
+      "submission_time": 92.96974635124207,
+      "max_eigenvalue": 16.57019229182548,
+      "timestamp": "2025-12-21T16:02:05.659986"
+    },
+    {
+      "matrix_size": 16,
+      "trial": 5,
+      "circuit_depth": 13498,
+      "num_projections": 16,
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_160340.json",
+      "submission_time": 94.75051617622375,
+      "max_eigenvalue": 16.153318633887473,
+      "timestamp": "2025-12-21T16:03:40.410889"
+    },
+    {
+      "matrix_size": 16,
+      "trial": 6,
+      "circuit_depth": 13321,
+      "num_projections": 16,
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_160517.json",
+      "submission_time": 97.13661003112793,
+      "max_eigenvalue": 16.069840404139978,
+      "timestamp": "2025-12-21T16:05:17.547814"
+    },
+    {
+      "matrix_size": 16,
+      "trial": 7,
+      "circuit_depth": 13490,
+      "num_projections": 16,
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_160702.json",
+      "submission_time": 104.66759896278381,
+      "max_eigenvalue": 15.61383905526857,
+      "timestamp": "2025-12-21T16:07:02.215761"
+    },
+    {
+      "matrix_size": 16,
+      "trial": 8,
+      "circuit_depth": 13133,
+      "num_projections": 16,
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_160838.json",
+      "submission_time": 96.62728190422058,
+      "max_eigenvalue": 16.42664473978159,
+      "timestamp": "2025-12-21T16:08:38.843394"
+    },
+    {
+      "matrix_size": 16,
+      "trial": 9,
+      "circuit_depth": 13457,
+      "num_projections": 16,
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_161031.json",
+      "submission_time": 112.68955898284912,
+      "max_eigenvalue": 16.14691851724384,
+      "timestamp": "2025-12-21T16:10:31.533302"
+    },
+    {
+      "matrix_size": 16,
+      "trial": 10,
+      "circuit_depth": 12967,
+      "num_projections": 16,
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_161206.json",
+      "submission_time": 95.01630687713623,
+      "max_eigenvalue": 15.748562126965538,
+      "timestamp": "2025-12-21T16:12:06.549980"
+    },
+    {
+      "matrix_size": 16,
+      "trial": 11,
+      "circuit_depth": 13338,
+      "num_projections": 16,
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_161336.json",
+      "submission_time": 90.41210699081421,
+      "max_eigenvalue": 17.163363696349002,
+      "timestamp": "2025-12-21T16:13:36.962469"
+    },
+    {
+      "matrix_size": 16,
+      "trial": 12,
+      "circuit_depth": 13458,
+      "num_projections": 16,
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_161506.json",
+      "submission_time": 89.92709994316101,
+      "max_eigenvalue": 15.48838851217208,
+      "timestamp": "2025-12-21T16:15:06.889909"
+    },
+    {
+      "matrix_size": 16,
+      "trial": 13,
+      "circuit_depth": 13355,
+      "num_projections": 16,
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_161637.json",
+      "submission_time": 90.52010488510132,
+      "max_eigenvalue": 15.939930577124063,
+      "timestamp": "2025-12-21T16:16:37.410352"
+    },
+    {
+      "matrix_size": 16,
+      "trial": 14,
+      "circuit_depth": 13307,
+      "num_projections": 16,
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_161809.json",
+      "submission_time": 91.64757204055786,
+      "max_eigenvalue": 15.826288862342995,
+      "timestamp": "2025-12-21T16:18:09.058295"
+    },
+    {
+      "matrix_size": 16,
+      "trial": 15,
+      "circuit_depth": 13346,
+      "num_projections": 16,
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_161948.json",
+      "submission_time": 99.08560013771057,
+      "max_eigenvalue": 16.48886559021488,
+      "timestamp": "2025-12-21T16:19:48.144254"
+    },
+    {
+      "matrix_size": 16,
+      "trial": 16,
+      "circuit_depth": 13490,
+      "num_projections": 16,
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_162141.json",
+      "submission_time": 112.88420510292053,
+      "max_eigenvalue": 16.17775129639091,
+      "timestamp": "2025-12-21T16:21:41.028790"
+    },
+    {
+      "matrix_size": 16,
+      "trial": 17,
+      "circuit_depth": 13342,
+      "num_projections": 16,
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_162334.json",
+      "submission_time": 113.96149206161499,
+      "max_eigenvalue": 16.55263278614984,
+      "timestamp": "2025-12-21T16:23:34.990690"
+    },
+    {
+      "matrix_size": 16,
+      "trial": 18,
+      "circuit_depth": 13480,
+      "num_projections": 16,
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_162534.json",
+      "submission_time": 119.24256300926208,
+      "max_eigenvalue": 16.545495504063844,
+      "timestamp": "2025-12-21T16:25:34.233630"
+    },
+    {
+      "matrix_size": 16,
+      "trial": 19,
+      "circuit_depth": 13689,
+      "num_projections": 16,
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_162725.json",
+      "submission_time": 111.35062074661255,
+      "max_eigenvalue": 14.916794850873877,
+      "timestamp": "2025-12-21T16:27:25.584586"
+    }
+  ],
+  "submission_files": [
+    "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153516.json",
+    "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153528.json",
+    "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153548.json",
+    "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153600.json",
+    "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153613.json",
+    "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153625.json",
+    "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153638.json",
+    "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153651.json",
+    "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153704.json",
+    "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153716.json",
+    "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153728.json",
+    "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153741.json",
+    "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153753.json",
+    "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153807.json",
+    "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153820.json",
+    "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153833.json",
+    "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153846.json",
+    "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153858.json",
+    "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153911.json",
+    "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153924.json",
+    "./experiments/aws_braket/braket_projection_N4_hhl_20251221_153940.json",
+    "./experiments/aws_braket/braket_projection_N4_hhl_20251221_153957.json",
+    "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154013.json",
+    "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154030.json",
+    "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154046.json",
+    "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154102.json",
+    "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154118.json",
+    "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154134.json",
+    "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154151.json",
+    "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154207.json",
+    "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154223.json",
+    "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154239.json",
+    "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154255.json",
+    "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154311.json",
+    "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154331.json",
+    "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154347.json",
+    "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154404.json",
+    "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154420.json",
+    "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154437.json",
+    "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154454.json",
+    "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154522.json",
+    "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154549.json",
+    "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154619.json",
+    "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154647.json",
+    "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154715.json",
+    "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154744.json",
+    "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154812.json",
+    "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154843.json",
+    "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154913.json",
+    "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154940.json",
+    "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155008.json",
+    "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155035.json",
+    "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155103.json",
+    "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155133.json",
+    "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155202.json",
+    "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155230.json",
+    "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155259.json",
+    "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155330.json",
+    "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155359.json",
+    "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155430.json",
+    "./experiments/aws_braket/braket_projection_N16_hhl_20251221_155551.json",
+    "./experiments/aws_braket/braket_projection_N16_hhl_20251221_155727.json",
+    "./experiments/aws_braket/braket_projection_N16_hhl_20251221_155859.json",
+    "./experiments/aws_braket/braket_projection_N16_hhl_20251221_160032.json",
+    "./experiments/aws_braket/braket_projection_N16_hhl_20251221_160205.json",
+    "./experiments/aws_braket/braket_projection_N16_hhl_20251221_160340.json",
+    "./experiments/aws_braket/braket_projection_N16_hhl_20251221_160517.json",
+    "./experiments/aws_braket/braket_projection_N16_hhl_20251221_160702.json",
+    "./experiments/aws_braket/braket_projection_N16_hhl_20251221_160838.json",
+    "./experiments/aws_braket/braket_projection_N16_hhl_20251221_161031.json",
+    "./experiments/aws_braket/braket_projection_N16_hhl_20251221_161206.json",
+    "./experiments/aws_braket/braket_projection_N16_hhl_20251221_161336.json",
+    "./experiments/aws_braket/braket_projection_N16_hhl_20251221_161506.json",
+    "./experiments/aws_braket/braket_projection_N16_hhl_20251221_161637.json",
+    "./experiments/aws_braket/braket_projection_N16_hhl_20251221_161809.json",
+    "./experiments/aws_braket/braket_projection_N16_hhl_20251221_161948.json",
+    "./experiments/aws_braket/braket_projection_N16_hhl_20251221_162141.json",
+    "./experiments/aws_braket/braket_projection_N16_hhl_20251221_162334.json",
+    "./experiments/aws_braket/braket_projection_N16_hhl_20251221_162534.json",
+    "./experiments/aws_braket/braket_projection_N16_hhl_20251221_162725.json"
+  ],
+  "timestamp": "2025-12-21T16:27:25.584629",
+  "retrieval_results": [
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153516.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153516_retrieval.json",
+      "fidelity": 0.9999389798916771,
+      "circuit_depth": 818,
+      "num_projections": 2,
+      "average_success_rate": 0.903,
+      "total_problem_time": 2.578,
+      "first_created_at": "2025-12-21 12:35:15.710000+00:00",
+      "last_ended_at": "2025-12-21 12:35:18.288000+00:00",
+      "projection_execution_times": [
+        2.077,
+        1.584
+      ],
+      "reconstructed_solution": [
+        0.9841670100470419,
+        0.01583298995295802
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.9930045705178465,
+          "imag": 0.0
+        },
+        {
+          "real": -0.11807592019826622,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153528.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153528_retrieval.json",
+      "fidelity": 0.9994698193574567,
+      "circuit_depth": 816,
+      "num_projections": 2,
+      "average_success_rate": 0.08683333333333333,
+      "total_problem_time": 2.751,
+      "first_created_at": "2025-12-21 12:35:28.051000+00:00",
+      "last_ended_at": "2025-12-21 12:35:30.802000+00:00",
+      "projection_execution_times": [
+        1.937,
+        1.834
+      ],
+      "reconstructed_solution": [
+        0.8643052264598018,
+        0.13569477354019832
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.9379155991517216,
+          "imag": 0.0
+        },
+        {
+          "real": 0.3468635594406923,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153548.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153548_retrieval.json",
+      "fidelity": 0.9966966332656544,
+      "circuit_depth": 818,
+      "num_projections": 2,
+      "average_success_rate": 0.3803333333333333,
+      "total_problem_time": 2.97,
+      "first_created_at": "2025-12-21 12:35:47.083000+00:00",
+      "last_ended_at": "2025-12-21 12:35:50.053000+00:00",
+      "projection_execution_times": [
+        2.165,
+        2.059
+      ],
+      "reconstructed_solution": [
+        0.00903607966528021,
+        0.9909639203347198
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.03768650066549868,
+          "imag": 0.0
+        },
+        {
+          "real": 0.9992896115078899,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153600.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153600_retrieval.json",
+      "fidelity": 0.9999739078407529,
+      "circuit_depth": 817,
+      "num_projections": 2,
+      "average_success_rate": 0.042833333333333334,
+      "total_problem_time": 2.492,
+      "first_created_at": "2025-12-21 12:35:59.860000+00:00",
+      "last_ended_at": "2025-12-21 12:36:02.352000+00:00",
+      "projection_execution_times": [
+        1.872,
+        1.595
+      ],
+      "reconstructed_solution": [
+        0.36838244284142313,
+        0.6316175571585769
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.6028776651656919,
+          "imag": 0.0
+        },
+        {
+          "real": 0.7978336423367745,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153613.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153613_retrieval.json",
+      "fidelity": 0.9910428667984053,
+      "circuit_depth": 817,
+      "num_projections": 2,
+      "average_success_rate": 0.10816666666666666,
+      "total_problem_time": 2.414,
+      "first_created_at": "2025-12-21 12:36:12.328000+00:00",
+      "last_ended_at": "2025-12-21 12:36:14.742000+00:00",
+      "projection_execution_times": [
+        1.588,
+        1.543
+      ],
+      "reconstructed_solution": [
+        0.8833289669024539,
+        0.11667103309754606
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.9679641947031697,
+          "imag": 0.0
+        },
+        {
+          "real": 0.25108826689561586,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153625.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153625_retrieval.json",
+      "fidelity": 0.9999887758562129,
+      "circuit_depth": 817,
+      "num_projections": 2,
+      "average_success_rate": 0.5293333333333333,
+      "total_problem_time": 3.169,
+      "first_created_at": "2025-12-21 12:36:24.757000+00:00",
+      "last_ended_at": "2025-12-21 12:36:27.926000+00:00",
+      "projection_execution_times": [
+        1.764,
+        2.221
+      ],
+      "reconstructed_solution": [
+        0.23172747667965518,
+        0.7682725233203448
+      ],
+      "ideal_solution": [
+        {
+          "real": -0.4843146293787706,
+          "imag": 0.0
+        },
+        {
+          "real": 0.8748939020073828,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153638.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153638_retrieval.json",
+      "fidelity": 0.999537022124187,
+      "circuit_depth": 816,
+      "num_projections": 2,
+      "average_success_rate": 0.14500000000000002,
+      "total_problem_time": 2.93,
+      "first_created_at": "2025-12-21 12:36:38.090000+00:00",
+      "last_ended_at": "2025-12-21 12:36:41.020000+00:00",
+      "projection_execution_times": [
+        1.947,
+        1.979
+      ],
+      "reconstructed_solution": [
+        0.3660752469464176,
+        0.6339247530535824
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.58776980698469,
+          "imag": 0.0
+        },
+        {
+          "real": -0.80902821582265,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153651.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153651_retrieval.json",
+      "fidelity": 0.9989554284190336,
+      "circuit_depth": 817,
+      "num_projections": 2,
+      "average_success_rate": 0.07733333333333334,
+      "total_problem_time": 2.989,
+      "first_created_at": "2025-12-21 12:36:50.126000+00:00",
+      "last_ended_at": "2025-12-21 12:36:53.115000+00:00",
+      "projection_execution_times": [
+        1.733,
+        1.99
+      ],
+      "reconstructed_solution": [
+        0.6886792452830189,
+        0.3113207547169812
+      ],
+      "ideal_solution": [
+        {
+          "real": -0.8114002494251775,
+          "imag": 0.0
+        },
+        {
+          "real": 0.584490919717971,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153704.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153704_retrieval.json",
+      "fidelity": 0.9935213541909572,
+      "circuit_depth": 816,
+      "num_projections": 2,
+      "average_success_rate": 0.030166666666666668,
+      "total_problem_time": 2.795,
+      "first_created_at": "2025-12-21 12:37:03.286000+00:00",
+      "last_ended_at": "2025-12-21 12:37:06.081000+00:00",
+      "projection_execution_times": [
+        1.515,
+        1.544
+      ],
+      "reconstructed_solution": [
+        0.9893617021276596,
+        0.010638297872340427
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.9997412599173674,
+          "imag": 0.0
+        },
+        {
+          "real": -0.022746718858662602,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153716.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153716_retrieval.json",
+      "fidelity": 0.9974428596215835,
+      "circuit_depth": 818,
+      "num_projections": 2,
+      "average_success_rate": 0.018333333333333333,
+      "total_problem_time": 2.623,
+      "first_created_at": "2025-12-21 12:37:15.959000+00:00",
+      "last_ended_at": "2025-12-21 12:37:18.582000+00:00",
+      "projection_execution_times": [
+        1.606,
+        1.743
+      ],
+      "reconstructed_solution": [
+        0.8372093023255814,
+        0.16279069767441862
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.9342237006743043,
+          "imag": 0.0
+        },
+        {
+          "real": 0.3566876464056584,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153728.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153728_retrieval.json",
+      "fidelity": 0.9999995254958373,
+      "circuit_depth": 817,
+      "num_projections": 2,
+      "average_success_rate": 0.16633333333333333,
+      "total_problem_time": 2.491,
+      "first_created_at": "2025-12-21 12:37:28.035000+00:00",
+      "last_ended_at": "2025-12-21 12:37:30.526000+00:00",
+      "projection_execution_times": [
+        1.458,
+        1.57
+      ],
+      "reconstructed_solution": [
+        0.050382139983909904,
+        0.94961786001609
+      ],
+      "ideal_solution": [
+        {
+          "real": -0.22378834332024466,
+          "imag": 0.0
+        },
+        {
+          "real": 0.9746377672725289,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153741.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153741_retrieval.json",
+      "fidelity": 0.9999758185071439,
+      "circuit_depth": 818,
+      "num_projections": 2,
+      "average_success_rate": 0.585,
+      "total_problem_time": 2.549,
+      "first_created_at": "2025-12-21 12:37:40.487000+00:00",
+      "last_ended_at": "2025-12-21 12:37:43.036000+00:00",
+      "projection_execution_times": [
+        1.908,
+        1.566
+      ],
+      "reconstructed_solution": [
+        0.023029119272186573,
+        0.9769708807278135
+      ],
+      "ideal_solution": [
+        {
+          "real": -0.1468911312326461,
+          "imag": 0.0
+        },
+        {
+          "real": 0.9891526654491679,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153753.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153753_retrieval.json",
+      "fidelity": 0.9983256905271161,
+      "circuit_depth": 818,
+      "num_projections": 2,
+      "average_success_rate": 0.13683333333333333,
+      "total_problem_time": 2.601,
+      "first_created_at": "2025-12-21 12:37:52.616000+00:00",
+      "last_ended_at": "2025-12-21 12:37:55.217000+00:00",
+      "projection_execution_times": [
+        1.763,
+        1.495
+      ],
+      "reconstructed_solution": [
+        0.9578842185550674,
+        0.04211578144493257
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.9862932288971168,
+          "imag": 0.0
+        },
+        {
+          "real": 0.16500202008369405,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153807.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153807_retrieval.json",
+      "fidelity": 0.9993461057624737,
+      "circuit_depth": 816,
+      "num_projections": 2,
+      "average_success_rate": 0.1681666666666667,
+      "total_problem_time": 3.104,
+      "first_created_at": "2025-12-21 12:38:06.059000+00:00",
+      "last_ended_at": "2025-12-21 12:38:09.163000+00:00",
+      "projection_execution_times": [
+        1.522,
+        1.846
+      ],
+      "reconstructed_solution": [
+        0.32887180609283334,
+        0.6711281939071666
+      ],
+      "ideal_solution": [
+        {
+          "real": -0.5942346030291474,
+          "imag": 0.0
+        },
+        {
+          "real": 0.8042917608447767,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153820.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153820_retrieval.json",
+      "fidelity": 0.9995108802618494,
+      "circuit_depth": 818,
+      "num_projections": 2,
+      "average_success_rate": 0.028666666666666667,
+      "total_problem_time": 2.399,
+      "first_created_at": "2025-12-21 12:38:19.773000+00:00",
+      "last_ended_at": "2025-12-21 12:38:22.172000+00:00",
+      "projection_execution_times": [
+        2.265,
+        1.483
+      ],
+      "reconstructed_solution": [
+        0.026159334126040427,
+        0.9738406658739596
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.13987405083274607,
+          "imag": 0.0
+        },
+        {
+          "real": 0.9901693036565204,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153833.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153833_retrieval.json",
+      "fidelity": 0.9999125475903993,
+      "circuit_depth": 816,
+      "num_projections": 2,
+      "average_success_rate": 0.09966666666666667,
+      "total_problem_time": 3.333,
+      "first_created_at": "2025-12-21 12:38:32.751000+00:00",
+      "last_ended_at": "2025-12-21 12:38:36.084000+00:00",
+      "projection_execution_times": [
+        2.076,
+        2.219
+      ],
+      "reconstructed_solution": [
+        0.6241959860813328,
+        0.3758040139186672
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.7957589986811311,
+          "imag": 0.0
+        },
+        {
+          "real": -0.605613421266408,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153846.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153846_retrieval.json",
+      "fidelity": 0.9998395432898134,
+      "circuit_depth": 817,
+      "num_projections": 2,
+      "average_success_rate": 0.37816666666666665,
+      "total_problem_time": 2.83,
+      "first_created_at": "2025-12-21 12:38:45.337000+00:00",
+      "last_ended_at": "2025-12-21 12:38:48.167000+00:00",
+      "projection_execution_times": [
+        1.648,
+        1.941
+      ],
+      "reconstructed_solution": [
+        0.2887208201892745,
+        0.7112791798107256
+      ],
+      "ideal_solution": [
+        {
+          "real": -0.5479675105664424,
+          "imag": 0.0
+        },
+        {
+          "real": 0.8364996158777454,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153858.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153858_retrieval.json",
+      "fidelity": 0.9992354206967843,
+      "circuit_depth": 818,
+      "num_projections": 2,
+      "average_success_rate": 0.4666666666666667,
+      "total_problem_time": 2.863,
+      "first_created_at": "2025-12-21 12:38:57.272000+00:00",
+      "last_ended_at": "2025-12-21 12:39:00.135000+00:00",
+      "projection_execution_times": [
+        1.753,
+        1.848
+      ],
+      "reconstructed_solution": [
+        0.24796532833664695,
+        0.752034671663353
+      ],
+      "ideal_solution": [
+        {
+          "real": -0.4737918175809725,
+          "imag": 0.0
+        },
+        {
+          "real": 0.8806368795328291,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153911.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153911_retrieval.json",
+      "fidelity": 0.999041957257494,
+      "circuit_depth": 818,
+      "num_projections": 2,
+      "average_success_rate": 0.09933333333333333,
+      "total_problem_time": 3.041,
+      "first_created_at": "2025-12-21 12:39:10.601000+00:00",
+      "last_ended_at": "2025-12-21 12:39:13.642000+00:00",
+      "projection_execution_times": [
+        1.668,
+        1.879
+      ],
+      "reconstructed_solution": [
+        0.9932212550812437,
+        0.006778744918756405
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.9986757516622502,
+          "imag": 0.0
+        },
+        {
+          "real": 0.051446506604817255,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153924.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N2_hhl_20251221_153924_retrieval.json",
+      "fidelity": 0.9983339432152227,
+      "circuit_depth": 817,
+      "num_projections": 2,
+      "average_success_rate": 0.016666666666666666,
+      "total_problem_time": 2.449,
+      "first_created_at": "2025-12-21 12:39:23.338000+00:00",
+      "last_ended_at": "2025-12-21 12:39:25.787000+00:00",
+      "projection_execution_times": [
+        1.985,
+        1.36
+      ],
+      "reconstructed_solution": [
+        0.31105990783410137,
+        0.6889400921658986
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.5911420466035143,
+          "imag": 0.0
+        },
+        {
+          "real": -0.8065674681868893,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_153940.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_153940_retrieval.json",
+      "fidelity": 0.8794073896851633,
+      "circuit_depth": 1839,
+      "num_projections": 4,
+      "average_success_rate": 0.007166666666666667,
+      "total_problem_time": 6.08,
+      "first_created_at": "2025-12-21 12:39:36.750000+00:00",
+      "last_ended_at": "2025-12-21 12:39:42.830000+00:00",
+      "projection_execution_times": [
+        2.33,
+        2.224,
+        1.927,
+        1.883
+      ],
+      "reconstructed_solution": [
+        0.0,
+        0.7868070733161135,
+        0.15557321676932245,
+        0.057619709914563874
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.24628478490299296,
+          "imag": 0.0
+        },
+        {
+          "real": 0.9346714402075726,
+          "imag": 0.0
+        },
+        {
+          "real": 0.1482884336436746,
+          "imag": 0.0
+        },
+        {
+          "real": -0.2091498124146754,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_153957.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_153957_retrieval.json",
+      "fidelity": 0.999538897390633,
+      "circuit_depth": 1839,
+      "num_projections": 4,
+      "average_success_rate": 0.088,
+      "total_problem_time": 5.735,
+      "first_created_at": "2025-12-21 12:39:53.254000+00:00",
+      "last_ended_at": "2025-12-21 12:39:58.989000+00:00",
+      "projection_execution_times": [
+        1.933,
+        2.315,
+        2.039,
+        1.704
+      ],
+      "reconstructed_solution": [
+        0.26972102422539007,
+        0.24244754085975154,
+        0.01039627752950162,
+        0.47743515738535686
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.5058807989543341,
+          "imag": 0.0
+        },
+        {
+          "real": 0.5050014916265131,
+          "imag": 0.0
+        },
+        {
+          "real": 0.11292106066265147,
+          "imag": 0.0
+        },
+        {
+          "real": -0.6901499436811853,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154013.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154013_retrieval.json",
+      "fidelity": 0.996743712291594,
+      "circuit_depth": 1839,
+      "num_projections": 4,
+      "average_success_rate": 0.11808333333333333,
+      "total_problem_time": 5.955,
+      "first_created_at": "2025-12-21 12:40:09.415000+00:00",
+      "last_ended_at": "2025-12-21 12:40:15.370000+00:00",
+      "projection_execution_times": [
+        2.56,
+        2.179,
+        2.114,
+        2.102
+      ],
+      "reconstructed_solution": [
+        0.16052829013373146,
+        0.06275864917706324,
+        0.28551190409906335,
+        0.49120115659014196
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.37278053132299604,
+          "imag": 0.0
+        },
+        {
+          "real": -0.25027060615713875,
+          "imag": 0.0
+        },
+        {
+          "real": -0.5022823686424547,
+          "imag": 0.0
+        },
+        {
+          "real": 0.7389937221054104,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154030.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154030_retrieval.json",
+      "fidelity": 0.9758777664148724,
+      "circuit_depth": 1839,
+      "num_projections": 4,
+      "average_success_rate": 0.018083333333333333,
+      "total_problem_time": 6.1,
+      "first_created_at": "2025-12-21 12:40:25.915000+00:00",
+      "last_ended_at": "2025-12-21 12:40:32.015000+00:00",
+      "projection_execution_times": [
+        2.299,
+        1.754,
+        2.164,
+        2.028
+      ],
+      "reconstructed_solution": [
+        0.018460638988756894,
+        0.28355541486730584,
+        0.5181933751230005,
+        0.1797905710209367
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.016952475125908938,
+          "imag": 0.0
+        },
+        {
+          "real": -0.4635047660313275,
+          "imag": 0.0
+        },
+        {
+          "real": 0.7341558510542595,
+          "imag": 0.0
+        },
+        {
+          "real": 0.49587410883826744,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154046.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154046_retrieval.json",
+      "fidelity": 0.9946426521342014,
+      "circuit_depth": 1839,
+      "num_projections": 4,
+      "average_success_rate": 0.11766666666666667,
+      "total_problem_time": 6.245,
+      "first_created_at": "2025-12-21 12:40:42.523000+00:00",
+      "last_ended_at": "2025-12-21 12:40:48.768000+00:00",
+      "projection_execution_times": [
+        2.103,
+        2.097,
+        2.348,
+        2.167
+      ],
+      "reconstructed_solution": [
+        0.612317403294163,
+        0.3162861294346338,
+        0.006614758787903231,
+        0.06478170848330007
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.8004193929307633,
+          "imag": 0.0
+        },
+        {
+          "real": -0.5437060496203291,
+          "imag": 0.0
+        },
+        {
+          "real": -0.012858217536363289,
+          "imag": 0.0
+        },
+        {
+          "real": 0.2520856863615868,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154102.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154102_retrieval.json",
+      "fidelity": 0.9792780911057098,
+      "circuit_depth": 1839,
+      "num_projections": 4,
+      "average_success_rate": 0.05358333333333334,
+      "total_problem_time": 6.126,
+      "first_created_at": "2025-12-21 12:40:58.706000+00:00",
+      "last_ended_at": "2025-12-21 12:41:04.832000+00:00",
+      "projection_execution_times": [
+        2.188,
+        2.1,
+        2.24,
+        2.191
+      ],
+      "reconstructed_solution": [
+        0.019584132909229512,
+        0.0,
+        0.10304671275728819,
+        0.8773691543334823
+      ],
+      "ideal_solution": [
+        {
+          "real": -0.13276889501972167,
+          "imag": 0.0
+        },
+        {
+          "real": 0.11227372813442664,
+          "imag": 0.0
+        },
+        {
+          "real": -0.2328769093723791,
+          "imag": 0.0
+        },
+        {
+          "real": 0.9568361278542987,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154118.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154118_retrieval.json",
+      "fidelity": 0.8590120046599852,
+      "circuit_depth": 1839,
+      "num_projections": 4,
+      "average_success_rate": 0.0015833333333333333,
+      "total_problem_time": 5.535,
+      "first_created_at": "2025-12-21 12:41:14.674000+00:00",
+      "last_ended_at": "2025-12-21 12:41:20.209000+00:00",
+      "projection_execution_times": [
+        2.504,
+        2.397,
+        2.384,
+        1.686
+      ],
+      "reconstructed_solution": [
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      "ideal_solution": [
+        {
+          "real": -0.3172760858808872,
+          "imag": 0.0
+        },
+        {
+          "real": 0.9268290050812961,
+          "imag": 0.0
+        },
+        {
+          "real": 0.15378530642989213,
+          "imag": 0.0
+        },
+        {
+          "real": -0.12912768949525474,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154134.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154134_retrieval.json",
+      "fidelity": 0.9938759697233303,
+      "circuit_depth": 1839,
+      "num_projections": 4,
+      "average_success_rate": 0.09691666666666668,
+      "total_problem_time": 5.678,
+      "first_created_at": "2025-12-21 12:41:30.775000+00:00",
+      "last_ended_at": "2025-12-21 12:41:36.453000+00:00",
+      "projection_execution_times": [
+        2.13,
+        2.37,
+        2.401,
+        1.884
+      ],
+      "reconstructed_solution": [
+        0.08332871277995808,
+        0.8561556305359862,
+        0.05721982857933727,
+        0.0032958281047184234
+      ],
+      "ideal_solution": [
+        {
+          "real": -0.21990570103015875,
+          "imag": 0.0
+        },
+        {
+          "real": 0.9505117658539504,
+          "imag": 0.0
+        },
+        {
+          "real": 0.2115020354395512,
+          "imag": 0.0
+        },
+        {
+          "real": -0.05861531056444366,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154151.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154151_retrieval.json",
+      "fidelity": 0.9985551945238432,
+      "circuit_depth": 1839,
+      "num_projections": 4,
+      "average_success_rate": 0.24125,
+      "total_problem_time": 5.968,
+      "first_created_at": "2025-12-21 12:41:47.038000+00:00",
+      "last_ended_at": "2025-12-21 12:41:53.006000+00:00",
+      "projection_execution_times": [
+        2.012,
+        1.813,
+        1.799,
+        1.964
+      ],
+      "reconstructed_solution": [
+        0.43332246192293333,
+        0.32809794814294374,
+        0.011117745619207095,
+        0.2274618443149159
+      ],
+      "ideal_solution": [
+        {
+          "real": -0.6409022597025165,
+          "imag": 0.0
+        },
+        {
+          "real": 0.5826976393797009,
+          "imag": 0.0
+        },
+        {
+          "real": -0.07774670651826363,
+          "imag": 0.0
+        },
+        {
+          "real": 0.4936225320982573,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154207.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154207_retrieval.json",
+      "fidelity": 0.9975169851312113,
+      "circuit_depth": 1839,
+      "num_projections": 4,
+      "average_success_rate": 0.17966666666666664,
+      "total_problem_time": 6.75,
+      "first_created_at": "2025-12-21 12:42:02.861000+00:00",
+      "last_ended_at": "2025-12-21 12:42:09.611000+00:00",
+      "projection_execution_times": [
+        2.471,
+        2.014,
+        2.19,
+        2.472
+      ],
+      "reconstructed_solution": [
+        0.40201102871251726,
+        0.3156203432450377,
+        0.05906783973645541,
+        0.22330078830598957
+      ],
+      "ideal_solution": [
+        {
+          "real": -0.6230492383553025,
+          "imag": 0.0
+        },
+        {
+          "real": 0.5722757047580816,
+          "imag": 0.0
+        },
+        {
+          "real": -0.20068585000848993,
+          "imag": 0.0
+        },
+        {
+          "real": 0.493999346087511,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154223.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154223_retrieval.json",
+      "fidelity": 0.9982229967931077,
+      "circuit_depth": 1839,
+      "num_projections": 4,
+      "average_success_rate": 0.06125,
+      "total_problem_time": 5.947,
+      "first_created_at": "2025-12-21 12:42:19.241000+00:00",
+      "last_ended_at": "2025-12-21 12:42:25.188000+00:00",
+      "projection_execution_times": [
+        2.489,
+        2.044,
+        2.462,
+        1.91
+      ],
+      "reconstructed_solution": [
+        0.005114468801977666,
+        0.0,
+        0.9520934667838423,
+        0.04279206441418
+      ],
+      "ideal_solution": [
+        {
+          "real": -0.03777570085705843,
+          "imag": 0.0
+        },
+        {
+          "real": 0.010465433971383453,
+          "imag": 0.0
+        },
+        {
+          "real": 0.9820110298682954,
+          "imag": 0.0
+        },
+        {
+          "real": -0.18471006559892367,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154239.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154239_retrieval.json",
+      "fidelity": 0.9957565095756145,
+      "circuit_depth": 1839,
+      "num_projections": 4,
+      "average_success_rate": 0.0875,
+      "total_problem_time": 6.438,
+      "first_created_at": "2025-12-21 12:42:35.811000+00:00",
+      "last_ended_at": "2025-12-21 12:42:42.249000+00:00",
+      "projection_execution_times": [
+        2.26,
+        2.187,
+        1.741,
+        2.405
+      ],
+      "reconstructed_solution": [
+        0.09516239754962776,
+        0.013594628221375395,
+        0.4303692698171368,
+        0.46087370441186004
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.35596124913323685,
+          "imag": 0.0
+        },
+        {
+          "real": -0.15476245768852245,
+          "imag": 0.0
+        },
+        {
+          "real": -0.6444736238335177,
+          "imag": 0.0
+        },
+        {
+          "real": 0.6587821483530101,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154255.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154255_retrieval.json",
+      "fidelity": 0.9969418942927988,
+      "circuit_depth": 1839,
+      "num_projections": 4,
+      "average_success_rate": 0.11541666666666667,
+      "total_problem_time": 6.352,
+      "first_created_at": "2025-12-21 12:42:51.437000+00:00",
+      "last_ended_at": "2025-12-21 12:42:57.789000+00:00",
+      "projection_execution_times": [
+        2.393,
+        2.231,
+        2.346,
+        2.357
+      ],
+      "reconstructed_solution": [
+        0.4161111041673288,
+        0.45902971216196375,
+        0.09418517234575377,
+        0.030674011324953693
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.6569438427470278,
+          "imag": 0.0
+        },
+        {
+          "real": 0.6578389533903617,
+          "imag": 0.0
+        },
+        {
+          "real": -0.2928179686662585,
+          "imag": 0.0
+        },
+        {
+          "real": -0.2234509702489748,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154311.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154311_retrieval.json",
+      "fidelity": 0.9972919539113954,
+      "circuit_depth": 1839,
+      "num_projections": 4,
+      "average_success_rate": 0.06975,
+      "total_problem_time": 5.91,
+      "first_created_at": "2025-12-21 12:43:07.582000+00:00",
+      "last_ended_at": "2025-12-21 12:43:13.492000+00:00",
+      "projection_execution_times": [
+        2.435,
+        2.343,
+        2.235,
+        2.141
+      ],
+      "reconstructed_solution": [
+        0.020122379020552802,
+        0.056847976605149175,
+        0.15650739238207734,
+        0.7665222519922207
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.09702616985693643,
+          "imag": 0.0
+        },
+        {
+          "real": 0.2618843000888304,
+          "imag": 0.0
+        },
+        {
+          "real": 0.38420299511809747,
+          "imag": 0.0
+        },
+        {
+          "real": -0.8799946558202268,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154331.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154331_retrieval.json",
+      "fidelity": 0.9940633860980581,
+      "circuit_depth": 1840,
+      "num_projections": 4,
+      "average_success_rate": 0.034416666666666665,
+      "total_problem_time": 6.353,
+      "first_created_at": "2025-12-21 12:43:27.032000+00:00",
+      "last_ended_at": "2025-12-21 12:43:33.385000+00:00",
+      "projection_execution_times": [
+        5.464,
+        2.187,
+        2.106,
+        1.98
+      ],
+      "reconstructed_solution": [
+        0.01996526906437268,
+        0.02457263884845869,
+        0.155285426056232,
+        0.8001766660309366
+      ],
+      "ideal_solution": [
+        {
+          "real": -0.15535085058447773,
+          "imag": 0.0
+        },
+        {
+          "real": 0.22912865897547174,
+          "imag": 0.0
+        },
+        {
+          "real": -0.3733971304956059,
+          "imag": 0.0
+        },
+        {
+          "real": 0.8854042883318493,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154347.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154347_retrieval.json",
+      "fidelity": 0.9934149251310265,
+      "circuit_depth": 1840,
+      "num_projections": 4,
+      "average_success_rate": 0.058916666666666666,
+      "total_problem_time": 6.041,
+      "first_created_at": "2025-12-21 12:43:43.903000+00:00",
+      "last_ended_at": "2025-12-21 12:43:49.944000+00:00",
+      "projection_execution_times": [
+        2.249,
+        2.231,
+        2.339,
+        2.062
+      ],
+      "reconstructed_solution": [
+        0.09102156127449743,
+        0.14654471365194088,
+        0.6677530055568734,
+        0.09468071951668829
+      ],
+      "ideal_solution": [
+        {
+          "real": -0.25951265200364587,
+          "imag": 0.0
+        },
+        {
+          "real": 0.40624723898283066,
+          "imag": 0.0
+        },
+        {
+          "real": 0.8406710309695151,
+          "imag": 0.0
+        },
+        {
+          "real": -0.24675611837908717,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154404.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154404_retrieval.json",
+      "fidelity": 0.9645559724870888,
+      "circuit_depth": 1839,
+      "num_projections": 4,
+      "average_success_rate": 0.058083333333333334,
+      "total_problem_time": 6.286,
+      "first_created_at": "2025-12-21 12:44:00.538000+00:00",
+      "last_ended_at": "2025-12-21 12:44:06.824000+00:00",
+      "projection_execution_times": [
+        2.115,
+        2.229,
+        1.975,
+        2.341
+      ],
+      "reconstructed_solution": [
+        0.029881980213714774,
+        0.0,
+        0.7667246069217872,
+        0.20339341286449794
+      ],
+      "ideal_solution": [
+        {
+          "real": -0.01210645502704743,
+          "imag": 0.0
+        },
+        {
+          "real": 0.09835402037233228,
+          "imag": 0.0
+        },
+        {
+          "real": 0.879036049221387,
+          "imag": 0.0
+        },
+        {
+          "real": -0.4663427329685027,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154420.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154420_retrieval.json",
+      "fidelity": 0.9985808879810228,
+      "circuit_depth": 1839,
+      "num_projections": 4,
+      "average_success_rate": 0.029583333333333336,
+      "total_problem_time": 5.755,
+      "first_created_at": "2025-12-21 12:44:17.032000+00:00",
+      "last_ended_at": "2025-12-21 12:44:22.787000+00:00",
+      "projection_execution_times": [
+        2.296,
+        2.434,
+        2.167,
+        1.841
+      ],
+      "reconstructed_solution": [
+        0.6557695573123432,
+        0.17559449303239605,
+        0.111825966615368,
+        0.056809983039892833
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.8112400759746584,
+          "imag": 0.0
+        },
+        {
+          "real": -0.40951291102491355,
+          "imag": 0.0
+        },
+        {
+          "real": 0.31766453351811275,
+          "imag": 0.0
+        },
+        {
+          "real": -0.2706990191730504,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154437.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154437_retrieval.json",
+      "fidelity": 0.991423381550599,
+      "circuit_depth": 1839,
+      "num_projections": 4,
+      "average_success_rate": 0.012166666666666666,
+      "total_problem_time": 6.028,
+      "first_created_at": "2025-12-21 12:44:33.344000+00:00",
+      "last_ended_at": "2025-12-21 12:44:39.372000+00:00",
+      "projection_execution_times": [
+        2.354,
+        2.07,
+        1.913,
+        1.948
+      ],
+      "reconstructed_solution": [
+        0.0,
+        0.052501544163063615,
+        0.5460160592958616,
+        0.4014823965410747
+      ],
+      "ideal_solution": [
+        {
+          "real": -0.07848578733184373,
+          "imag": 0.0
+        },
+        {
+          "real": 0.22586337346741514,
+          "imag": 0.0
+        },
+        {
+          "real": 0.7041983087382494,
+          "imag": 0.0
+        },
+        {
+          "real": -0.6685285780600623,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154454.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N4_hhl_20251221_154454_retrieval.json",
+      "fidelity": 0.9969045351876582,
+      "circuit_depth": 1839,
+      "num_projections": 4,
+      "average_success_rate": 0.07675,
+      "total_problem_time": 5.738,
+      "first_created_at": "2025-12-21 12:44:50.463000+00:00",
+      "last_ended_at": "2025-12-21 12:44:56.201000+00:00",
+      "projection_execution_times": [
+        2.407,
+        1.829,
+        2.211,
+        1.793
+      ],
+      "reconstructed_solution": [
+        0.09806667329438588,
+        0.6714126184760367,
+        0.20862556591415088,
+        0.021895142315426566
+      ],
+      "ideal_solution": [
+        {
+          "real": -0.30798768999392095,
+          "imag": 0.0
+        },
+        {
+          "real": 0.8134980441404053,
+          "imag": 0.0
+        },
+        {
+          "real": -0.48315972693667236,
+          "imag": 0.0
+        },
+        {
+          "real": 0.09960518690522116,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154522.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154522_retrieval.json",
+      "fidelity": 0.8847745483653577,
+      "circuit_depth": 4832,
+      "num_projections": 8,
+      "average_success_rate": 0.00625,
+      "total_problem_time": 19.043,
+      "first_created_at": "2025-12-21 12:45:06.840000+00:00",
+      "last_ended_at": "2025-12-21 12:45:25.883000+00:00",
+      "projection_execution_times": [
+        3.948,
+        4.142,
+        3.853,
+        3.776,
+        3.778,
+        3.894,
+        3.364,
+        3.538
+      ],
+      "reconstructed_solution": [
+        0.08300395256916995,
+        0.0,
+        0.758893280632411,
+        0.0,
+        0.05533596837944664,
+        0.05533596837944664,
+        0.04743083003952569,
+        0.0
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.36123267079478016,
+          "imag": 0.0
+        },
+        {
+          "real": -0.06668141794653659,
+          "imag": 0.0
+        },
+        {
+          "real": 0.8071690061190376,
+          "imag": 0.0
+        },
+        {
+          "real": -0.13999071081004932,
+          "imag": 0.0
+        },
+        {
+          "real": 0.01576693091794848,
+          "imag": 0.0
+        },
+        {
+          "real": -0.21164631005657272,
+          "imag": 0.0
+        },
+        {
+          "real": -0.3668509845581563,
+          "imag": 0.0
+        },
+        {
+          "real": 0.11967848994864647,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154549.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154549_retrieval.json",
+      "fidelity": 0.9205353057139587,
+      "circuit_depth": 4887,
+      "num_projections": 8,
+      "average_success_rate": 0.0060416666666666665,
+      "total_problem_time": 17.811,
+      "first_created_at": "2025-12-21 12:45:35.033000+00:00",
+      "last_ended_at": "2025-12-21 12:45:52.844000+00:00",
+      "projection_execution_times": [
+        3.503,
+        3.977,
+        4.146,
+        3.512,
+        3.964,
+        3.701,
+        3.391,
+        3.142
+      ],
+      "reconstructed_solution": [
+        0.0,
+        0.49312786981313206,
+        0.05479198553479245,
+        0.0,
+        0.12328196745328301,
+        0.2320601740297092,
+        0.05190819682243495,
+        0.04482980634664837
+      ],
+      "ideal_solution": [
+        {
+          "real": -0.18894644671924127,
+          "imag": 0.0
+        },
+        {
+          "real": 0.6810973838828455,
+          "imag": 0.0
+        },
+        {
+          "real": 0.3043986839133948,
+          "imag": 0.0
+        },
+        {
+          "real": 0.13544729058313854,
+          "imag": 0.0
+        },
+        {
+          "real": 0.2674908834427389,
+          "imag": 0.0
+        },
+        {
+          "real": -0.46493426903014984,
+          "imag": 0.0
+        },
+        {
+          "real": -0.1356871985389959,
+          "imag": 0.0
+        },
+        {
+          "real": -0.28857374023749843,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154619.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154619_retrieval.json",
+      "fidelity": 0.9643102883011803,
+      "circuit_depth": 4386,
+      "num_projections": 8,
+      "average_success_rate": 0.020374999999999997,
+      "total_problem_time": 17.776,
+      "first_created_at": "2025-12-21 12:46:04.614000+00:00",
+      "last_ended_at": "2025-12-21 12:46:22.390000+00:00",
+      "projection_execution_times": [
+        3.402,
+        3.721,
+        3.901,
+        2.86,
+        3.587,
+        3.107,
+        3.646,
+        2.848
+      ],
+      "reconstructed_solution": [
+        0.09420214075134173,
+        0.16579576772236143,
+        0.04317598117769829,
+        0.016447992829599346,
+        0.611541766189038,
+        0.0,
+        0.053597769737832354,
+        0.015238581592128807
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.3095538263385279,
+          "imag": 0.0
+        },
+        {
+          "real": 0.4191097991469027,
+          "imag": 0.0
+        },
+        {
+          "real": 0.3273222029807569,
+          "imag": 0.0
+        },
+        {
+          "real": -0.1965585306654894,
+          "imag": 0.0
+        },
+        {
+          "real": -0.6968115224714851,
+          "imag": 0.0
+        },
+        {
+          "real": 0.09018727091374451,
+          "imag": 0.0
+        },
+        {
+          "real": -0.27035536989687325,
+          "imag": 0.0
+        },
+        {
+          "real": 0.12639721753541155,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154647.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154647_retrieval.json",
+      "fidelity": 0.9122197055949929,
+      "circuit_depth": 4700,
+      "num_projections": 8,
+      "average_success_rate": 0.026166666666666664,
+      "total_problem_time": 18.994,
+      "first_created_at": "2025-12-21 12:46:32.763000+00:00",
+      "last_ended_at": "2025-12-21 12:46:51.757000+00:00",
+      "projection_execution_times": [
+        4.025,
+        3.726,
+        3.842,
+        3.103,
+        3.932,
+        3.495,
+        3.976,
+        4.189
+      ],
+      "reconstructed_solution": [
+        0.013984858249143858,
+        0.20074467410796373,
+        0.12246200196547595,
+        0.03615234632491444,
+        0.0,
+        0.14522737412572467,
+        0.4814287452267773,
+        0.0
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.020238505785264913,
+          "imag": 0.0
+        },
+        {
+          "real": -0.33849693977155415,
+          "imag": 0.0
+        },
+        {
+          "real": -0.4317215701269524,
+          "imag": 0.0
+        },
+        {
+          "real": -0.17739434095035994,
+          "imag": 0.0
+        },
+        {
+          "real": 0.1101081977848664,
+          "imag": 0.0
+        },
+        {
+          "real": 0.3561423075520284,
+          "imag": 0.0
+        },
+        {
+          "real": 0.6925364561697902,
+          "imag": 0.0
+        },
+        {
+          "real": -0.22043152397661422,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154715.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154715_retrieval.json",
+      "fidelity": 0.9557103955441308,
+      "circuit_depth": 4892,
+      "num_projections": 8,
+      "average_success_rate": 0.017333333333333333,
+      "total_problem_time": 18.521,
+      "first_created_at": "2025-12-21 12:47:00.666000+00:00",
+      "last_ended_at": "2025-12-21 12:47:19.187000+00:00",
+      "projection_execution_times": [
+        3.144,
+        3.525,
+        3.99,
+        3.867,
+        3.337,
+        4.115,
+        3.015,
+        3.446
+      ],
+      "reconstructed_solution": [
+        0.19775217431596587,
+        0.064740295162965,
+        0.1611314012944907,
+        0.3958831842149125,
+        0.08334382825577105,
+        0.07796680707797937,
+        0.0,
+        0.01918230967791556
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.38857534553982653,
+          "imag": 0.0
+        },
+        {
+          "real": -0.15827881525906837,
+          "imag": 0.0
+        },
+        {
+          "real": -0.5323726900887605,
+          "imag": 0.0
+        },
+        {
+          "real": 0.620017412750023,
+          "imag": 0.0
+        },
+        {
+          "real": -0.294651450498156,
+          "imag": 0.0
+        },
+        {
+          "real": 0.25375568649505753,
+          "imag": 0.0
+        },
+        {
+          "real": -0.060825152036295946,
+          "imag": 0.0
+        },
+        {
+          "real": 0.03469321812300623,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154744.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154744_retrieval.json",
+      "fidelity": 0.9517696593495588,
+      "circuit_depth": 4366,
+      "num_projections": 8,
+      "average_success_rate": 0.03254166666666667,
+      "total_problem_time": 18.655,
+      "first_created_at": "2025-12-21 12:47:29.722000+00:00",
+      "last_ended_at": "2025-12-21 12:47:48.377000+00:00",
+      "projection_execution_times": [
+        3.049,
+        3.985,
+        3.066,
+        3.162,
+        3.935,
+        3.18,
+        3.511,
+        3.579
+      ],
+      "reconstructed_solution": [
+        0.0,
+        0.010191716601415959,
+        0.04383534022114391,
+        0.010842251703633997,
+        0.3862124185799732,
+        0.21269669429041999,
+        0.33622157860341306,
+        0.0
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.16402074891653948,
+          "imag": 0.0
+        },
+        {
+          "real": 0.02436954031226786,
+          "imag": 0.0
+        },
+        {
+          "real": -0.19503914196560118,
+          "imag": 0.0
+        },
+        {
+          "real": 0.037854196319648176,
+          "imag": 0.0
+        },
+        {
+          "real": -0.6247754771068401,
+          "imag": 0.0
+        },
+        {
+          "real": 0.39728057862776883,
+          "imag": 0.0
+        },
+        {
+          "real": 0.615430356782487,
+          "imag": 0.0
+        },
+        {
+          "real": 0.07809822887766535,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154812.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154812_retrieval.json",
+      "fidelity": 0.7856290420661988,
+      "circuit_depth": 4348,
+      "num_projections": 8,
+      "average_success_rate": 0.015583333333333333,
+      "total_problem_time": 18.326,
+      "first_created_at": "2025-12-21 12:47:57.867000+00:00",
+      "last_ended_at": "2025-12-21 12:48:16.193000+00:00",
+      "projection_execution_times": [
+        3.652,
+        3.0,
+        3.102,
+        3.333,
+        3.328,
+        2.983,
+        3.724,
+        3.487
+      ],
+      "reconstructed_solution": [
+        0.12779624265833614,
+        0.06336116232640195,
+        0.31526041742892674,
+        0.07024824518796738,
+        0.15387710850697617,
+        0.06462838557292999,
+        0.06732123497180208,
+        0.13750720334665953
+      ],
+      "ideal_solution": [
+        {
+          "real": -0.5073406488223509,
+          "imag": 0.0
+        },
+        {
+          "real": 0.27369179441091546,
+          "imag": 0.0
+        },
+        {
+          "real": 0.6550049139762618,
+          "imag": 0.0
+        },
+        {
+          "real": 0.3357732671789112,
+          "imag": 0.0
+        },
+        {
+          "real": 0.09398807823252169,
+          "imag": 0.0
+        },
+        {
+          "real": -0.2981717830211358,
+          "imag": 0.0
+        },
+        {
+          "real": -0.018437471039957062,
+          "imag": 0.0
+        },
+        {
+          "real": -0.1668623146831049,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154843.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154843_retrieval.json",
+      "fidelity": 0.9868889951744564,
+      "circuit_depth": 4680,
+      "num_projections": 8,
+      "average_success_rate": 0.0495,
+      "total_problem_time": 19.068,
+      "first_created_at": "2025-12-21 12:48:27.938000+00:00",
+      "last_ended_at": "2025-12-21 12:48:47.006000+00:00",
+      "projection_execution_times": [
+        3.952,
+        3.722,
+        3.814,
+        3.641,
+        4.007,
+        3.086,
+        3.19,
+        3.628
+      ],
+      "reconstructed_solution": [
+        0.33037214885446076,
+        0.01813807876063706,
+        0.17153097000125644,
+        0.0,
+        0.00574560258877323,
+        0.3020545360955069,
+        0.0521150431995769,
+        0.12004362049978878
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.5787171942966114,
+          "imag": 0.0
+        },
+        {
+          "real": -0.1643629477030652,
+          "imag": 0.0
+        },
+        {
+          "real": 0.3629067152134215,
+          "imag": 0.0
+        },
+        {
+          "real": -0.04481107102576575,
+          "imag": 0.0
+        },
+        {
+          "real": -0.04354142319439564,
+          "imag": 0.0
+        },
+        {
+          "real": -0.5647165911364612,
+          "imag": 0.0
+        },
+        {
+          "real": 0.16527197325431256,
+          "imag": 0.0
+        },
+        {
+          "real": 0.3952801606865606,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154913.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154913_retrieval.json",
+      "fidelity": 0.9943007034878144,
+      "circuit_depth": 4712,
+      "num_projections": 8,
+      "average_success_rate": 0.09804166666666667,
+      "total_problem_time": 18.751,
+      "first_created_at": "2025-12-21 12:48:57.625000+00:00",
+      "last_ended_at": "2025-12-21 12:49:16.376000+00:00",
+      "projection_execution_times": [
+        3.788,
+        4.188,
+        3.661,
+        3.833,
+        4.246,
+        3.523,
+        4.045,
+        3.553
+      ],
+      "reconstructed_solution": [
+        0.0,
+        0.16563801825480548,
+        0.017288816720198552,
+        0.18671922057814436,
+        0.003965079973667158,
+        0.2027746949590676,
+        0.3529057433607539,
+        0.07070842615336287
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.017133650673074208,
+          "imag": 0.0
+        },
+        {
+          "real": -0.4296018206223681,
+          "imag": 0.0
+        },
+        {
+          "real": 0.13182959133496994,
+          "imag": 0.0
+        },
+        {
+          "real": 0.41731857115961496,
+          "imag": 0.0
+        },
+        {
+          "real": 0.0017021114413515734,
+          "imag": 0.0
+        },
+        {
+          "real": 0.4324597337215894,
+          "imag": 0.0
+        },
+        {
+          "real": -0.612056074468092,
+          "imag": 0.0
+        },
+        {
+          "real": 0.24895366231311905,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154940.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_154940_retrieval.json",
+      "fidelity": 0.9755434772505707,
+      "circuit_depth": 4501,
+      "num_projections": 8,
+      "average_success_rate": 0.015916666666666666,
+      "total_problem_time": 18.059,
+      "first_created_at": "2025-12-21 12:49:25.750000+00:00",
+      "last_ended_at": "2025-12-21 12:49:43.809000+00:00",
+      "projection_execution_times": [
+        3.701,
+        3.149,
+        4.121,
+        3.7,
+        3.004,
+        3.913,
+        3.674,
+        3.634
+      ],
+      "reconstructed_solution": [
+        0.1344146608754288,
+        0.0,
+        0.17563515687722697,
+        0.02286916105172226,
+        0.04989635138557585,
+        0.39030034861605994,
+        0.07006721683931927,
+        0.15681710435466695
+      ],
+      "ideal_solution": [
+        {
+          "real": -0.31221036386984985,
+          "imag": 0.0
+        },
+        {
+          "real": 0.01968764405531423,
+          "imag": 0.0
+        },
+        {
+          "real": 0.5472296889996582,
+          "imag": 0.0
+        },
+        {
+          "real": 0.15289777816728226,
+          "imag": 0.0
+        },
+        {
+          "real": -0.22138607155468099,
+          "imag": 0.0
+        },
+        {
+          "real": 0.5884552401345444,
+          "imag": 0.0
+        },
+        {
+          "real": -0.20951771939678349,
+          "imag": 0.0
+        },
+        {
+          "real": -0.3743126837434248,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155008.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155008_retrieval.json",
+      "fidelity": 0.9922711000199883,
+      "circuit_depth": 4719,
+      "num_projections": 8,
+      "average_success_rate": 0.09683333333333333,
+      "total_problem_time": 18.729,
+      "first_created_at": "2025-12-21 12:49:52.826000+00:00",
+      "last_ended_at": "2025-12-21 12:50:11.555000+00:00",
+      "projection_execution_times": [
+        3.259,
+        3.687,
+        3.805,
+        3.722,
+        3.424,
+        3.807,
+        3.248,
+        3.381
+      ],
+      "reconstructed_solution": [
+        0.007567240453005226,
+        0.2715069248929443,
+        0.0,
+        0.04952982993369449,
+        0.33135340771492583,
+        0.30310116979396895,
+        0.0,
+        0.036941427211461327
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.025550139958465494,
+          "imag": 0.0
+        },
+        {
+          "real": 0.5301171552457842,
+          "imag": 0.0
+        },
+        {
+          "real": -0.04297607496606457,
+          "imag": 0.0
+        },
+        {
+          "real": -0.22465345220160382,
+          "imag": 0.0
+        },
+        {
+          "real": 0.5809188228675,
+          "imag": 0.0
+        },
+        {
+          "real": -0.5317360633171692,
+          "imag": 0.0
+        },
+        {
+          "real": -0.03609682088301614,
+          "imag": 0.0
+        },
+        {
+          "real": -0.2109359504327559,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155035.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155035_retrieval.json",
+      "fidelity": 0.9938323924167404,
+      "circuit_depth": 4699,
+      "num_projections": 8,
+      "average_success_rate": 0.12591666666666665,
+      "total_problem_time": 18.452,
+      "first_created_at": "2025-12-21 12:50:20.922000+00:00",
+      "last_ended_at": "2025-12-21 12:50:39.374000+00:00",
+      "projection_execution_times": [
+        3.927,
+        3.602,
+        3.657,
+        3.921,
+        4.159,
+        3.662,
+        3.101,
+        3.538
+      ],
+      "reconstructed_solution": [
+        0.011166145913995867,
+        0.4857273472588203,
+        0.00824272582233947,
+        0.04796777641625584,
+        0.3589901295975439,
+        0.013957682392494836,
+        0.019283640147525757,
+        0.054664552451024154
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.06619840144364288,
+          "imag": 0.0
+        },
+        {
+          "real": -0.674726358078635,
+          "imag": 0.0
+        },
+        {
+          "real": -0.08408805629733228,
+          "imag": 0.0
+        },
+        {
+          "real": 0.2550450176535955,
+          "imag": 0.0
+        },
+        {
+          "real": 0.6300456033538299,
+          "imag": 0.0
+        },
+        {
+          "real": 0.10095686712959218,
+          "imag": 0.0
+        },
+        {
+          "real": 0.15017634614066358,
+          "imag": 0.0
+        },
+        {
+          "real": -0.19631776499386855,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155103.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155103_retrieval.json",
+      "fidelity": 0.9357314195591434,
+      "circuit_depth": 4509,
+      "num_projections": 8,
+      "average_success_rate": 0.018083333333333333,
+      "total_problem_time": 18.143,
+      "first_created_at": "2025-12-21 12:50:48.147000+00:00",
+      "last_ended_at": "2025-12-21 12:51:06.290000+00:00",
+      "projection_execution_times": [
+        4.365,
+        3.902,
+        3.059,
+        3.654,
+        3.149,
+        3.744,
+        3.538,
+        3.361
+      ],
+      "reconstructed_solution": [
+        0.0,
+        0.0,
+        0.0,
+        0.42619304472902747,
+        0.35622902360183123,
+        0.0,
+        0.19041397936773077,
+        0.027163952301410544
+      ],
+      "ideal_solution": [
+        {
+          "real": -0.03751931190369105,
+          "imag": 0.0
+        },
+        {
+          "real": -0.04161045711299272,
+          "imag": 0.0
+        },
+        {
+          "real": 0.08104428212476081,
+          "imag": 0.0
+        },
+        {
+          "real": 0.7772118439642913,
+          "imag": 0.0
+        },
+        {
+          "real": -0.47126381817516627,
+          "imag": 0.0
+        },
+        {
+          "real": 0.11939886509553341,
+          "imag": 0.0
+        },
+        {
+          "real": -0.37823017024639377,
+          "imag": 0.0
+        },
+        {
+          "real": 0.08264809760590991,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155133.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155133_retrieval.json",
+      "fidelity": 0.877620759756878,
+      "circuit_depth": 4564,
+      "num_projections": 8,
+      "average_success_rate": 0.004416666666666667,
+      "total_problem_time": 18.028,
+      "first_created_at": "2025-12-21 12:51:19.103000+00:00",
+      "last_ended_at": "2025-12-21 12:51:37.131000+00:00",
+      "projection_execution_times": [
+        3.017,
+        3.597,
+        3.885,
+        3.143,
+        3.573,
+        3.72,
+        3.767,
+        3.292
+      ],
+      "reconstructed_solution": [
+        0.0,
+        0.048874407582938394,
+        0.0,
+        0.0,
+        0.0,
+        0.08441943127962087,
+        0.30953791469194314,
+        0.5571682464454977
+      ],
+      "ideal_solution": [
+        {
+          "real": -0.03121023806678119,
+          "imag": 0.0
+        },
+        {
+          "real": 0.06682995772135208,
+          "imag": 0.0
+        },
+        {
+          "real": -0.022782984433583217,
+          "imag": 0.0
+        },
+        {
+          "real": -0.03281190570146094,
+          "imag": 0.0
+        },
+        {
+          "real": 0.0654099341905431,
+          "imag": 0.0
+        },
+        {
+          "real": 0.1378695876193265,
+          "imag": 0.0
+        },
+        {
+          "real": -0.3508001845351898,
+          "imag": 0.0
+        },
+        {
+          "real": 0.9201177859949548,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155202.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155202_retrieval.json",
+      "fidelity": 0.7968606328165425,
+      "circuit_depth": 4709,
+      "num_projections": 8,
+      "average_success_rate": 0.0029166666666666664,
+      "total_problem_time": 19.637,
+      "first_created_at": "2025-12-21 12:51:46.464000+00:00",
+      "last_ended_at": "2025-12-21 12:52:06.101000+00:00",
+      "projection_execution_times": [
+        3.943,
+        3.726,
+        3.452,
+        3.456,
+        4.039,
+        3.232,
+        3.885,
+        4.116
+      ],
+      "reconstructed_solution": [
+        0.2826552462526767,
+        0.0,
+        0.23554603854389722,
+        0.12847965738758033,
+        0.0,
+        0.3533190578158458,
+        0.0,
+        0.0
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.2664074441671787,
+          "imag": 0.0
+        },
+        {
+          "real": -0.03451499562528567,
+          "imag": 0.0
+        },
+        {
+          "real": 0.3755280951670534,
+          "imag": 0.0
+        },
+        {
+          "real": 0.6401345000710227,
+          "imag": 0.0
+        },
+        {
+          "real": -0.1646695788792329,
+          "imag": 0.0
+        },
+        {
+          "real": -0.5708695309514324,
+          "imag": 0.0
+        },
+        {
+          "real": -0.09520615304573632,
+          "imag": 0.0
+        },
+        {
+          "real": -0.12235177634012517,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155230.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155230_retrieval.json",
+      "fidelity": 0.9863240905688015,
+      "circuit_depth": 4829,
+      "num_projections": 8,
+      "average_success_rate": 0.05658333333333333,
+      "total_problem_time": 19.387,
+      "first_created_at": "2025-12-21 12:52:14.854000+00:00",
+      "last_ended_at": "2025-12-21 12:52:34.241000+00:00",
+      "projection_execution_times": [
+        3.261,
+        3.941,
+        3.962,
+        3.337,
+        3.791,
+        2.952,
+        3.198,
+        4.156
+      ],
+      "reconstructed_solution": [
+        0.022891356301847087,
+        0.33277491675370857,
+        0.013734813781108253,
+        0.005577589352734316,
+        0.041130993141286744,
+        0.5101502261554494,
+        0.06699909161516221,
+        0.006741012898703437
+      ],
+      "ideal_solution": [
+        {
+          "real": -0.09783986076656553,
+          "imag": 0.0
+        },
+        {
+          "real": -0.5616241415738328,
+          "imag": 0.0
+        },
+        {
+          "real": -0.05595421776685083,
+          "imag": 0.0
+        },
+        {
+          "real": 0.03503026015379887,
+          "imag": 0.0
+        },
+        {
+          "real": 0.21597127760838214,
+          "imag": 0.0
+        },
+        {
+          "real": 0.749986562635596,
+          "imag": 0.0
+        },
+        {
+          "real": -0.24714250503307847,
+          "imag": 0.0
+        },
+        {
+          "real": 0.02109115820699406,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155259.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155259_retrieval.json",
+      "fidelity": 0.8259928900608106,
+      "circuit_depth": 4714,
+      "num_projections": 8,
+      "average_success_rate": 0.003,
+      "total_problem_time": 19.534,
+      "first_created_at": "2025-12-21 12:52:42.919000+00:00",
+      "last_ended_at": "2025-12-21 12:53:02.453000+00:00",
+      "projection_execution_times": [
+        3.392,
+        3.599,
+        4.118,
+        4.043,
+        4.225,
+        3.75,
+        3.265,
+        3.421
+      ],
+      "reconstructed_solution": [
+        0.2598844957796535,
+        0.09329187027987562,
+        0.24255886272767663,
+        0.0,
+        0.20213238560639715,
+        0.0,
+        0.0,
+        0.20213238560639715
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.4108290853189716,
+          "imag": 0.0
+        },
+        {
+          "real": -0.09051481974914988,
+          "imag": 0.0
+        },
+        {
+          "real": -0.5307128990487638,
+          "imag": 0.0
+        },
+        {
+          "real": -0.08520020461476069,
+          "imag": 0.0
+        },
+        {
+          "real": -0.23043987673087848,
+          "imag": 0.0
+        },
+        {
+          "real": -0.02995559227199663,
+          "imag": 0.0
+        },
+        {
+          "real": 0.12047011181450668,
+          "imag": 0.0
+        },
+        {
+          "real": 0.6823476766589796,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155330.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155330_retrieval.json",
+      "fidelity": 0.8700380423125178,
+      "circuit_depth": 4861,
+      "num_projections": 8,
+      "average_success_rate": 0.010958333333333334,
+      "total_problem_time": 20.557,
+      "first_created_at": "2025-12-21 12:53:12.751000+00:00",
+      "last_ended_at": "2025-12-21 12:53:33.308000+00:00",
+      "projection_execution_times": [
+        3.985,
+        3.453,
+        3.845,
+        4.259,
+        4.195,
+        3.559,
+        3.791,
+        2.98
+      ],
+      "reconstructed_solution": [
+        0.08074948551674162,
+        0.08787444012116,
+        0.07113645152665332,
+        0.32299794206696647,
+        0.0,
+        0.06425227879826752,
+        0.06868347043952736,
+        0.3043059315306837
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.4830893389122348,
+          "imag": 0.0
+        },
+        {
+          "real": 0.3985390085926371,
+          "imag": 0.0
+        },
+        {
+          "real": -0.14497852016285245,
+          "imag": 0.0
+        },
+        {
+          "real": 0.5053295491887025,
+          "imag": 0.0
+        },
+        {
+          "real": 0.04531742904761454,
+          "imag": 0.0
+        },
+        {
+          "real": -0.24334769707571988,
+          "imag": 0.0
+        },
+        {
+          "real": -0.012041661101219943,
+          "imag": 0.0
+        },
+        {
+          "real": -0.519613175369766,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155359.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155359_retrieval.json",
+      "fidelity": 0.9820291219154772,
+      "circuit_depth": 4884,
+      "num_projections": 8,
+      "average_success_rate": 0.017458333333333333,
+      "total_problem_time": 18.454,
+      "first_created_at": "2025-12-21 12:53:44.767000+00:00",
+      "last_ended_at": "2025-12-21 12:54:03.221000+00:00",
+      "projection_execution_times": [
+        4.425,
+        3.418,
+        4.073,
+        3.674,
+        3.278,
+        3.433,
+        3.824,
+        3.311
+      ],
+      "reconstructed_solution": [
+        0.17058781115475843,
+        0.1249162517853107,
+        0.014460748359383258,
+        0.020968085121105727,
+        0.3727659577085462,
+        0.2640425533768869,
+        0.0,
+        0.03225859249400881
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.36186720082326995,
+          "imag": 0.0
+        },
+        {
+          "real": -0.3112304855494256,
+          "imag": 0.0
+        },
+        {
+          "real": -0.08008761070089883,
+          "imag": 0.0
+        },
+        {
+          "real": 0.16177881891629942,
+          "imag": 0.0
+        },
+        {
+          "real": 0.6366132445161995,
+          "imag": 0.0
+        },
+        {
+          "real": -0.562518636233406,
+          "imag": 0.0
+        },
+        {
+          "real": -0.0676876589575652,
+          "imag": 0.0
+        },
+        {
+          "real": 0.11539516374952385,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155430.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N8_hhl_20251221_155430_retrieval.json",
+      "fidelity": 0.8085160120894983,
+      "circuit_depth": 4865,
+      "num_projections": 8,
+      "average_success_rate": 0.010374999999999999,
+      "total_problem_time": 20.721,
+      "first_created_at": "2025-12-21 12:54:12.807000+00:00",
+      "last_ended_at": "2025-12-21 12:54:33.528000+00:00",
+      "projection_execution_times": [
+        4.024,
+        4.001,
+        3.512,
+        3.488,
+        3.814,
+        3.557,
+        3.177,
+        3.191
+      ],
+      "reconstructed_solution": [
+        0.3245618273847382,
+        0.02807021209813952,
+        0.1675157818759939,
+        0.0,
+        0.03245618273847382,
+        0.11983821318821103,
+        0.20771956952623247,
+        0.11983821318821103
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.41306002941738873,
+          "imag": 0.0
+        },
+        {
+          "real": 0.036280053646795755,
+          "imag": 0.0
+        },
+        {
+          "real": 0.4665551942418717,
+          "imag": 0.0
+        },
+        {
+          "real": -0.3451829452313298,
+          "imag": 0.0
+        },
+        {
+          "real": -0.028732640583253942,
+          "imag": 0.0
+        },
+        {
+          "real": 0.3428463440946382,
+          "imag": 0.0
+        },
+        {
+          "real": -0.4061677424927639,
+          "imag": 0.0
+        },
+        {
+          "real": -0.45595914237663004,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_155551.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_155551_retrieval.json",
+      "fidelity": 0.9122141987352903,
+      "circuit_depth": 13172,
+      "num_projections": 16,
+      "average_success_rate": 0.029312500000000002,
+      "total_problem_time": 71.688,
+      "first_created_at": "2025-12-21 12:54:46.458000+00:00",
+      "last_ended_at": "2025-12-21 12:55:58.146000+00:00",
+      "projection_execution_times": [
+        8.818,
+        7.44,
+        7.958,
+        9.963,
+        9.102,
+        8.973,
+        9.792,
+        6.682,
+        9.536,
+        7.047,
+        9.505,
+        7.709,
+        8.837,
+        8.393,
+        6.909,
+        6.914
+      ],
+      "reconstructed_solution": [
+        0.0,
+        0.14096518992031368,
+        0.015036286924833461,
+        0.015036286924833461,
+        0.032220614838928845,
+        0.012671028307443927,
+        0.15314736682700747,
+        0.16915822790437643,
+        0.1116555959764861,
+        0.0,
+        0.04228955697609411,
+        0.01375270145564036,
+        0.08309526984776384,
+        0.06712628091443508,
+        0.1305782811893432,
+        0.013267311992500112
+      ],
+      "ideal_solution": [
+        {
+          "real": -0.0010250219355276815,
+          "imag": 0.0
+        },
+        {
+          "real": 0.3503708325915269,
+          "imag": 0.0
+        },
+        {
+          "real": -0.15117967123780407,
+          "imag": 0.0
+        },
+        {
+          "real": 0.09656268877518835,
+          "imag": 0.0
+        },
+        {
+          "real": 0.12830658426186847,
+          "imag": 0.0
+        },
+        {
+          "real": 0.07982789450288301,
+          "imag": 0.0
+        },
+        {
+          "real": 0.44272824557302015,
+          "imag": 0.0
+        },
+        {
+          "real": -0.3433633565481698,
+          "imag": 0.0
+        },
+        {
+          "real": 0.281953900628296,
+          "imag": 0.0
+        },
+        {
+          "real": 0.1345483069455728,
+          "imag": 0.0
+        },
+        {
+          "real": 0.10180613477419283,
+          "imag": 0.0
+        },
+        {
+          "real": -0.20330198349693768,
+          "imag": 0.0
+        },
+        {
+          "real": 0.18008408450501565,
+          "imag": 0.0
+        },
+        {
+          "real": -0.3124375390558398,
+          "imag": 0.0
+        },
+        {
+          "real": -0.47818695557724744,
+          "imag": 0.0
+        },
+        {
+          "real": 0.01761035052999128,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_155727.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_155727_retrieval.json",
+      "fidelity": 0.43925925647249175,
+      "circuit_depth": 13359,
+      "num_projections": 16,
+      "average_success_rate": 0.0027708333333333335,
+      "total_problem_time": 86.483,
+      "first_created_at": "2025-12-21 12:56:07.429000+00:00",
+      "last_ended_at": "2025-12-21 12:57:33.912000+00:00",
+      "projection_execution_times": [
+        7.628,
+        8.669,
+        8.934,
+        7.342,
+        7.039,
+        9.077,
+        6.579,
+        6.983,
+        8.822,
+        6.747,
+        6.948,
+        6.708,
+        7.764,
+        6.467,
+        8.687,
+        6.947
+      ],
+      "reconstructed_solution": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.595667870036101,
+        0.0,
+        0.2779783393501805,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.1263537906137184
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.17105632640402813,
+          "imag": 0.0
+        },
+        {
+          "real": 0.1549623048200421,
+          "imag": 0.0
+        },
+        {
+          "real": 0.1259347351173083,
+          "imag": 0.0
+        },
+        {
+          "real": -0.005462379021940193,
+          "imag": 0.0
+        },
+        {
+          "real": -0.11478175917030783,
+          "imag": 0.0
+        },
+        {
+          "real": 0.22840351218498375,
+          "imag": 0.0
+        },
+        {
+          "real": 0.5510604508138014,
+          "imag": 0.0
+        },
+        {
+          "real": 0.02043557386589393,
+          "imag": 0.0
+        },
+        {
+          "real": -0.7199618340556164,
+          "imag": 0.0
+        },
+        {
+          "real": 0.06761870150272009,
+          "imag": 0.0
+        },
+        {
+          "real": -0.1537080472438062,
+          "imag": 0.0
+        },
+        {
+          "real": 0.02162632693173642,
+          "imag": 0.0
+        },
+        {
+          "real": -0.049589974943860395,
+          "imag": 0.0
+        },
+        {
+          "real": 0.019239188502000078,
+          "imag": 0.0
+        },
+        {
+          "real": -0.07869147505722562,
+          "imag": 0.0
+        },
+        {
+          "real": -0.07332065951581719,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_155859.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_155859_retrieval.json",
+      "fidelity": 0.8993023191225948,
+      "circuit_depth": 12997,
+      "num_projections": 16,
+      "average_success_rate": 0.10735416666666667,
+      "total_problem_time": 85.686,
+      "first_created_at": "2025-12-21 12:57:42.853000+00:00",
+      "last_ended_at": "2025-12-21 12:59:08.539000+00:00",
+      "projection_execution_times": [
+        6.786,
+        7.417,
+        8.737,
+        8.979,
+        7.305,
+        7.438,
+        8.662,
+        9.749,
+        6.618,
+        9.54,
+        9.019,
+        7.284,
+        9.676,
+        7.109,
+        6.775,
+        8.941
+      ],
+      "reconstructed_solution": [
+        0.010620225138757357,
+        0.006302561354021707,
+        0.18120315365688772,
+        0.12382445461465992,
+        0.04770251124825179,
+        0.007126425583305591,
+        0.034614067118912864,
+        0.05143127897385639,
+        0.024076977286183875,
+        0.1326530198340533,
+        0.14913507641659265,
+        0.006836006985866804,
+        0.023035417906600464,
+        0.04625698060436538,
+        0.05367843023979103,
+        0.10150341303789313
+      ],
+      "ideal_solution": [
+        {
+          "real": -0.0030272328773241902,
+          "imag": 0.0
+        },
+        {
+          "real": -0.009273893959713465,
+          "imag": 0.0
+        },
+        {
+          "real": 0.33371565873303416,
+          "imag": 0.0
+        },
+        {
+          "real": -0.3539033921928643,
+          "imag": 0.0
+        },
+        {
+          "real": -0.2527574722727036,
+          "imag": 0.0
+        },
+        {
+          "real": -0.033553373408560044,
+          "imag": 0.0
+        },
+        {
+          "real": -0.3002532965859149,
+          "imag": 0.0
+        },
+        {
+          "real": 0.11125162832092085,
+          "imag": 0.0
+        },
+        {
+          "real": -0.00013690862614453142,
+          "imag": 0.0
+        },
+        {
+          "real": 0.34217924281135415,
+          "imag": 0.0
+        },
+        {
+          "real": -0.3350798194850657,
+          "imag": 0.0
+        },
+        {
+          "real": 0.18748935539757877,
+          "imag": 0.0
+        },
+        {
+          "real": -0.16282475250589679,
+          "imag": 0.0
+        },
+        {
+          "real": -0.28467667883188164,
+          "imag": 0.0
+        },
+        {
+          "real": 0.29762831804275236,
+          "imag": 0.0
+        },
+        {
+          "real": 0.3675557363480576,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_160032.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_160032_retrieval.json",
+      "fidelity": 0.6941528119990545,
+      "circuit_depth": 13344,
+      "num_projections": 16,
+      "average_success_rate": 0.011541666666666667,
+      "total_problem_time": 83.321,
+      "first_created_at": "2025-12-21 12:59:16.882000+00:00",
+      "last_ended_at": "2025-12-21 13:00:40.203000+00:00",
+      "projection_execution_times": [
+        6.682,
+        8.916,
+        21.803,
+        9.638,
+        7.487,
+        6.826,
+        9.403,
+        7.297,
+        9.301,
+        8.827,
+        6.452,
+        9.33,
+        9.044,
+        7.07,
+        6.988,
+        7.606
+      ],
+      "reconstructed_solution": [
+        0.04254049765519735,
+        0.0,
+        0.26449092020405307,
+        0.0,
+        0.10695896553306761,
+        0.0,
+        0.0,
+        0.022283117819389086,
+        0.07588304987143311,
+        0.0,
+        0.21133021415807712,
+        0.04254049765519735,
+        0.0,
+        0.0,
+        0.2339727371035854,
+        0.0
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.047230660008707334,
+          "imag": 0.0
+        },
+        {
+          "real": 0.084874425921077,
+          "imag": 0.0
+        },
+        {
+          "real": 0.46534994083555953,
+          "imag": 0.0
+        },
+        {
+          "real": -0.09722876684616172,
+          "imag": 0.0
+        },
+        {
+          "real": -0.2596816969801134,
+          "imag": 0.0
+        },
+        {
+          "real": -0.01166935595920116,
+          "imag": 0.0
+        },
+        {
+          "real": 0.15283180169989752,
+          "imag": 0.0
+        },
+        {
+          "real": -0.027934750121931647,
+          "imag": 0.0
+        },
+        {
+          "real": -0.23859707950970413,
+          "imag": 0.0
+        },
+        {
+          "real": -0.0480500460156852,
+          "imag": 0.0
+        },
+        {
+          "real": -0.3315689105921582,
+          "imag": 0.0
+        },
+        {
+          "real": -0.03363858712969037,
+          "imag": 0.0
+        },
+        {
+          "real": -0.2066694123408069,
+          "imag": 0.0
+        },
+        {
+          "real": 0.37473693601624597,
+          "imag": 0.0
+        },
+        {
+          "real": 0.557996913976235,
+          "imag": 0.0
+        },
+        {
+          "real": -0.08969662783113751,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_160205.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_160205_retrieval.json",
+      "fidelity": 0.975258951023521,
+      "circuit_depth": 13530,
+      "num_projections": 16,
+      "average_success_rate": 0.057374999999999995,
+      "total_problem_time": 83.811,
+      "first_created_at": "2025-12-21 13:00:49.731000+00:00",
+      "last_ended_at": "2025-12-21 13:02:13.542000+00:00",
+      "projection_execution_times": [
+        9.602,
+        10.346,
+        9.066,
+        9.844,
+        9.25,
+        6.684,
+        8.278,
+        9.097,
+        10.244,
+        7.634,
+        6.391,
+        7.211,
+        9.028,
+        9.6,
+        9.459,
+        8.049
+      ],
+      "reconstructed_solution": [
+        0.012503531230729305,
+        0.0,
+        0.0570013923753836,
+        0.03747605355066656,
+        0.09690236703815212,
+        0.005908680916960495,
+        0.1309491446461515,
+        0.005237965785846061,
+        0.0635425357627227,
+        0.021065731964815676,
+        0.005872870729584976,
+        0.33543127051668037,
+        0.053296301870983664,
+        0.005837491990250128,
+        0.08030582903714263,
+        0.08866883258393003
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.08418579778676273,
+          "imag": 0.0
+        },
+        {
+          "real": -0.011851761460477873,
+          "imag": 0.0
+        },
+        {
+          "real": -0.2542488384127026,
+          "imag": 0.0
+        },
+        {
+          "real": 0.14473380376421027,
+          "imag": 0.0
+        },
+        {
+          "real": -0.2546007467449474,
+          "imag": 0.0
+        },
+        {
+          "real": 0.13190616488448276,
+          "imag": 0.0
+        },
+        {
+          "real": 0.354934673590677,
+          "imag": 0.0
+        },
+        {
+          "real": 0.0016495430746716092,
+          "imag": 0.0
+        },
+        {
+          "real": 0.31709573667364016,
+          "imag": 0.0
+        },
+        {
+          "real": -0.09896577751950872,
+          "imag": 0.0
+        },
+        {
+          "real": 0.05577999432151426,
+          "imag": 0.0
+        },
+        {
+          "real": 0.5724315449623323,
+          "imag": 0.0
+        },
+        {
+          "real": -0.28163075334678533,
+          "imag": 0.0
+        },
+        {
+          "real": -0.10169142047104389,
+          "imag": 0.0
+        },
+        {
+          "real": -0.27999743747161376,
+          "imag": 0.0
+        },
+        {
+          "real": -0.2996514931353674,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_160340.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_160340_retrieval.json",
+      "fidelity": 0.894054953293696,
+      "circuit_depth": 13498,
+      "num_projections": 16,
+      "average_success_rate": 0.035166666666666666,
+      "total_problem_time": 85.092,
+      "first_created_at": "2025-12-21 13:02:22.264000+00:00",
+      "last_ended_at": "2025-12-21 13:03:47.356000+00:00",
+      "projection_execution_times": [
+        6.995,
+        9.008,
+        8.0,
+        7.023,
+        7.494,
+        9.359,
+        6.946,
+        7.101,
+        9.754,
+        7.768,
+        6.81,
+        8.61,
+        9.391,
+        8.889,
+        9.013,
+        7.036
+      ],
+      "reconstructed_solution": [
+        0.017855654001868143,
+        0.13610724937273075,
+        0.02940360414438069,
+        0.0314550183870119,
+        0.018402255654986554,
+        0.00842720118779758,
+        0.007979739177826028,
+        0.04061759131055591,
+        0.026327314659688794,
+        0.0667933723773586,
+        0.1787874320962918,
+        0.20038011713207582,
+        0.06440789479245294,
+        0.06375730999656957,
+        0.10929824570840499,
+        0.0
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.03573287331776355,
+          "imag": 0.0
+        },
+        {
+          "real": 0.3731119483985472,
+          "imag": 0.0
+        },
+        {
+          "real": 0.1060867967218031,
+          "imag": 0.0
+        },
+        {
+          "real": -0.05581254947678405,
+          "imag": 0.0
+        },
+        {
+          "real": -0.03365862164541891,
+          "imag": 0.0
+        },
+        {
+          "real": -0.08964578134155232,
+          "imag": 0.0
+        },
+        {
+          "real": -0.01686298502795838,
+          "imag": 0.0
+        },
+        {
+          "real": 0.27923252614207567,
+          "imag": 0.0
+        },
+        {
+          "real": 0.012489118615924348,
+          "imag": 0.0
+        },
+        {
+          "real": -0.19259315560527646,
+          "imag": 0.0
+        },
+        {
+          "real": 0.442158713245893,
+          "imag": 0.0
+        },
+        {
+          "real": -0.5131728214013095,
+          "imag": 0.0
+        },
+        {
+          "real": 0.32878971536385065,
+          "imag": 0.0
+        },
+        {
+          "real": -0.3267854453900615,
+          "imag": 0.0
+        },
+        {
+          "real": -0.21179069764693562,
+          "imag": 0.0
+        },
+        {
+          "real": -0.04325824677580514,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_160517.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_160517_retrieval.json",
+      "fidelity": 0.7991689090412006,
+      "circuit_depth": 13321,
+      "num_projections": 16,
+      "average_success_rate": 0.012,
+      "total_problem_time": 86.204,
+      "first_created_at": "2025-12-21 13:04:00.777000+00:00",
+      "last_ended_at": "2025-12-21 13:05:26.981000+00:00",
+      "projection_execution_times": [
+        9.677,
+        9.463,
+        9.325,
+        7.632,
+        9.879,
+        6.486,
+        10.28,
+        7.213,
+        7.508,
+        6.877,
+        9.424,
+        7.663,
+        8.121,
+        9.3,
+        6.447,
+        9.593
+      ],
+      "reconstructed_solution": [
+        0.02354360382014251,
+        0.18976144679034865,
+        0.0,
+        0.13270031244080324,
+        0.13270031244080324,
+        0.0,
+        0.019206624169063626,
+        0.08586490804993151,
+        0.11403933100381529,
+        0.035602522849971605,
+        0.015205244133842038,
+        0.02354360382014251,
+        0.054738878881831335,
+        0.054738878881831335,
+        0.11835433271747317,
+        0.0
+      ],
+      "ideal_solution": [
+        {
+          "real": -0.24377804241908912,
+          "imag": 0.0
+        },
+        {
+          "real": 0.4860494032098401,
+          "imag": 0.0
+        },
+        {
+          "real": -0.013910847375123873,
+          "imag": 0.0
+        },
+        {
+          "real": -0.400209146779738,
+          "imag": 0.0
+        },
+        {
+          "real": 0.12860344065539425,
+          "imag": 0.0
+        },
+        {
+          "real": -0.05093835075123032,
+          "imag": 0.0
+        },
+        {
+          "real": 0.042340393369783284,
+          "imag": 0.0
+        },
+        {
+          "real": -0.06740392210950694,
+          "imag": 0.0
+        },
+        {
+          "real": 0.3987233092451658,
+          "imag": 0.0
+        },
+        {
+          "real": -0.13839959259289908,
+          "imag": 0.0
+        },
+        {
+          "real": 0.15997852299894202,
+          "imag": 0.0
+        },
+        {
+          "real": -0.1324261001252011,
+          "imag": 0.0
+        },
+        {
+          "real": -0.3973244616764066,
+          "imag": 0.0
+        },
+        {
+          "real": -0.02175196689074134,
+          "imag": 0.0
+        },
+        {
+          "real": 0.3712345826326062,
+          "imag": 0.0
+        },
+        {
+          "real": -0.03283743363365696,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_160702.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_160702_retrieval.json",
+      "fidelity": 0.9067442694894933,
+      "circuit_depth": 13490,
+      "num_projections": 16,
+      "average_success_rate": 0.0238125,
+      "total_problem_time": 94.426,
+      "first_created_at": "2025-12-21 13:05:34.344000+00:00",
+      "last_ended_at": "2025-12-21 13:07:08.770000+00:00",
+      "projection_execution_times": [
+        6.96,
+        6.779,
+        7.831,
+        6.506,
+        8.043,
+        10.23,
+        9.121,
+        7.956,
+        9.619,
+        6.922,
+        8.2,
+        6.841,
+        9.333,
+        7.506,
+        7.128,
+        6.634
+      ],
+      "reconstructed_solution": [
+        0.05711476421116255,
+        0.14669888067935585,
+        0.1935364751131261,
+        0.03511153537571468,
+        0.014669888067935585,
+        0.0,
+        0.0,
+        0.02818162707787626,
+        0.027815631921020725,
+        0.05711476421116255,
+        0.05711476421116255,
+        0.0,
+        0.1591881097101659,
+        0.01755576768785734,
+        0.15865212280878485,
+        0.047245668924674904
+      ],
+      "ideal_solution": [
+        {
+          "real": -0.1732567373410785,
+          "imag": 0.0
+        },
+        {
+          "real": 0.42229608450721545,
+          "imag": 0.0
+        },
+        {
+          "real": -0.4806488697963184,
+          "imag": 0.0
+        },
+        {
+          "real": 0.13993770915758305,
+          "imag": 0.0
+        },
+        {
+          "real": -0.021840878252471677,
+          "imag": 0.0
+        },
+        {
+          "real": -0.017562922827018358,
+          "imag": 0.0
+        },
+        {
+          "real": 0.21624776721406042,
+          "imag": 0.0
+        },
+        {
+          "real": 0.14780631138658565,
+          "imag": 0.0
+        },
+        {
+          "real": 0.28535430121217936,
+          "imag": 0.0
+        },
+        {
+          "real": 0.18344166057675476,
+          "imag": 0.0
+        },
+        {
+          "real": -0.17357332550466378,
+          "imag": 0.0
+        },
+        {
+          "real": 0.014694986268355525,
+          "imag": 0.0
+        },
+        {
+          "real": 0.3487171118581938,
+          "imag": 0.0
+        },
+        {
+          "real": -0.11303806481383416,
+          "imag": 0.0
+        },
+        {
+          "real": -0.3526247363158735,
+          "imag": 0.0
+        },
+        {
+          "real": -0.2598075131672815,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_160838.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_160838_retrieval.json",
+      "fidelity": 0.9504177835020626,
+      "circuit_depth": 13133,
+      "num_projections": 16,
+      "average_success_rate": 0.036375,
+      "total_problem_time": 87.562,
+      "first_created_at": "2025-12-21 13:07:18.876000+00:00",
+      "last_ended_at": "2025-12-21 13:08:46.438000+00:00",
+      "projection_execution_times": [
+        9.492,
+        6.562,
+        7.035,
+        7.81,
+        7.079,
+        7.616,
+        7.123,
+        7.317,
+        9.36,
+        9.283,
+        6.749,
+        9.647,
+        6.627,
+        7.543,
+        9.308,
+        7.613
+      ],
+      "reconstructed_solution": [
+        0.09158295859371561,
+        0.05291459829859125,
+        0.030824037843839563,
+        0.07499706845469625,
+        0.010375411431096323,
+        0.0,
+        0.0,
+        0.1021158914534217,
+        0.1466939358772827,
+        0.05814791021823214,
+        0.023781841931951122,
+        0.16564569902167697,
+        0.010478138276948762,
+        0.04301999861674085,
+        0.12556006375936907,
+        0.06386244622243771
+      ],
+      "ideal_solution": [
+        {
+          "real": -0.24938811465322627,
+          "imag": 0.0
+        },
+        {
+          "real": 0.30172457714778006,
+          "imag": 0.0
+        },
+        {
+          "real": 0.1925199333575898,
+          "imag": 0.0
+        },
+        {
+          "real": 0.25144716074181006,
+          "imag": 0.0
+        },
+        {
+          "real": -0.03457242039250991,
+          "imag": 0.0
+        },
+        {
+          "real": -0.08704506533831224,
+          "imag": 0.0
+        },
+        {
+          "real": 0.08239479246149886,
+          "imag": 0.0
+        },
+        {
+          "real": -0.3159773241939869,
+          "imag": 0.0
+        },
+        {
+          "real": 0.343975845891876,
+          "imag": 0.0
+        },
+        {
+          "real": -0.2512282953178318,
+          "imag": 0.0
+        },
+        {
+          "real": 0.031588345973423027,
+          "imag": 0.0
+        },
+        {
+          "real": -0.45630782910871975,
+          "imag": 0.0
+        },
+        {
+          "real": -0.1318914945980558,
+          "imag": 0.0
+        },
+        {
+          "real": 0.18309847561254455,
+          "imag": 0.0
+        },
+        {
+          "real": 0.37840788179982593,
+          "imag": 0.0
+        },
+        {
+          "real": -0.21520441674998028,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_161031.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_161031_retrieval.json",
+      "fidelity": 0.006875135188641067,
+      "circuit_depth": 13457,
+      "num_projections": 16,
+      "average_success_rate": 0.0006458333333333333,
+      "total_problem_time": 101.712,
+      "first_created_at": "2025-12-21 13:08:57.009000+00:00",
+      "last_ended_at": "2025-12-21 13:10:38.721000+00:00",
+      "projection_execution_times": [
+        7.509,
+        13.781,
+        6.766,
+        9.786,
+        7.753,
+        7.139,
+        7.671,
+        10.026,
+        9.21,
+        7.728,
+        6.698,
+        9.522,
+        9.303,
+        7.821,
+        7.793,
+        7.348
+      ],
+      "reconstructed_solution": [
+        0.0,
+        0.0,
+        0.0,
+        0.6000000000000001,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.4,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.28858606933341385,
+          "imag": 0.0
+        },
+        {
+          "real": -0.07716334479383453,
+          "imag": 0.0
+        },
+        {
+          "real": 0.18112258167532128,
+          "imag": 0.0
+        },
+        {
+          "real": -0.03703652298175488,
+          "imag": 0.0
+        },
+        {
+          "real": -0.009129360562736782,
+          "imag": 0.0
+        },
+        {
+          "real": 0.026858946821384233,
+          "imag": 0.0
+        },
+        {
+          "real": 0.1072055353860996,
+          "imag": 0.0
+        },
+        {
+          "real": -0.1874346741088929,
+          "imag": 0.0
+        },
+        {
+          "real": -0.26866323139282977,
+          "imag": 0.0
+        },
+        {
+          "real": -0.35799706074165816,
+          "imag": 0.0
+        },
+        {
+          "real": 0.08430045476939034,
+          "imag": 0.0
+        },
+        {
+          "real": 0.08574210341196892,
+          "imag": 0.0
+        },
+        {
+          "real": 0.13560494776687493,
+          "imag": 0.0
+        },
+        {
+          "real": 0.4273482621632615,
+          "imag": 0.0
+        },
+        {
+          "real": -0.4744021736729775,
+          "imag": 0.0
+        },
+        {
+          "real": 0.43391762958289654,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_161206.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_161206_retrieval.json",
+      "fidelity": 0.9562203393310271,
+      "circuit_depth": 12967,
+      "num_projections": 16,
+      "average_success_rate": 0.027895833333333335,
+      "total_problem_time": 84.278,
+      "first_created_at": "2025-12-21 13:10:49.047000+00:00",
+      "last_ended_at": "2025-12-21 13:12:13.325000+00:00",
+      "projection_execution_times": [
+        8.36,
+        8.977,
+        7.337,
+        9.306,
+        7.483,
+        6.496,
+        7.645,
+        9.916,
+        6.871,
+        9.257,
+        7.053,
+        9.223,
+        9.361,
+        9.55,
+        6.67,
+        6.789
+      ],
+      "reconstructed_solution": [
+        0.1480860367836447,
+        0.06365101581051394,
+        0.05497133183635295,
+        0.011944388152096443,
+        0.01209369300399765,
+        0.012564875848309247,
+        0.08159600099082752,
+        0.05972194076048222,
+        0.009393159614755455,
+        0.010292504684253318,
+        0.02249989396092586,
+        0.03414689789364042,
+        0.21086439083893338,
+        0.080624620026651,
+        0.09959511885645123,
+        0.08795413093816473
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.4742650288104135,
+          "imag": 0.0
+        },
+        {
+          "real": -0.23431284351135706,
+          "imag": 0.0
+        },
+        {
+          "real": 0.2814039017627075,
+          "imag": 0.0
+        },
+        {
+          "real": -0.09605915980131774,
+          "imag": 0.0
+        },
+        {
+          "real": -0.15248865638306303,
+          "imag": 0.0
+        },
+        {
+          "real": -0.08294458379551954,
+          "imag": 0.0
+        },
+        {
+          "real": 0.2606836622599314,
+          "imag": 0.0
+        },
+        {
+          "real": -0.1852581645946303,
+          "imag": 0.0
+        },
+        {
+          "real": -0.0632226676406084,
+          "imag": 0.0
+        },
+        {
+          "real": -0.10930600610516165,
+          "imag": 0.0
+        },
+        {
+          "real": -0.07010239796897716,
+          "imag": 0.0
+        },
+        {
+          "real": 0.1843469780801797,
+          "imag": 0.0
+        },
+        {
+          "real": 0.5045323323046681,
+          "imag": 0.0
+        },
+        {
+          "real": -0.1694437750796995,
+          "imag": 0.0
+        },
+        {
+          "real": -0.3263892948791369,
+          "imag": 0.0
+        },
+        {
+          "real": -0.23389826808043004,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_161336.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_161336_retrieval.json",
+      "fidelity": 0.9398386718326294,
+      "circuit_depth": 13338,
+      "num_projections": 16,
+      "average_success_rate": 0.018916666666666665,
+      "total_problem_time": 82.349,
+      "first_created_at": "2025-12-21 13:12:23.460000+00:00",
+      "last_ended_at": "2025-12-21 13:13:45.809000+00:00",
+      "projection_execution_times": [
+        7.349,
+        6.754,
+        9.831,
+        6.83,
+        9.431,
+        7.114,
+        7.853,
+        6.774,
+        7.563,
+        10.23,
+        9.515,
+        6.938,
+        6.661,
+        7.933,
+        8.966,
+        8.875
+      ],
+      "reconstructed_solution": [
+        0.024700556140243433,
+        0.0,
+        0.0508757723485611,
+        0.08876762362899984,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.039867564296533264,
+        0.05980134644479989,
+        0.24035541167236882,
+        0.07330487628717407,
+        0.1925806071951183,
+        0.1514967443268264,
+        0.021438218536815056,
+        0.056811279122559906
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.08408084275082842,
+          "imag": 0.0
+        },
+        {
+          "real": 0.09176337603747674,
+          "imag": 0.0
+        },
+        {
+          "real": -0.13331665170680732,
+          "imag": 0.0
+        },
+        {
+          "real": 0.3692241293756157,
+          "imag": 0.0
+        },
+        {
+          "real": 0.021351552378964824,
+          "imag": 0.0
+        },
+        {
+          "real": -0.0198510005680165,
+          "imag": 0.0
+        },
+        {
+          "real": 0.030490802075245748,
+          "imag": 0.0
+        },
+        {
+          "real": 0.03468408982292781,
+          "imag": 0.0
+        },
+        {
+          "real": -0.21673524155437943,
+          "imag": 0.0
+        },
+        {
+          "real": 0.14300113806376313,
+          "imag": 0.0
+        },
+        {
+          "real": -0.4005715797127593,
+          "imag": 0.0
+        },
+        {
+          "real": 0.21941232279964146,
+          "imag": 0.0
+        },
+        {
+          "real": 0.4908352732117331,
+          "imag": 0.0
+        },
+        {
+          "real": -0.46670807611192056,
+          "imag": 0.0
+        },
+        {
+          "real": 0.14785970353156927,
+          "imag": 0.0
+        },
+        {
+          "real": -0.26609480885577796,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_161506.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_161506_retrieval.json",
+      "fidelity": 0.7892617148869332,
+      "circuit_depth": 13458,
+      "num_projections": 16,
+      "average_success_rate": 0.0056875,
+      "total_problem_time": 80.757,
+      "first_created_at": "2025-12-21 13:13:53.030000+00:00",
+      "last_ended_at": "2025-12-21 13:15:13.787000+00:00",
+      "projection_execution_times": [
+        9.591,
+        8.264,
+        9.128,
+        6.945,
+        9.362,
+        6.787,
+        9.974,
+        7.184,
+        9.494,
+        7.97,
+        10.105,
+        8.803,
+        7.244,
+        8.87,
+        10.09,
+        6.97
+      ],
+      "reconstructed_solution": [
+        0.16818361693707953,
+        0.0,
+        0.0,
+        0.0,
+        0.15136525524337158,
+        0.0,
+        0.08409180846853977,
+        0.06727344677483181,
+        0.0,
+        0.0,
+        0.10091017016224774,
+        0.0,
+        0.26909378709932724,
+        0.1187178472497032,
+        0.0,
+        0.04036406806489909
+      ],
+      "ideal_solution": [
+        {
+          "real": -0.3360217024332336,
+          "imag": 0.0
+        },
+        {
+          "real": 0.1473074257652374,
+          "imag": 0.0
+        },
+        {
+          "real": 0.13097673385367567,
+          "imag": 0.0
+        },
+        {
+          "real": 0.199440356461403,
+          "imag": 0.0
+        },
+        {
+          "real": 0.3485602354400338,
+          "imag": 0.0
+        },
+        {
+          "real": -0.3030864487497519,
+          "imag": 0.0
+        },
+        {
+          "real": -0.19901864416081147,
+          "imag": 0.0
+        },
+        {
+          "real": -0.12836265171289246,
+          "imag": 0.0
+        },
+        {
+          "real": 0.07436426264052702,
+          "imag": 0.0
+        },
+        {
+          "real": 0.058281442053287044,
+          "imag": 0.0
+        },
+        {
+          "real": -0.2662956467018958,
+          "imag": 0.0
+        },
+        {
+          "real": -0.0744200751987802,
+          "imag": 0.0
+        },
+        {
+          "real": 0.5343709998409955,
+          "imag": 0.0
+        },
+        {
+          "real": -0.33058547820219364,
+          "imag": 0.0
+        },
+        {
+          "real": 0.032176025192090604,
+          "imag": 0.0
+        },
+        {
+          "real": 0.2403427623842424,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_161637.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_161637_retrieval.json",
+      "fidelity": 0.4427091457215498,
+      "circuit_depth": 13355,
+      "num_projections": 16,
+      "average_success_rate": 0.003416666666666667,
+      "total_problem_time": 78.851,
+      "first_created_at": "2025-12-21 13:15:25.067000+00:00",
+      "last_ended_at": "2025-12-21 13:16:43.918000+00:00",
+      "projection_execution_times": [
+        7.967,
+        7.859,
+        9.739,
+        7.308,
+        9.712,
+        9.723,
+        7.283,
+        6.618,
+        7.559,
+        6.625,
+        7.84,
+        6.721,
+        9.281,
+        6.938,
+        7.77,
+        6.626
+      ],
+      "reconstructed_solution": [
+        0.0,
+        0.0,
+        0.1323807522588779,
+        0.2353435595713385,
+        0.0,
+        0.10590460180710234,
+        0.0,
+        0.17650766967850387,
+        0.0,
+        0.15129228829586047,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.1985711283883169,
+        0.0
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.3330450939655104,
+          "imag": 0.0
+        },
+        {
+          "real": -0.04651758819008492,
+          "imag": 0.0
+        },
+        {
+          "real": 0.2683792249525594,
+          "imag": 0.0
+        },
+        {
+          "real": 0.3128229482476362,
+          "imag": 0.0
+        },
+        {
+          "real": 0.07949688846524249,
+          "imag": 0.0
+        },
+        {
+          "real": -0.24776976335366105,
+          "imag": 0.0
+        },
+        {
+          "real": -0.491658406660534,
+          "imag": 0.0
+        },
+        {
+          "real": 0.26626859215699833,
+          "imag": 0.0
+        },
+        {
+          "real": 0.22913954796392477,
+          "imag": 0.0
+        },
+        {
+          "real": -0.37421779047323983,
+          "imag": 0.0
+        },
+        {
+          "real": 0.118361090734535,
+          "imag": 0.0
+        },
+        {
+          "real": 0.25280814969348286,
+          "imag": 0.0
+        },
+        {
+          "real": 0.05692509390587199,
+          "imag": 0.0
+        },
+        {
+          "real": -0.1538467008782763,
+          "imag": 0.0
+        },
+        {
+          "real": -0.1748231225460747,
+          "imag": 0.0
+        },
+        {
+          "real": -0.09358054155428903,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_161809.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_161809_retrieval.json",
+      "fidelity": 0.9736986159918244,
+      "circuit_depth": 13307,
+      "num_projections": 16,
+      "average_success_rate": 0.07877083333333333,
+      "total_problem_time": 81.702,
+      "first_created_at": "2025-12-21 13:16:54.361000+00:00",
+      "last_ended_at": "2025-12-21 13:18:16.063000+00:00",
+      "projection_execution_times": [
+        10.447,
+        6.889,
+        9.327,
+        6.771,
+        9.651,
+        7.09,
+        9.653,
+        6.789,
+        6.818,
+        9.644,
+        6.685,
+        9.351,
+        10.218,
+        7.799,
+        6.95,
+        7.105
+      ],
+      "reconstructed_solution": [
+        0.008954981508494587,
+        0.025004169147095277,
+        0.14479040223592365,
+        0.0037025404313968005,
+        0.0045408514724677735,
+        0.004415873909005359,
+        0.0,
+        0.02386761600404549,
+        0.008519119576665204,
+        0.008633726566485813,
+        0.18999878529536213,
+        0.059916629387749054,
+        0.19726649839409183,
+        0.09292089885744866,
+        0.01652636072383121,
+        0.21094154648993724
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.16430178858933936,
+          "imag": 0.0
+        },
+        {
+          "real": -0.15126303917585598,
+          "imag": 0.0
+        },
+        {
+          "real": -0.3842515945331259,
+          "imag": 0.0
+        },
+        {
+          "real": -0.009903313816039646,
+          "imag": 0.0
+        },
+        {
+          "real": 0.031857223034289416,
+          "imag": 0.0
+        },
+        {
+          "real": -0.10702362162276144,
+          "imag": 0.0
+        },
+        {
+          "real": -0.06789253263694735,
+          "imag": 0.0
+        },
+        {
+          "real": -0.12422098017057122,
+          "imag": 0.0
+        },
+        {
+          "real": 0.17510948557548106,
+          "imag": 0.0
+        },
+        {
+          "real": -0.07889726535468188,
+          "imag": 0.0
+        },
+        {
+          "real": 0.4601735881729684,
+          "imag": 0.0
+        },
+        {
+          "real": -0.2146552582202933,
+          "imag": 0.0
+        },
+        {
+          "real": 0.4454067029716165,
+          "imag": 0.0
+        },
+        {
+          "real": 0.29796027078757126,
+          "imag": 0.0
+        },
+        {
+          "real": 0.12338138808873715,
+          "imag": 0.0
+        },
+        {
+          "real": -0.41563532462198105,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_161948.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_161948_retrieval.json",
+      "fidelity": 0.8600670797321217,
+      "circuit_depth": 13346,
+      "num_projections": 16,
+      "average_success_rate": 0.012729166666666666,
+      "total_problem_time": 91.596,
+      "first_created_at": "2025-12-21 13:18:25.803000+00:00",
+      "last_ended_at": "2025-12-21 13:19:57.399000+00:00",
+      "projection_execution_times": [
+        7.715,
+        7.013,
+        9.298,
+        7.62,
+        9.078,
+        7.295,
+        9.108,
+        9.003,
+        6.614,
+        7.787,
+        7.531,
+        6.5,
+        7.737,
+        9.472,
+        8.331,
+        9.338
+      ],
+      "reconstructed_solution": [
+        0.18797591727490107,
+        0.0593608159815477,
+        0.04177242606108912,
+        0.0,
+        0.0,
+        0.18797591727490107,
+        0.05501734164143446,
+        0.0,
+        0.0,
+        0.09598770243824735,
+        0.02750867082071723,
+        0.06905237777445346,
+        0.0593608159815477,
+        0.0,
+        0.05012691127330696,
+        0.16586110347785388
+      ],
+      "ideal_solution": [
+        {
+          "real": -0.46796994101504125,
+          "imag": 0.0
+        },
+        {
+          "real": 0.22194027188979273,
+          "imag": 0.0
+        },
+        {
+          "real": 0.29192516202708013,
+          "imag": 0.0
+        },
+        {
+          "real": 0.2470752123610895,
+          "imag": 0.0
+        },
+        {
+          "real": 0.035231822028920175,
+          "imag": 0.0
+        },
+        {
+          "real": -0.4586996129497773,
+          "imag": 0.0
+        },
+        {
+          "real": 0.21359939004994602,
+          "imag": 0.0
+        },
+        {
+          "real": -0.038828264625330754,
+          "imag": 0.0
+        },
+        {
+          "real": 0.011247431120966891,
+          "imag": 0.0
+        },
+        {
+          "real": 0.31334682988597007,
+          "imag": 0.0
+        },
+        {
+          "real": 0.195383872454544,
+          "imag": 0.0
+        },
+        {
+          "real": -0.10880652173877645,
+          "imag": 0.0
+        },
+        {
+          "real": 0.24024770703881804,
+          "imag": 0.0
+        },
+        {
+          "real": -0.1435856866219563,
+          "imag": 0.0
+        },
+        {
+          "real": -0.19393224042740614,
+          "imag": 0.0
+        },
+        {
+          "real": -0.24985847624773194,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_162141.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_162141_retrieval.json",
+      "fidelity": 0.9655205709208233,
+      "circuit_depth": 13490,
+      "num_projections": 16,
+      "average_success_rate": 0.064,
+      "total_problem_time": 105.163,
+      "first_created_at": "2025-12-21 13:20:05.426000+00:00",
+      "last_ended_at": "2025-12-21 13:21:50.589000+00:00",
+      "projection_execution_times": [
+        10.129,
+        8.191,
+        9.672,
+        9.44,
+        9.551,
+        7.643,
+        9.097,
+        7.099,
+        9.169,
+        6.82,
+        8.802,
+        9.735,
+        6.399,
+        7.715,
+        7.131,
+        9.698
+      ],
+      "reconstructed_solution": [
+        0.0,
+        0.07056240824757178,
+        0.0,
+        0.0,
+        0.22907751206287869,
+        0.040801602321476164,
+        0.03363504453667356,
+        0.07362695155755097,
+        0.09130769943594368,
+        0.005260865940351506,
+        0.03759728800303563,
+        0.31877280909757005,
+        0.0051293442918427185,
+        0.004839004048908225,
+        0.07327634702632455,
+        0.016113123429872412
+      ],
+      "ideal_solution": [
+        {
+          "real": -0.08206586696687664,
+          "imag": 0.0
+        },
+        {
+          "real": 0.24145300126754132,
+          "imag": 0.0
+        },
+        {
+          "real": -0.030371431286027335,
+          "imag": 0.0
+        },
+        {
+          "real": 0.01465683478051712,
+          "imag": 0.0
+        },
+        {
+          "real": -0.5425947421492973,
+          "imag": 0.0
+        },
+        {
+          "real": 0.18208200485359843,
+          "imag": 0.0
+        },
+        {
+          "real": 0.17576790949836762,
+          "imag": 0.0
+        },
+        {
+          "real": 0.253246140417584,
+          "imag": 0.0
+        },
+        {
+          "real": -0.37674648807661293,
+          "imag": 0.0
+        },
+        {
+          "real": 0.013110628397726325,
+          "imag": 0.0
+        },
+        {
+          "real": -0.13021775306548633,
+          "imag": 0.0
+        },
+        {
+          "real": 0.5477369964059678,
+          "imag": 0.0
+        },
+        {
+          "real": 0.05547456210650819,
+          "imag": 0.0
+        },
+        {
+          "real": -0.04061636599507317,
+          "imag": 0.0
+        },
+        {
+          "real": -0.20322089311754404,
+          "imag": 0.0
+        },
+        {
+          "real": 0.07829039366986328,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_162334.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_162334_retrieval.json",
+      "fidelity": 0.8685768974974581,
+      "circuit_depth": 13342,
+      "num_projections": 16,
+      "average_success_rate": 0.015104166666666667,
+      "total_problem_time": 103.376,
+      "first_created_at": "2025-12-21 13:21:59.448000+00:00",
+      "last_ended_at": "2025-12-21 13:23:42.824000+00:00",
+      "projection_execution_times": [
+        9.808,
+        9.714,
+        7.847,
+        9.572,
+        7.818,
+        7.165,
+        6.846,
+        7.057,
+        9.148,
+        8.608,
+        9.82,
+        6.626,
+        7.027,
+        9.654,
+        7.409,
+        7.896
+      ],
+      "reconstructed_solution": [
+        0.08883070139936743,
+        0.02209934522618409,
+        0.06177771506410552,
+        0.024488463629014807,
+        0.01969724248420756,
+        0.04419869045236818,
+        0.034191439783907464,
+        0.07396515545090185,
+        0.0,
+        0.0,
+        0.1045469024161786,
+        0.13939586988823813,
+        0.02516869872982077,
+        0.021573170339846376,
+        0.10872877851282572,
+        0.23133782662303345
+      ],
+      "ideal_solution": [
+        {
+          "real": 0.1373888340960895,
+          "imag": 0.0
+        },
+        {
+          "real": 0.23507191753135728,
+          "imag": 0.0
+        },
+        {
+          "real": 0.37255530366087364,
+          "imag": 0.0
+        },
+        {
+          "real": 0.0282536817178633,
+          "imag": 0.0
+        },
+        {
+          "real": 0.06172064736019371,
+          "imag": 0.0
+        },
+        {
+          "real": -0.2611691526023589,
+          "imag": 0.0
+        },
+        {
+          "real": 0.178420435006504,
+          "imag": 0.0
+        },
+        {
+          "real": -0.28290679467567925,
+          "imag": 0.0
+        },
+        {
+          "real": 0.13125035683326788,
+          "imag": 0.0
+        },
+        {
+          "real": -0.10870947181004116,
+          "imag": 0.0
+        },
+        {
+          "real": 0.2733566830283024,
+          "imag": 0.0
+        },
+        {
+          "real": -0.45847814300623124,
+          "imag": 0.0
+        },
+        {
+          "real": -0.2013352841404181,
+          "imag": 0.0
+        },
+        {
+          "real": 0.06791600884654518,
+          "imag": 0.0
+        },
+        {
+          "real": 0.3390807350083583,
+          "imag": 0.0
+        },
+        {
+          "real": -0.35817061772583136,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_162534.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_162534_retrieval.json",
+      "fidelity": 0.9393664030577804,
+      "circuit_depth": 13480,
+      "num_projections": 16,
+      "average_success_rate": 0.0688125,
+      "total_problem_time": 109.959,
+      "first_created_at": "2025-12-21 13:23:54.042000+00:00",
+      "last_ended_at": "2025-12-21 13:25:44.001000+00:00",
+      "projection_execution_times": [
+        7.605,
+        9.835,
+        6.705,
+        7.074,
+        9.301,
+        7.656,
+        6.88,
+        7.627,
+        7.641,
+        9.229,
+        8.089,
+        6.887,
+        7.196,
+        7.51,
+        7.55,
+        9.819
+      ],
+      "reconstructed_solution": [
+        0.03400807336152203,
+        0.10619226654651685,
+        0.1855429702423312,
+        0.07734600906671675,
+        0.01712174870309479,
+        0.06701098199314684,
+        0.01791076938065676,
+        0.00823440032966635,
+        0.013310400532885331,
+        0.07773273911205035,
+        0.11458245741752704,
+        0.01001710555567659,
+        0.008714432635880082,
+        0.14627128327536354,
+        0.06411964520664051,
+        0.05188471664032486
+      ],
+      "ideal_solution": [
+        {
+          "real": -0.2115079028756214,
+          "imag": 0.0
+        },
+        {
+          "real": -0.35136867178511005,
+          "imag": 0.0
+        },
+        {
+          "real": -0.32034333671457205,
+          "imag": 0.0
+        },
+        {
+          "real": 0.32187692449230587,
+          "imag": 0.0
+        },
+        {
+          "real": -0.014354509755157167,
+          "imag": 0.0
+        },
+        {
+          "real": 0.20200417542184,
+          "imag": 0.0
+        },
+        {
+          "real": -0.08132458941027194,
+          "imag": 0.0
+        },
+        {
+          "real": -0.04310265223165981,
+          "imag": 0.0
+        },
+        {
+          "real": 0.14363986456260153,
+          "imag": 0.0
+        },
+        {
+          "real": 0.3342036085299882,
+          "imag": 0.0
+        },
+        {
+          "real": -0.39358458002384,
+          "imag": 0.0
+        },
+        {
+          "real": -0.03239859853726898,
+          "imag": 0.0
+        },
+        {
+          "real": 0.08172557706667483,
+          "imag": 0.0
+        },
+        {
+          "real": 0.44982427638175426,
+          "imag": 0.0
+        },
+        {
+          "real": -0.1631962271946099,
+          "imag": 0.0
+        },
+        {
+          "real": 0.228384933161532,
+          "imag": 0.0
+        }
+      ]
+    },
+    {
+      "submission_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_162725.json",
+      "retrieval_file": "./experiments/aws_braket/braket_projection_N16_hhl_20251221_162725_retrieval.json",
+      "fidelity": 0.9235843387138184,
+      "circuit_depth": 13689,
+      "num_projections": 16,
+      "average_success_rate": 0.0201875,
+      "total_problem_time": 99.149,
+      "first_created_at": "2025-12-21 13:25:53.374000+00:00",
+      "last_ended_at": "2025-12-21 13:27:32.523000+00:00",
+      "projection_execution_times": [
+        7.076,
+        7.122,
+        6.892,
+        10.309,
+        6.57,
+        7.581,
+        9.656,
+        6.53,
+        7.671,
+        9.222,
+        10.0,
+        9.564,
+        9.799,
+        8.874,
+        9.208,
+        6.938
+      ],
+      "reconstructed_solution": [
+        0.0367629197432728,
+        0.315110740656624,
+        0.05616557183000011,
+        0.0,
+        0.048141918711428665,
+        0.12637253661750025,
+        0.012961285806923102,
+        0.03209461247428578,
+        0.0505490146470001,
+        0.0,
+        0.0,
+        0.045267774310746356,
+        0.0,
+        0.03159313415437506,
+        0.22659903117620736,
+        0.0183814598716364
+      ],
+      "ideal_solution": [
+        {
+          "real": -0.10609011200140976,
+          "imag": 0.0
+        },
+        {
+          "real": 0.5718095930478069,
+          "imag": 0.0
+        },
+        {
+          "real": -0.2348729797628652,
+          "imag": 0.0
+        },
+        {
+          "real": -0.19938738778377516,
+          "imag": 0.0
+        },
+        {
+          "real": 0.15863397223799508,
+          "imag": 0.0
+        },
+        {
+          "real": -0.4243117123522744,
+          "imag": 0.0
+        },
+        {
+          "real": 0.11332130350479919,
+          "imag": 0.0
+        },
+        {
+          "real": -0.18949754179480205,
+          "imag": 0.0
+        },
+        {
+          "real": -0.18788662298589337,
+          "imag": 0.0
+        },
+        {
+          "real": -0.06488342854727434,
+          "imag": 0.0
+        },
+        {
+          "real": -0.04744300699322809,
+          "imag": 0.0
+        },
+        {
+          "real": -0.18682620358333787,
+          "imag": 0.0
+        },
+        {
+          "real": 0.04028506423064554,
+          "imag": 0.0
+        },
+        {
+          "real": 0.18960140573267642,
+          "imag": 0.0
+        },
+        {
+          "real": 0.4446409674481309,
+          "imag": 0.0
+        },
+        {
+          "real": 0.03096040694794849,
+          "imag": 0.0
+        }
+      ]
+    }
+  ],
+  "retrieval_timestamp": "2025-12-21T18:44:53.125194"
+}

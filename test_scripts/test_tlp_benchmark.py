@@ -75,19 +75,19 @@ def save_circuits(tlp, pp, output_dir="tlp_circuits"):
             
             f.write(f"2 1 {gate.leftParentID} {gate.rightParentID} {gate.outputID} {gate_type}\n")
     
-    print(f"  ✓ Saved original circuit: {original_file}")
+    print(f"Saved original circuit: {original_file}")
     
     # Save garbled circuit RGC files
     circuit_name = output_path / prefix
     
     # Export garbled circuit using CRGC's export functions
     export_circuit_separate_files(C_tilde, circuit_name)
-    print(f"  ✓ Saved garbled circuit: {circuit_name}_rgc.txt")
-    print(f"  ✓ Saved circuit details: {circuit_name}_rgc_details.txt")
+    print(f"Saved garbled circuit: {circuit_name}_rgc.txt")
+    print(f"Saved circuit details: {circuit_name}_rgc_details.txt")
     
     # Export base flip pattern as inputA
     export_obfuscated_input(base_flipped, C_tilde.details, circuit_name)
-    print(f"  ✓ Saved base flip pattern: {circuit_name}_rgc_inputA.txt")
+    print(f"Saved base flip pattern: {circuit_name}_rgc_inputA.txt")
     
     print(f"\n  All circuits saved to: {output_path}/")
     return str(output_path)
@@ -164,14 +164,14 @@ def test_configuration(T, lam, use_sha256, num_puzzles=5, save_circuit=False):
         
         success = (recovered == original_secret)
         results.append(success)
-        status = "✓" if success else "✗"
+        status = "CORRECT" if success else "INCORRECT"
         print(f"  Puzzle {i+1}: {status} original={original_secret}, recovered={recovered}, time={format_time(solve_time)}")
     
     avg_solve = sum(solve_times) / len(solve_times)
     success_rate = sum(results) / len(results) * 100
     
     # Summary
-    print(f"\n{'─'*70}")
+    print(f"\n{'='*70}")
     print(f"Summary:")
     print(f"  Success rate: {success_rate:.0f}% ({sum(results)}/{len(results)})")
     print(f"  Avg generation: {format_time(avg_gen)}")
@@ -203,23 +203,23 @@ def main():
     all_results = []
     
     # Test 1: Small circuit with XOR mixing (fast baseline)
-    print("\n" + "█" * 70)
+    print("\n" + "=" * 70)
     print("TEST 1: Small circuit, XOR mixing (baseline)")
-    print("█" * 70)
+    print("=" * 70)
     result = test_configuration(T=2, lam=256, use_sha256=False, num_puzzles=10, save_circuit=False)
     all_results.append(result)
     
     # Test 2: Small circuit with SHA-256 (cryptographic)
-    print("\n" + "█" * 70)
+    print("\n" + "=" * 70)
     print("TEST 2: Small circuit, SHA-256 (cryptographic)")
-    print("█" * 70)
+    print("=" * 70)
     result = test_configuration(T=40, lam=256, use_sha256=True, num_puzzles=30, save_circuit=False)
     all_results.append(result)
     
     # Test 3: Medium circuit with XOR mixing
-    # print("\n" + "█" * 70)
+    # print("\n" + "=" * 70)
     # print("TEST 3: Medium circuit, XOR mixing")
-    # print("█" * 70)
+    # print("=" * 70)
     # result = test_configuration(T=4, lam=256, use_sha256=False, num_puzzles=5)
     # all_results.append(result)
     

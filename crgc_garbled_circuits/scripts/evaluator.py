@@ -30,7 +30,7 @@ def main():
     args = parser.parse_args()
     
     # Resolve circuit path
-    circuit_base = Path(__file__).parent / 'circuits' / args.circuit
+    circuit_base = Path(__file__).parent.parent / 'circuits' / args.circuit
     
     # Step 1: Import RGC
     t1 = time.time()
