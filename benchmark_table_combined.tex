@@ -1,0 +1,41 @@
+% Benchmark Results Table
+% Generated automatically from benchmark data
+
+\begin{table}[htbp]
+\centering
+\caption{Performance Comparison of Quantum Circuit Execution and Time-Lock Puzzle Operations}
+\label{tab:benchmark_results}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|c|c|c||c|c|c|c|c|}
+\hline
+\multicolumn{3}{|c||}{\textbf{Quantum Circuit}} & \multicolumn{5}{c|}{\textbf{Time-Lock Puzzle (TLP)}} \\
+\hline
+\textbf{\# Qubits} & \textbf{Depth} & \textbf{T (ms)} & \textbf{$\Delta$ (ms)} & \textbf{PGen (ms)} & \textbf{PGarbling (ms)} & \textbf{GA (ms)} & \textbf{$\mu$} \\
+\hline
+\hline
+\multirow{6}{*}{5} & 10 & $1.84$ & $13.63$ & $0.05$ & $1445.57$ & $72.28$ & 1 \\
+ & 20 & $2.31$ & $13.63$ & $0.05$ & $1445.57$ & $72.28$ & 1 \\
+ & 50 & $4.56$ & $13.63$ & $0.05$ & $1445.57$ & $72.28$ & 1 \\
+ & 100 & $8.13$ & $13.63$ & $0.05$ & $1445.57$ & $72.28$ & 1 \\
+ & 200 & $16.84$ & $32.97$ & $0.05$ & $6577.50$ & $328.88$ & 3 \\
+ & 300 & $22.84$ & $45.83$ & $0.06$ & $10513.51$ & $525.68$ & 4 \\
+\hline
+\multirow{6}{*}{10} & 10 & $3.14$ & $13.63$ & $0.05$ & $1445.57$ & $72.28$ & 1 \\
+ & 20 & $5.34$ & $13.63$ & $0.05$ & $1445.57$ & $72.28$ & 1 \\
+ & 50 & $11.78$ & $24.24$ & $0.06$ & $3672.94$ & $183.65$ & 2 \\
+ & 100 & $20.47$ & $32.97$ & $0.05$ & $6577.50$ & $328.88$ & 3 \\
+ & 200 & $41.06$ & $85.37$ & $0.05$ & $25915.06$ & $1295.75$ & 7 \\
+ & 300 & $58.01$ & $117.25$ & $0.05$ & $48829.51$ & $2441.48$ & 10 \\
+\hline
+\multirow{6}{*}{15} & 10 & $10.52$ & $24.24$ & $0.06$ & $3672.94$ & $183.65$ & 2 \\
+ & 20 & $19.39$ & $32.97$ & $0.05$ & $6577.50$ & $328.88$ & 3 \\
+ & 50 & $49.51$ & $103.16$ & $0.05$ & $40500.14$ & $2025.01$ & 9 \\
+ & 100 & $98.38$ & $196.48$ & $0.07$ & $120891.41$ & $6044.57$ & 17 \\
+ & 200 & $168.56$ & $339.30$ & $0.05$ & $52020.00$ & $2601.00$ & 30 \\
+ & 300 & $228.81$ & $462.57$ & $0.05$ & $97161.80$ & $4858.09$ & 41 \\
+\hline
+\end{tabular}%
+}
+\\[2pt]
+\footnotesize{GA: Garbling running time amortized over 20 different puzzles}
+\end{table}

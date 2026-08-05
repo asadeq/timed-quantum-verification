@@ -85,10 +85,11 @@ def create_sha256_circuit_function(builder_ref, input_wires, path=None):
         sha256_circuit_path = Path(path)
     
     if not sha256_circuit_path.exists():
-
+        print("COULDN'T FIND SHA256 CIRCUIT, USING XOR MIXING INSTEAD")
         return create_xor_mixing_function(builder_ref, input_wires)
     
     if len(input_wires) != 256:
+        print("INPUT WIRE LENGTH NOT 256, USING XOR MIXING INSTEAD")
         return create_xor_mixing_function(builder_ref, input_wires)
     
     # Read SHA-256 circuit details (Bristol format)
@@ -113,6 +114,7 @@ def create_sha256_circuit_function(builder_ref, input_wires, path=None):
     total_sha_inputs = input_a + input_b
     
     if input_a != 512 or input_b != 256:
+        print("INPUT WIRE LENGTH NOT 256, USING XOR MIXING INSTEAD")
         return create_xor_mixing_function(builder_ref, input_wires)
     
     const_zero = builder_ref.build_xor_gate(input_wires[0], input_wires[0])

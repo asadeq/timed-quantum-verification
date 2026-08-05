@@ -1,0 +1,68 @@
+\documentclass[tikz,border=5pt]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots,fillbetween}
+
+\pgfplotsset{compat=1.18}
+
+\begin{document}
+\begin{tikzpicture}
+\begin{groupplot}[
+    group style={
+        group size=3 by 1,
+        horizontal sep=1.5cm,
+    },
+    width=0.7\columnwidth,
+    height=0.7\columnwidth,
+    grid=major,
+    grid style={dashed, gray!30},
+    xlabel={Matrix Size ($N$)},
+    xtick={2,4,8,16},
+]
+
+% ---------------- (a) Circuit Depth ----------------
+\nextgroupplot[
+    ylabel={Circuit Depth},
+    title={\textbf{(a) Circuit Depth}},
+    ytick={0,2000,4000,6000,8000,10000,12000,14000},
+    scaled y ticks=false,
+]
+\addplot[name path=upper,draw=none] coordinates { (2, 817.9) (4, 1839.4) (8, 4858.5) (16, 13527.0) };
+\addplot[name path=lower,draw=none] coordinates { (2, 816.4) (4, 1838.8) (8, 4507.2) (16, 13180.3) };
+\addplot[blue!20] fill between[of=upper and lower];
+\addplot[blue,thick,mark=*] coordinates { (2, 817.1) (4, 1839.1) (8, 4682.9) (16, 13353.6) };
+
+% ---------------- (b) Execution Time ----------------
+\nextgroupplot[
+    ylabel={Time (seconds)},
+    title={\textbf{(b) Execution Time}},
+    ytick={0,10,20,30,40,50,60,70,80,90,100,110,120,130,140},
+    yticklabel style={font=\small, /pgf/number format/.cd, fixed, 1000 sep={}},
+    xmin=0, xmax=18,
+]
+\addplot[name path=upper,draw=none] coordinates { (2, 3.0375) (4, 6.3391) (8, 19.6287) (16, 98.9039) };
+\addplot[name path=lower,draw=none] coordinates { (2, 2.4996) (4, 5.7629) (8, 18.0359) (16, 79.4126) };
+\addplot[green!20] fill between[of=upper and lower];
+\addplot[green!60!black,thick,mark=*] coordinates { (2, 2.7685) (4, 6.0510) (8, 18.8323) (16, 89.1582) };
+\addplot[brown,only marks,mark=diamond*,mark size=4pt,forget plot] coordinates { (2, 15.00) (4, 30.00) (8, 50.00) (16, 120.00) };
+
+\node[font=\tiny, yshift=1pt] at (axis cs:2,15.00) [above] {$\mu=1,350$};
+\node[font=\tiny, yshift=1pt] at (axis cs:4,30.00) [above] {$\mu=2,700$};
+\node[font=\tiny, yshift=1pt] at (axis cs:8,50.00) [above] {$\mu=4,500$};
+\node[font=\tiny, yshift=1pt] at (axis cs:16,120.00) [above] {$\mu=10,800$};
+
+% ---------------- (c) Fidelity ----------------
+\nextgroupplot[
+    ylabel={Fidelity},
+    title={\textbf{(c) Fidelity}},
+    ymin=0,
+    ytick={0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1},
+    yticklabel style={font=\small},
+]
+\addplot[name path=upper,draw=none] coordinates { (2, 1.0000) (4, 1.0000) (8, 0.9895) (16, 1.0000) };
+\addplot[name path=lower,draw=none] coordinates { (2, 0.9962) (4, 0.9420) (8, 0.8506) (16, 0.5683) };
+\addplot[orange!20] fill between[of=upper and lower];
+\addplot[orange,thick,mark=*] coordinates { (2, 0.9985) (4, 0.9801) (8, 0.9200) (16, 0.8068) };
+
+\end{groupplot}
+\end{tikzpicture}
+\end{document}

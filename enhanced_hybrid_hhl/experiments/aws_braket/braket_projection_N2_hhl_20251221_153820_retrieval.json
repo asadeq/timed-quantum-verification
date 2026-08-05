@@ -1,0 +1,154 @@
+{
+  "problem_list": [
+    {
+      "A_matrix": [
+        [
+          1.7201755233361622,
+          0.7857384673023708
+        ],
+        [
+          0.7857384673023708,
+          0.6349396656738193
+        ]
+      ],
+      "b_vector": [
+        0.8095722130935249,
+        0.5870202992970963
+      ]
+    }
+  ],
+  "shots": 3000,
+  "backend": "sv1",
+  "device_arn": "SV1",
+  "aws_region": "eu-west-2",
+  "ideal_preprocessing_list": [
+    [
+      [
+        0.22266537247796583,
+        2.1324498165320156
+      ],
+      [
+        0.1436653528980022,
+        0.9896263266388443
+      ]
+    ]
+  ],
+  "probability_threshold": 0,
+  "k_qubits": 7,
+  "preprocessing_mode": "ideal",
+  "projection_mode": "all_components",
+  "projection_subset": null,
+  "num_solution_qubits": 1,
+  "num_projections": 2,
+  "projector_basis_states": [
+    0,
+    1
+  ],
+  "enhanced_projection_results": [
+    {
+      "problem_index": 0,
+      "projection_tasks": [
+        {
+          "basis_state": 0,
+          "task_id": "arn:aws:braket:eu-west-2:380012739362:quantum-task/51616c27-e9ba-4eb5-818d-7f9b87cdf952",
+          "status": "DONE",
+          "shots": 3000,
+          "created_at": "2025-12-21 12:38:19.773000+00:00",
+          "ended_at": "2025-12-21 12:38:22.038000+00:00",
+          "execution_time_seconds": 2.265,
+          "counts": {
+            "000000000": 2195,
+            "100000000": 705,
+            "110100001": 3,
+            "100000001": 66,
+            "010110000": 1,
+            "111000001": 11,
+            "010101001": 1,
+            "100011000": 1,
+            "110010001": 1,
+            "010100000": 5,
+            "010111101": 1,
+            "111000000": 5,
+            "110100000": 1,
+            "010111000": 1,
+            "110001000": 1,
+            "000001000": 1,
+            "110111001": 1
+          },
+          "component_probability": 0.023809523809523808,
+          "success_rate": 0.028
+        },
+        {
+          "basis_state": 1,
+          "task_id": "arn:aws:braket:eu-west-2:380012739362:quantum-task/b5dedd9e-33ec-47d7-98a3-197d799a22b9",
+          "status": "DONE",
+          "shots": 3000,
+          "created_at": "2025-12-21 12:38:20.689000+00:00",
+          "ended_at": "2025-12-21 12:38:22.172000+00:00",
+          "execution_time_seconds": 1.483,
+          "counts": {
+            "000000000": 2215,
+            "100000000": 680,
+            "100000001": 58,
+            "110100001": 5,
+            "001101001": 1,
+            "111000000": 6,
+            "010111001": 4,
+            "111000001": 15,
+            "110111000": 1,
+            "111100000": 1,
+            "010101100": 2,
+            "001111000": 2,
+            "010100000": 1,
+            "010100100": 1,
+            "010111101": 1,
+            "001111001": 1,
+            "010101000": 1,
+            "010101001": 2,
+            "011000000": 1,
+            "011000001": 1,
+            "010111000": 1
+          },
+          "component_probability": 0.8863636363636364,
+          "success_rate": 0.029333333333333333
+        }
+      ],
+      "depth": 818,
+      "num_projections": 2,
+      "ideal_solution": [
+        {
+          "real": 0.13987405083274607,
+          "imag": 0.0
+        },
+        {
+          "real": 0.9901693036565204,
+          "imag": 0.0
+        }
+      ],
+      "reconstructed_solution_probabilities": [
+        0.026159334126040427,
+        0.9738406658739596
+      ],
+      "fidelity": 0.9995108802618494,
+      "metadata": {
+        "measured_components": [
+          0,
+          1
+        ],
+        "success_rates": [
+          0.028,
+          0.029333333333333333
+        ],
+        "raw_probabilities": [
+          0.023809523809523808,
+          0.8863636363636364
+        ],
+        "average_success_rate": 0.028666666666666667,
+        "total_probability": 0.9101731601731602
+      },
+      "total_problem_time_seconds": 2.399,
+      "first_created_at": "2025-12-21 12:38:19.773000+00:00",
+      "last_ended_at": "2025-12-21 12:38:22.172000+00:00"
+    }
+  ]
+}

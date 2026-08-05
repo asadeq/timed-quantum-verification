@@ -1,0 +1,122 @@
+{
+  "problem_list": [
+    {
+      "A_matrix": [
+        [
+          0.39574551311227024,
+          0.9634814387273064,
+          1.1445146395376038,
+          0.6089819341226524
+        ],
+        [
+          0.9634814387273064,
+          1.3280232563763692,
+          1.315175897748986,
+          0.8121120079446797
+        ],
+        [
+          1.1445146395376038,
+          1.315175897748986,
+          1.737521919204484,
+          1.6192981911026725
+        ],
+        [
+          0.6089819341226524,
+          0.8121120079446797,
+          1.6192981911026725,
+          0.6502015935287775
+        ]
+      ],
+      "b_vector": [
+        0.410746157741685,
+        0.593692544495923,
+        0.5646278857703749,
+        0.40001513361481195
+      ]
+    }
+  ],
+  "shots": 3000,
+  "backend": "sv1",
+  "device_arn": "SV1",
+  "aws_region": "eu-west-2",
+  "ideal_preprocessing_list": [
+    [
+      [
+        -0.5759570933331533,
+        -0.21805854229409025,
+        0.42895263497950664,
+        4.476555282869637
+      ],
+      [
+        0.04097577237193459,
+        0.006679707520302058,
+        0.13631651688585594,
+        0.989795016561548
+      ]
+    ]
+  ],
+  "probability_threshold": 0,
+  "k_qubits": 7,
+  "preprocessing_mode": "ideal",
+  "projection_mode": "all_components",
+  "projection_subset": null,
+  "num_solution_qubits": 2,
+  "num_projections": 4,
+  "projector_basis_states": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "enhanced_projection_results": [
+    {
+      "problem_index": 0,
+      "projection_tasks": [
+        {
+          "basis_state": 0,
+          "task_id": "arn:aws:braket:eu-west-2:380012739362:quantum-task/3dec7532-3255-4c81-9985-20f5893b39bf",
+          "shots": 3000,
+          "projector_index": 0
+        },
+        {
+          "basis_state": 1,
+          "task_id": "arn:aws:braket:eu-west-2:380012739362:quantum-task/df64cf03-16bb-4fbb-9271-ccf2160c582c",
+          "shots": 3000,
+          "projector_index": 1
+        },
+        {
+          "basis_state": 2,
+          "task_id": "arn:aws:braket:eu-west-2:380012739362:quantum-task/7c6e8e10-921a-4a32-bd0c-c2e1c5308a20",
+          "shots": 3000,
+          "projector_index": 2
+        },
+        {
+          "basis_state": 3,
+          "task_id": "arn:aws:braket:eu-west-2:380012739362:quantum-task/b41cb2f4-2969-4341-b9d9-144ec65f66e8",
+          "shots": 3000,
+          "projector_index": 3
+        }
+      ],
+      "depth": 1839,
+      "num_projections": 4,
+      "ideal_solution": [
+        {
+          "real": 0.24628478490299296,
+          "imag": 0.0
+        },
+        {
+          "real": 0.9346714402075726,
+          "imag": 0.0
+        },
+        {
+          "real": 0.1482884336436746,
+          "imag": 0.0
+        },
+        {
+          "real": -0.2091498124146754,
+          "imag": 0.0
+        }
+      ]
+    }
+  ]
+}

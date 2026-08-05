@@ -1,0 +1,25 @@
+% TLP Results Table
+% Generated automatically from run_experiments.py --tlp-only
+
+\begin{table}[htbp]
+\centering
+\caption{Time-Lock Puzzle (TLP) Performance Results}
+\label{tab:tlp_results}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{$\mu$} & \textbf{PSetup} & \textbf{PGen} & \textbf{PSolve} & \textbf{PVerify} & \textbf{PSetup/20} \\
+\hline
+1 & $1.83$ s & $31.38$ ms & $43.83$ ms & $2.21$ $\mu$s & $91.44$ ms \\
+2 & $5.22$ s & $52.81$ ms & $93.59$ ms & $1.75$ $\mu$s & $260.78$ ms \\
+3 & $9.07$ s & $60.17$ ms & $140.72$ ms & $2.02$ $\mu$s & $453.61$ ms \\
+4 & $11.84$ s & $81.84$ ms & $206.39$ ms & $2.10$ $\mu$s & $591.87$ ms \\
+5 & $15.74$ s & $94.18$ ms & $242.58$ ms & $1.67$ $\mu$s & $786.95$ ms \\
+6 & $20.67$ s & $109.38$ ms & $290.65$ ms & $1.98$ $\mu$s & $1.03$ s \\
+7 & $24.39$ s & $119.48$ ms & $341.72$ ms & $1.62$ $\mu$s & $1.22$ s \\
+8 & $29.40$ s & $166.31$ ms & $392.73$ ms & $2.83$ $\mu$s & $1.47$ s \\
+9 & $33.96$ s & $193.87$ ms & $449.87$ ms & $4.37$ $\mu$s & $1.70$ s \\
+10 & $41.67$ s & $183.49$ ms & $481.91$ ms & $2.25$ $\mu$s & $2.08$ s \\
+\hline
+\end{tabular}
+\footnotesize{PSetup/20: PSetup time amortized over 20 puzzles; PVerify: one Goldreich-Levin parity check.}
+\end{table}

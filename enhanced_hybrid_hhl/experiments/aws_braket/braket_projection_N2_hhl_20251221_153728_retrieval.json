@@ -1,0 +1,152 @@
+{
+  "problem_list": [
+    {
+      "A_matrix": [
+        [
+          1.4894376668804605,
+          0.9279844489647467
+        ],
+        [
+          0.9279844489647467,
+          1.6938512346472503
+        ]
+      ],
+      "b_vector": [
+        0.3679680200567164,
+        0.9298384462988933
+      ]
+    }
+  ],
+  "shots": 3000,
+  "backend": "sv1",
+  "device_arn": "SV1",
+  "aws_region": "eu-west-2",
+  "ideal_preprocessing_list": [
+    [
+      [
+        0.6580485187931812,
+        2.5252403827345296
+      ],
+      [
+        0.34639667261346596,
+        0.9380881329610343
+      ]
+    ]
+  ],
+  "probability_threshold": 0,
+  "k_qubits": 7,
+  "preprocessing_mode": "ideal",
+  "projection_mode": "all_components",
+  "projection_subset": null,
+  "num_solution_qubits": 1,
+  "num_projections": 2,
+  "projector_basis_states": [
+    0,
+    1
+  ],
+  "enhanced_projection_results": [
+    {
+      "problem_index": 0,
+      "projection_tasks": [
+        {
+          "basis_state": 0,
+          "task_id": "arn:aws:braket:eu-west-2:380012739362:quantum-task/4e20f281-1277-445f-a056-92c99186dfe4",
+          "status": "DONE",
+          "shots": 3000,
+          "created_at": "2025-12-21 12:37:28.035000+00:00",
+          "ended_at": "2025-12-21 12:37:29.493000+00:00",
+          "execution_time_seconds": 1.458,
+          "counts": {
+            "000000000": 1062,
+            "100000001": 466,
+            "100000000": 1420,
+            "000000001": 19,
+            "010000000": 3,
+            "001000001": 1,
+            "111000001": 5,
+            "010000001": 3,
+            "010100000": 1,
+            "011000000": 5,
+            "101000000": 1,
+            "001000000": 3,
+            "110000000": 3,
+            "000100001": 1,
+            "111000000": 3,
+            "011100001": 1,
+            "110100001": 1,
+            "000100000": 1,
+            "110100000": 1
+          },
+          "component_probability": 0.05030181086519115,
+          "success_rate": 0.16566666666666666
+        },
+        {
+          "basis_state": 1,
+          "task_id": "arn:aws:braket:eu-west-2:380012739362:quantum-task/a81e5d0e-97db-45af-bf2d-3b24bbb27523",
+          "status": "DONE",
+          "shots": 3000,
+          "created_at": "2025-12-21 12:37:28.956000+00:00",
+          "ended_at": "2025-12-21 12:37:30.526000+00:00",
+          "execution_time_seconds": 1.57,
+          "counts": {
+            "100000001": 467,
+            "100000000": 1415,
+            "000000000": 1074,
+            "001000001": 2,
+            "000000001": 17,
+            "110010001": 1,
+            "010000001": 7,
+            "110100001": 1,
+            "100110100": 1,
+            "001000000": 2,
+            "111000001": 5,
+            "010000000": 2,
+            "101000000": 2,
+            "110100000": 1,
+            "111000000": 1,
+            "111100000": 1,
+            "111110001": 1
+          },
+          "component_probability": 0.9481037924151696,
+          "success_rate": 0.167
+        }
+      ],
+      "depth": 817,
+      "num_projections": 2,
+      "ideal_solution": [
+        {
+          "real": -0.22378834332024466,
+          "imag": 0.0
+        },
+        {
+          "real": 0.9746377672725289,
+          "imag": 0.0
+        }
+      ],
+      "reconstructed_solution_probabilities": [
+        0.050382139983909904,
+        0.94961786001609
+      ],
+      "fidelity": 0.9999995254958373,
+      "metadata": {
+        "measured_components": [
+          0,
+          1
+        ],
+        "success_rates": [
+          0.16566666666666666,
+          0.167
+        ],
+        "raw_probabilities": [
+          0.05030181086519115,
+          0.9481037924151696
+        ],
+        "average_success_rate": 0.16633333333333333,
+        "total_probability": 0.9984056032803608
+      },
+      "total_problem_time_seconds": 2.491,
+      "first_created_at": "2025-12-21 12:37:28.035000+00:00",
+      "last_ended_at": "2025-12-21 12:37:30.526000+00:00"
+    }
+  ]
+}

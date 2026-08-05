@@ -166,9 +166,8 @@ retrieval_file_path = run_braket_projection_retrieval(
 Our work utilizes the Reusable Garbling Circuits and Enhanced Hybrid HHL from these repos:
 - CRGC
     - repo: [https://github.com/chart21/CRGC.git](https://github.com/chart21/CRGC.git)
-    - paper:https://www.scitepress.org/PublishedPapers/2022/111453/111453.pdf
-    
-- Enhanced Hybrid HHL:
-    - repo: [https://github.com/Greenstan/Enhanced-Hybrid-HHL.git](https://github.com/Greenstan/Enhanced-Hybrid-HHL.git)
+    - paper: https://www.scitepress.org/PublishedPapers/2022/111453/111453.pdf
 
+- Enhanced Hybrid HHL:
+    - repo: [https://github.com/jackhmorgan/Enhanced-Hybrid-HHL.git](https://github.com/jackhmorgan/Enhanced-Hybrid-HHL.git)
     - paper: https://arxiv.org/abs/2404.10103

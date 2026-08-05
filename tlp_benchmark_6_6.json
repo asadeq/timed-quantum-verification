@@ -1,0 +1,45 @@
+{
+  "T_min": 6,
+  "T_max": 6,
+  "trials": 3,
+  "results": [
+    {
+      "T": 6,
+      "trial_data": [
+        {
+          "trial_num": 1,
+          "setup_time": 79.80626079195645,
+          "garbling_time": 79.80324270797428,
+          "generation_time": 9.291700553148985e-05,
+          "prove_time": 0.06466450006701052,
+          "reveal_time": 0.13697987503837794,
+          "verify_time": 0.00011074997019022703,
+          "total_time": 80.00801591703203,
+          "verification_passed": "Reject - Hadamard Round Failed"
+        },
+        {
+          "trial_num": 2,
+          "setup_time": 72.4184473749483,
+          "garbling_time": 72.4152671250049,
+          "generation_time": 8.270901162177324e-05,
+          "prove_time": 0.03258004202507436,
+          "reveal_time": 0.15056429198011756,
+          "verify_time": 0.00012829096522182226,
+          "total_time": 72.60171999991871,
+          "verification_passed": "Accept- Hadamard Round Passed"
+        },
+        {
+          "trial_num": 3,
+          "setup_time": 68.50193112506531,
+          "garbling_time": 68.49912629206665,
+          "generation_time": 0.0001003750367090106,
+          "prove_time": 0.03608824999537319,
+          "reveal_time": 0.17063845798838884,
+          "verify_time": 0.00012166600208729506,
+          "total_time": 68.70877949905116,
+          "verification_passed": "Reject - Hadamard Round Failed"
+        }
+      ]
+    }
+  ]
+}

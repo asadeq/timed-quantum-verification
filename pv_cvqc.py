@@ -62,6 +62,7 @@ class PV_CVQC:
         # Timer for puzzle generation
         generation_start = time.perf_counter()
         # Generate puzzle
+<<<<<<< Updated upstream
         # s_bit = int(sum(sk["s"])) % 2
         # puzzle = self.tlp.generate(pp, s_bit)
         puzzle2 = self.tlp2.PGen(sk["s"],pp2)
@@ -161,6 +162,8 @@ if __name__ == "__main__":
 
     result = protocol.verify((pp, pk, puzzle, d), proof, y)
     print("Verification result:", result)
+=======
+>>>>>>> Stashed changes
 
 
         

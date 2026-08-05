@@ -1,0 +1,371 @@
+% \documentclass[sigconf]{acmart}
+
+\documentclass[nonacm,sigconf]{acmart}
+
+\usepackage{paralist}
+\usepackage{microtype}
+
+% Tighter line-breaking inside compactitem and inline \texttt{}.
+\sloppy
+\emergencystretch=2em
+
+
+
+%%
+%% end of the preamble, start of the body of the document source.
+\begin{document}
+
+%%
+%% The "title" command has an optional parameter,
+%% allowing the author to define a "short title" to be used in page headers.
+\title{Time-Delayed Publicly Verifiable Quantum Computation with Classical Verifiers}
+
+%%
+%% The "author" command and its associated commands are used to define
+%% the authors and their affiliations.
+\author{Ameer Mohammed}
+\email{ameer.mohammed@ku.edu.kw}
+\affiliation{%
+  \institution{Kuwait University}
+  \city{Kuwait City}
+  \country{Kuwait}}
+
+\author{Aydin Abadi}
+\email{aydin.abadi@ncl.ac.uk}
+\affiliation{%
+  \institution{Newcastle University}
+  \city{Newcastle upon Tyne}
+  \country{United Kingdom}}
+
+\author{Jaffer Mahdi}
+\email{jaffer.mahdi@ku.edu.kw}
+\affiliation{%
+  \institution{Kuwait Oil Company}
+  \city{Kuwait City}
+  \country{Kuwait}}
+%%
+%% This command processes the author and affiliation and title
+%% information and builds the first part of the formatted document.
+\maketitle
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Artifact Appendix for ACM CCS 2026.
+% Please limit your Artifact Appendix to no more than two pages.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% This template uses list-making environments from the `paralist`
+%% LaTeX package.  Add the following to the preamble of your LaTeX
+%% document (somewhere before `\begin{document}`:
+%%
+%% \usepackage{paralist}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\appendix
+
+
+\section{Artifact Appendix}
+
+This appendix supports the paper's central claim: for the linear
+systems studied, Enhanced Hybrid HHL finishes before the time-lock
+puzzle (TLP) protecting the verification key can be solved.  The
+artifact packages three self-contained Python experiments behind a
+single entry point and is intended to be reproducible on any basic computer.
+
+\subsection{Abstract}
+
+A single Python project at the repository root.  The entry
+point \texttt{run\_experiments.py} selects among three experiments
+via CLI flags (\texttt{--hhl-only}, \texttt{--tlp-only},
+\texttt{--scaling-only}) and writes PNG plots to
+\texttt{visualization/outputs/} plus JSON data files to the working
+directory.  All inputs (linear system, sweep ranges,
+clock-qubit count) live in the \texttt{INPUTS} block at the top of the file
+. Licensed under Creative Commons Attribution 4.0
+International (CC-BY~4.0); see the Zenodo record for the
+deposited copy. 
+\texttt{run\_experiments.py}.
+
+\subsection{Description \& Requirements}
+
+\subsubsection*{Artifact layout}
+
+\begin{compactitem}
+\item \texttt{README.md} --- overview and CLI reference.
+\item \texttt{run\_experiments.py} --- entry point and \texttt{INPUTS} block.
+\item \texttt{enhanced\_hybrid\_hhl/} --- Enhanced Hybrid HHL solver.
+\item \texttt{timelock\_puzzle/} --- TLP garbling, generation, solving.
+\item \texttt{crgc\_garbled\_circuits/} --- reusable garbled-circuit primitives.
+\item \texttt{visualization/} --- plotting code and PNG outputs.
+\item \texttt{circuits/} --- Bristol-format SHA-256 used inside the TLP.
+\item \texttt{requirements.txt} --- Python dependencies.
+\end{compactitem}
+
+\subsubsection{Security, privacy, and ethical concerns}
+
+The artifact performs only local, numerical simulations
+on a Qiskit \texttt{AerSimulator} backend.  It makes no network calls,
+does not modify the host system outside the working directory and
+\texttt{visualization/outputs/}. It also does not do anything that might be 
+considered unethical.
+
+\subsubsection{How to access}
+
+The artifact is permanently archived at Zenodo under DOI
+\texttt{10.5281/zenodo.20751485} (record
+\href{https://zenodo.org/records/20751485}{zenodo.org/records/20751485}),
+licensed under Creative Commons Attribution 4.0 International
+(CC-BY~4.0).  Download the \texttt{Quantum\_vertification\_artifact.zip}
+from the record to obtain the full repository.
+
+\subsubsection{Hardware dependencies}
+
+A regular laptop suffices.  Reference machine: 2024 Macbook Pro, M3 Max,
+36\,GB RAM.  No GPU, FPGA, QPU, or cloud account is required; all
+quantum circuits run on the local Qiskit \texttt{AerSimulator}.
+Absolute times will vary with the host CPU, but the qualitative
+relationships between HHL, TLP, and the paper's claims are
+hardware-independent.
+
+\subsubsection{Software dependencies}
+
+Python $\geq 3.10$ on macOS, Linux, or Windows.  The five direct
+dependencies are pinned in \texttt{requirements.txt}:
+\texttt{qiskit\,$\geq$\,1.0.0}, \texttt{qiskit-aer\,$\geq$\,0.14.0},
+\texttt{numpy\,$\geq$\,1.26.0},
+\texttt{matplotlib\,$\geq$\,3.8.0}, \texttt{scipy\,$\geq$\,1.12.0}.
+The paper's timings were collected on AWS Braket SV1; this artifact
+uses Qiskit \texttt{AerSimulator} locally.  Absolute timings differ
+across simulators, but the relative ordering is preserved.
+\textbf{Not validated:} the paper's exact Braket SV1 wall-clock
+numbers (they require paid cloud access); this artifact validates
+the qualitative relationships, not the absolute Braket times.
+
+\subsubsection{Benchmarks}
+
+None required.  Toy linear systems are used for the experiments; the TLP's sequential function uses the SHA-256
+Bristol-format circuit shipped at
+\texttt{circuits/sha256.txt}.
+
+\subsection{Set Up}
+
+\subsubsection{Installation}
+
+Using the \texttt{uv} package manager (project-preferred):
+\begin{verbatim}
+uv sync
+\end{verbatim}
+Equivalently, with \texttt{pip}:
+\begin{verbatim}
+pip install -r requirements.txt
+\end{verbatim}
+This resolves all dependencies.
+
+\subsubsection{Basic test}
+
+\begin{verbatim}
+uv run python run_experiments.py --hhl-only
+\end{verbatim}
+On success the script prints an HHL total time on the order of
+seconds and writes \texttt{visualization/outputs/hhl\_results.png}.
+If the file appears and the graph shows both hhl matrix components, the artifact
+is ready for the full evaluation below.
+
+\subsection{Evaluation Workflow}
+
+\subsubsection{Major claims}
+
+\begin{compactitem}
+\item[(C1):] \emph{Enhanced Hybrid HHL on the 2$\times$2 system
+  $A=[[2,1],[0,1.5]]$, $b=[1,2]$ produces a sign-agnostic (negative values
+  not captured by result) solution with finite L2 error and values close to the classical
+  linear system of eqns solution, completing in a few seconds on the local Qiskit
+  \texttt{AerSimulator}.}
+  Proven by (E1); see
+  \texttt{visualization/}\-\texttt{outputs/}\-\texttt{hhl\_results.png}.
+
+\item[(C2):] \emph{TLP \texttt{PSolve} time scales linearly in $T$
+  (intrinsic to the protocol: a garbled SHA-256 is evaluated
+  sequentially $T$ times).}
+  Proven by (E2); see \texttt{tlp\_benchmark\_plot.png} and
+  \texttt{tlp\_benchmark\_results.json::reveal\_times}.
+
+\item[(C3):] \emph{For $N \in \{2, 4, 8\}$ with calibrated
+  $T(N) \in \{250, 800, 4000\}$, the projected TLP \texttt{PSolve}
+  time exceeds the measured HHL average time at every $N$ (the
+  paper's main quantitative claim).  Absolute times vary with the
+  host CPU; the TLP $>$ HHL ordering is hardware-independent. As it 
+  can be selected and configured by the user, by changing the TLP time parameter $T$ for a given
+  setup}
+  Proven by (E3); see \texttt{scaling\_results.png} and
+  \texttt{scaling\_results.json::tlp\_solve\_times} vs.\
+  \texttt{hhl\_avg\_times}.
+\end{compactitem}
+
+\subsubsection{Experiments}
+
+\begin{compactitem}
+\item[(E1):] \emph{[Enhanced Hybrid HHL, $<$1~min + $<$1~min + $<$1\,MB output]}.
+  Solves the 2$\times$2 system $A=[[2,1],[0,1.5]]$, $b=[1,2]$ (set
+  by \texttt{HHL\_A}, \texttt{HHL\_B}) using Enhanced Hybrid HHL on
+  the local \texttt{AerSimulator}.
+
+  \begin{asparadesc}
+  \item[Preparation:] \texttt{uv sync} (or
+    \texttt{pip install -r requirements.txt}).
+
+  \item[Execution:]
+    \texttt{uv run python run\_experiments.py --hhl-only}.
+
+  \item[Results:] Inspect
+    \texttt{visualization/}\-\texttt{outputs/}\-\texttt{hhl\_results.png}
+    and the printed \texttt{l2\_error}, \texttt{circuit\_depth},
+    \texttt{total\_time}.  Pass criterion: Each component's value is 
+    similar to the classical solution, and the \texttt{l2\_error} is
+    a small finite value (a small apparent discrepancy is expected since HHL
+    recovers only amplitude magnitudes, not signs).
+  \end{asparadesc}
+
+\item[(E2):] \emph{[TLP benchmark, $<$1min + $<$2min + $<$1\,MB output]}.
+  Times the three TLP phases (garbling, generation, solving) for
+  $T\in\{1,2,3,4\}$ with 3 trials per $T$ (set by
+  \texttt{TLP\_T\_MIN}, \texttt{TLP\_T\_MAX}, \texttt{TLP\_TRIALS}).
+  Defaults finish in a few minutes on the reference machine.
+
+  \begin{asparadesc}
+  \item[Preparation:] Same as E1.
+
+  \item[Execution:]
+    \texttt{uv run python run\_experiments.py --tlp-only}.
+
+  \item[Results:] Inspect \texttt{tlp\_benchmark\_plot.png} and
+    \texttt{tlp\_benchmark\_results.json}.  Pass criteria: all
+    trials pass \texttt{recovered == secret\_bit}, and
+    \texttt{reveal\_times} grows linearly with $T$ with a small intercept and error.
+  \end{asparadesc}
+
+\item[(E3):] \emph{[Scaling, $<$1~min + $<$20~min + $<$1\,MB output]}.
+  For each $N\in\{2,4,8\}$ (see \texttt{SCALING\_N\_VALUES}),
+  generates 10 random $N{\times}N$ matrices, runs Enhanced Hybrid
+  HHL on each, calibrates TLP \texttt{PSolve} at
+  $T=1,\ldots,5$ on this machine, fits a linear model, and projects
+  \texttt{PSolve} to the calibrated $T(N)\in\{250,800,4000\}$ (see
+  \texttt{N\_TO\_T}).  Pass \texttt{--tlp-actual} to run the
+  full pipeline at the large $T(N)$ (takes a lot of time depending on T; only needed
+  to verify the linear projection), else you can keep it as is to allow for the 
+  program to estimate the projection value based on the linear relationship.
+
+  \begin{asparadesc}
+  \item[Preparation:] Same as E1.  Confirm every $N$ in
+    \texttt{SCALING\_N\_VALUES} has an entry in
+    \texttt{N\_TO\_T}.
+
+  \item[Execution:]
+    \texttt{uv run python run\_experiments.py --scaling-only}.
+
+  \item[Results:] Inspect
+    \texttt{scaling\_results.png} and
+    \texttt{scaling\_results.json}.  Pass criteria: fidelity $\geq 0.85$ across all $N$, and the projected TLP
+    \texttt{PSolve} time at $T(N)$ exceeds the HHL time at every
+    $N$ (C3).  Absolute times vary with the host CPU.
+  \end{asparadesc}
+\end{compactitem}
+
+\subsection{Notes on Reusability}
+
+The protocol is not HHL-specific, HHL is one example quantum
+algorithm.  \texttt{PythonGarbledTLP} generates a TLP for any
+quantum circuit that produces a classical output, so the same
+construction works for HHL, VQE, QAOA, Shor's, Grover's, etc. Use cases include verifiability of delegated
+quantum computation, fair release of a quantum-computation result
+on a cloud backend and so on.
+
+Two parameters can be altered for different use cases:
+
+\begin{compactitem}
+\item \textbf{TLP time parameter $t$ (or $T$).}  Set to the value
+  that makes \texttt{PSolve} just exceed the
+  quantum-computation time on the target hardware.  Use
+  \texttt{--tlp-only} to measure the per-unit-$t$ slope on a new
+  machine or with a new wrapped circuit, and
+  \texttt{--scaling-only} to project that slope to large $t$ via
+  the linear fit (the linearity is intrinsic to the TLP and
+  holds for any wrapped circuit, not just HHL).
+\item \textbf{Quantum problem instance.}  For HHL this is the
+  matrix $A$ and right-hand side $b$; set \texttt{HHL\_A} and
+  \texttt{HHL\_B} at the top of \texttt{run\_experiments.py}
+  (the system is auto-Hermitianized by
+  \texttt{hermitianize\_matrix}).  For other algorithms,
+  replace the call inside \texttt{run\_scaling\_experiment}
+  with the algorithm's own estimate/measurement routine.
+\end{compactitem}
+
+\noindent Further optional customizations: swap the TLP's
+sequential function for different security models
+(SHA-256 default, lattice-based in
+\texttt{timelock\_puzzle/}\-\texttt{lattice\_sequential\_function.py},
+POSW in
+\texttt{timelock\_puzzle/}\-\texttt{posw\_lattice.py}; custom
+functions implement the
+\texttt{SequentialFunction} interface in
+\texttt{timelock\_puzzle/}\-\texttt{sequential\_functions.py}),
+and substitute the dependencies (HHL or CRGC libraries) by editing
+the imports at the top of \texttt{run\_experiments.py}.
+
+\subsection{Version}
+Based on the LaTeX template for Artifact Evaluation V20220926.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% This template is based on CCS 2025 template. The AEC Chair for CCS 2026 was:
+%% Jérémie Decouchant, Delft University of Technology
+%% Fengwei Zhang, Southern University of Science and Technology
+%% Jun Dai, Worcester Polytechnic Institute
+
+%% This template was created by David Balenson and Ning Zhang for the ACM CCS 2025
+%%
+%% The AEC Chair for CCS 2025 was:
+%% David Balenson (USC Information Science Institute)
+%% Ning Zhang (Washington University in St. Louis)
+
+%% This template is based on CCS 2024 template, 
+%%  https://www.sigsac.org/ccs/CCS2024/assets/appendix/ccs2024-ae.zip
+%%  the AEC chair for CCS 2024 was 
+%%  Eric Eide, University of Utah
+%% the template was originally based on the "USENIX Security 2023 AE Template."
+%% https://secartifacts.github.io/usenixsec2023/appendix/usesec23-ae-latex.zip
+%%
+%% The AEC Co-chairs for USENIX Security 2023 were:
+%% Cristiano Giuffrida (Vrije Universiteit Amsterdam)
+%% Anjo Vahldiek-Oberwagner (Intel Labs)
+
+%% The USENIX Security AE template was based on the
+%% % Artifact Appendix Template for EuroSys'22 AE
+%% https://sysartifacts.github.io/eurosys2022/appendix/EuroSys22_ArtifactAppendix_template.tex
+%%
+%% The AEC Co-chairs for EuroSys 2022 were:
+%% Natacha Crooks (UC Berkeley)
+%% Solal Pirelli (EPFL)
+%% Salvatore Signorello (University of Lisbon)
+%% Anjo Vahldiek-Oberwagner (Intel Labs)
+
+%% The above were based on:
+
+%% LaTeX template for Artifact Evaluation V20220119
+%%
+%% Original Authors
+%% * Grigori Fursin (cTuning foundation, France) 2014-2020
+%% * Bruce Childers (University of Pittsburgh, USA) 2014
+%%
+%% Modified by
+%% * Clementine Maurice (CNRS, France) 2021-2022
+%% * Cristiano Giuffrida (Vrije Universiteit Amsterdam, Netherlands) 2021-2022
+%%
+%% (C) Copyright 2014-2022
+%%
+%% CC BY 4.0 license
+%%
+
+\end{document}
+\endinput

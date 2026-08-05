@@ -1,0 +1,660 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.7.30)  31 JUL 2026 01:32
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**plot_combined.tex
+(./plot_combined.tex
+LaTeX2e <2025-11-01>
+L3 programming layer <2026-01-19>
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/standalone/standalone.cls
+Document Class: standalone 2025/02/22 v1.5a Class to compile TeX sub-files stan
+dalone
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/tools/shellesc.sty
+Package: shellesc 2023/07/08 v1.0d unified shell escape interface for LaTeX
+Package shellesc Info: Restricted shell escape enabled on input line 77.
+)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/iftex/ifluatex.sty
+Package: ifluatex 2019/10/25 v1.5 ifluatex legacy package. Use iftex instead.
+
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2024/12/12 v1.0g TeX engine tests
+))
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+Package: xkeyval 2025/11/04 v2.10 package option processing (HA)
+
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/xkeyval/xkeyval.tex
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/xkeyval/xkvutils.tex
+\XKV@toks=\toks17
+\XKV@tempa@toks=\toks18
+\XKV@tempb@toks=\toks19
+
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/xkeyval/keyval.tex))
+\XKV@depth=\count275
+File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
+))
+\sa@internal=\count276
+\c@sapage=\count277
+
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/standalone/standalone.cfg
+File: standalone.cfg 2025/02/22 v1.5a Default configuration file for 'standalon
+e' class
+)
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2025/01/22 v1.4n Standard LaTeX document class
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2025/01/22 v1.4n Standard LaTeX file (size option)
+)
+\c@part=\count278
+\c@section=\count279
+\c@subsection=\count280
+\c@subsubsection=\count281
+\c@paragraph=\count282
+\c@subparagraph=\count283
+\c@figure=\count284
+\c@table=\count285
+\abovecaptionskip=\skip49
+\belowcaptionskip=\skip50
+\bibindent=\dimen148
+)
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/utilities/pgfutil-comm
+on.tex
+\pgfutil@everybye=\toks20
+\pgfutil@tempdima=\dimen149
+\pgfutil@tempdimb=\dimen150
+)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/utilities/pgfutil-late
+x.def
+\pgfutil@abb=\box53
+)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.
+tex (/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/pgf.revision.tex)
+Package: pgfrcs 2025-08-29 v3.1.11a (3.1.11a)
+))
+Package: pgf 2025-08-29 v3.1.11a (3.1.11a)
+ (/usr/local/texlive/2026basic/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty 
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2024/12/31 v1.2e Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2024/08/06 v1.4g Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
+)
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 106.
+
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2025/09/29 v1.2d Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen151
+\Gin@req@width=\dimen152
+)
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.cod
+e.tex
+Package: pgfsys 2025-08-29 v3.1.11a (3.1.11a)
+
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code
+.tex
+\pgfkeys@pathtoks=\toks21
+\pgfkeys@temptoks=\toks22
+
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/utilities/pgfkeyslibra
+ryfiltered.code.tex
+\pgfkeys@tmptoks=\toks23
+))
+\pgf@x=\dimen153
+\pgf@y=\dimen154
+\pgf@xa=\dimen155
+\pgf@ya=\dimen156
+\pgf@xb=\dimen157
+\pgf@yb=\dimen158
+\pgf@xc=\dimen159
+\pgf@yc=\dimen160
+\pgf@xd=\dimen161
+\pgf@yd=\dimen162
+\w@pgf@writea=\write3
+\r@pgf@reada=\read2
+\c@pgf@counta=\count286
+\c@pgf@countb=\count287
+\c@pgf@countc=\count288
+\c@pgf@countd=\count289
+\t@pgf@toka=\toks24
+\t@pgf@tokb=\toks25
+\t@pgf@tokc=\toks26
+\pgf@sys@id@count=\count290
+
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
+File: pgf.cfg 2025-08-29 v3.1.11a (3.1.11a)
+)
+Driver file for pgf: pgfsys-pdftex.def
+
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-pdf
+tex.def
+File: pgfsys-pdftex.def 2025-08-29 v3.1.11a (3.1.11a)
+
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-com
+mon-pdf.def
+File: pgfsys-common-pdf.def 2025-08-29 v3.1.11a (3.1.11a)
+)))
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoft
+path.code.tex
+File: pgfsyssoftpath.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfsyssoftpath@smallbuffer@items=\count291
+\pgfsyssoftpath@bigbuffer@items=\count292
+)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprot
+ocol.code.tex
+File: pgfsysprotocol.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+))
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
+
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 274.
+
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/graphics/mathcolor.ltx)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1349.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1353.
+Package xcolor Info: Model `RGB' extended on input line 1365.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1367.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1370.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1371.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
+)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.cod
+e.tex
+Package: pgfcore 2025-08-29 v3.1.11a (3.1.11a)
+
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.
+tex)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/math/pgfmathparser.cod
+e.tex
+\pgfmath@dimen=\dimen163
+\pgfmath@count=\count293
+\pgfmath@box=\box54
+\pgfmath@toks=\toks27
+\pgfmath@stack@operand=\toks28
+\pgfmath@stack@operation=\toks29
+)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.
+code.tex)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.
+basic.code.tex)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.
+trigonometric.code.tex)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.
+random.code.tex)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.
+comparison.code.tex)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.
+base.code.tex)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.
+round.code.tex)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.
+misc.code.tex)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.
+integerarithmetics.code.tex)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.
+tex)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code
+.tex
+\c@pgfmathroundto@lastzeros=\count294
+))
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/math/pgfint.code.tex)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoin
+ts.code.tex
+File: pgfcorepoints.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@picminx=\dimen164
+\pgf@picmaxx=\dimen165
+\pgf@picminy=\dimen166
+\pgf@picmaxy=\dimen167
+\pgf@pathminx=\dimen168
+\pgf@pathmaxx=\dimen169
+\pgf@pathminy=\dimen170
+\pgf@pathmaxy=\dimen171
+\pgf@xx=\dimen172
+\pgf@xy=\dimen173
+\pgf@yx=\dimen174
+\pgf@yy=\dimen175
+\pgf@zx=\dimen176
+\pgf@zy=\dimen177
+)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepath
+construct.code.tex
+File: pgfcorepathconstruct.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@path@lastx=\dimen178
+\pgf@path@lasty=\dimen179
+)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepath
+usage.code.tex
+File: pgfcorepathusage.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@shorten@end@additional=\dimen180
+\pgf@shorten@start@additional=\dimen181
+)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescop
+es.code.tex
+File: pgfcorescopes.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfpic=\box55
+\pgf@hbox=\box56
+\pgf@layerbox@main=\box57
+\pgf@picture@serial@count=\count295
+)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregrap
+hicstate.code.tex
+File: pgfcoregraphicstate.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgflinewidth=\dimen182
+)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretran
+sformations.code.tex
+File: pgfcoretransformations.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@pt@x=\dimen183
+\pgf@pt@y=\dimen184
+\pgf@pt@temp=\dimen185
+)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequic
+k.code.tex
+File: pgfcorequick.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobje
+cts.code.tex
+File: pgfcoreobjects.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepath
+processing.code.tex
+File: pgfcorepathprocessing.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearro
+ws.code.tex
+File: pgfcorearrows.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfarrowsep=\dimen186
+)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshad
+e.code.tex
+File: pgfcoreshade.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@max=\dimen187
+\pgf@sys@shading@range@num=\count296
+\pgf@shadingcount=\count297
+)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimag
+e.code.tex
+File: pgfcoreimage.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexte
+rnal.code.tex
+File: pgfcoreexternal.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfexternal@startupbox=\box58
+)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/basiclayer/pgfcorelaye
+rs.code.tex
+File: pgfcorelayers.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretran
+sparency.code.tex
+File: pgfcoretransparency.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepatt
+erns.code.tex
+File: pgfcorepatterns.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/basiclayer/pgfcorerdf.
+code.tex
+File: pgfcorerdf.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)))
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/modules/pgfmoduleshape
+s.code.tex
+File: pgfmoduleshapes.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfnodeparttextbox=\box59
+)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/modules/pgfmoduleplot.
+code.tex
+File: pgfmoduleplot.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-ve
+rsion-0-65.sty
+Package: pgfcomp-version-0-65 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@nodesepstart=\dimen188
+\pgf@nodesepend=\dimen189
+)
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-ve
+rsion-1-18.sty
+Package: pgfcomp-version-1-18 2025-08-29 v3.1.11a (3.1.11a)
+))
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/pgf/utilities/pgffor.sty
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code
+.tex)) (/usr/local/texlive/2026basic/texmf-dist/tex/latex/pgf/math/pgfmath.sty
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)
+)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/utilities/pgffor.code.
+tex
+Package: pgffor 2025-08-29 v3.1.11a (3.1.11a)
+\pgffor@iter=\dimen190
+\pgffor@skip=\dimen191
+\pgffor@stack=\toks30
+\pgffor@toks=\toks31
+))
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tik
+z.code.tex
+Package: tikz 2025-08-29 v3.1.11a (3.1.11a)
+
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/libraries/pgflibrarypl
+othandlers.code.tex
+File: pgflibraryplothandlers.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@plot@mark@count=\count298
+\pgfplotmarksize=\dimen192
+)
+\tikz@lastx=\dimen193
+\tikz@lasty=\dimen194
+\tikz@lastxsaved=\dimen195
+\tikz@lastysaved=\dimen196
+\tikz@lastmovetox=\dimen197
+\tikz@lastmovetoy=\dimen198
+\tikzleveldistance=\dimen199
+\tikzsiblingdistance=\dimen256
+\tikz@figbox=\box60
+\tikz@figbox@bg=\box61
+\tikz@tempbox=\box62
+\tikz@tempbox@bg=\box63
+\tikztreelevel=\count299
+\tikznumberofchildren=\count300
+\tikznumberofcurrentchild=\count301
+\tikz@fig@count=\count302
+
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/modules/pgfmodulematri
+x.code.tex
+File: pgfmodulematrix.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfmatrixcurrentrow=\count303
+\pgfmatrixcurrentcolumn=\count304
+\pgf@matrix@numberofcolumns=\count305
+)
+\tikz@expandcount=\count306
+
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/frontendlayer/tikz/lib
+raries/tikzlibrarytopaths.code.tex
+File: tikzlibrarytopaths.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)))
+\sa@box=\box64
+)
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/pgfplots/pgfplots.sty
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/pgfplots.revision
+.tex)
+Package: pgfplots 2025/08/14 v1.18.2 Data Visualization (1.18.2)
+
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/pgfplots.code.tex
+
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/pgfplotscore.code
+.tex
+\t@pgfplots@toka=\toks32
+\t@pgfplots@tokb=\toks33
+\t@pgfplots@tokc=\toks34
+\pgfplots@tmpa=\dimen257
+\c@pgfplots@coordindex=\count307
+\c@pgfplots@scanlineindex=\count308
+
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/sys/pgfplotssysge
+neric.code.tex))
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/libs/pgfplotslibr
+ary.code.tex)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/oldpgfcompatib/pg
+fplotsoldpgfsupp_loader.code.tex
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/libraries/pgflibraryfp
+u.code.tex)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/oldpgfcompatib/pg
+fplotsoldpgfsupp_pgfutil-common-lists.tex))
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/util/pgfplotsutil
+.code.tex
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/liststructure/pgf
+plotsliststructure.code.tex)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/liststructure/pgf
+plotsliststructureext.code.tex)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/liststructure/pgf
+plotsarray.code.tex
+\c@pgfplotsarray@tmp=\count309
+)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/liststructure/pgf
+plotsmatrix.code.tex)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/numtable/pgfplots
+tableshared.code.tex
+\c@pgfplotstable@counta=\count310
+\t@pgfplotstable@a=\toks35
+)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/liststructure/pgf
+plotsdeque.code.tex)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/util/pgfplotsbina
+ry.code.tex
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/util/pgfplotsbina
+ry.data.code.tex))
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/util/pgfplotsutil
+.verb.code.tex)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/libs/pgflibrarypg
+fplots.surfshading.code.tex
+\c@pgfplotslibrarysurf@no=\count311
+
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/sys/pgflibrarypgf
+plots.surfshading.pgfsys-pdftex.def)))
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/util/pgfplotscolo
+rmap.code.tex
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/util/pgfplotscolo
+r.code.tex))
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/pgfplotsstackedpl
+ots.code.tex)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/pgfplotsplothandl
+ers.code.tex
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/pgfplotsmeshploth
+andler.code.tex
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/pgfplotsmeshploti
+mage.code.tex)))
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/pgfplots.scaling.
+code.tex)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/pgfplotscoordproc
+essing.code.tex)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/pgfplots.errorbar
+s.code.tex)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/pgfplots.markers.
+code.tex)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/pgfplotsticks.cod
+e.tex)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/pgfplots.paths.co
+de.tex)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/frontendlayer/tikz/lib
+raries/tikzlibrarydecorations.code.tex
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/modules/pgfmoduledecor
+ations.code.tex
+\pgfdecoratedcompleteddistance=\dimen258
+\pgfdecoratedremainingdistance=\dimen259
+\pgfdecoratedinputsegmentcompleteddistance=\dimen260
+\pgfdecoratedinputsegmentremainingdistance=\dimen261
+\pgf@decorate@distancetomove=\dimen262
+\pgf@decorate@repeatstate=\count312
+\pgfdecorationsegmentamplitude=\dimen263
+\pgfdecorationsegmentlength=\dimen264
+)
+\tikz@lib@dec@box=\box65
+)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/frontendlayer/tikz/lib
+raries/tikzlibrarydecorations.pathmorphing.code.tex
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/libraries/decorations/
+pgflibrarydecorations.pathmorphing.code.tex))
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/frontendlayer/tikz/lib
+raries/tikzlibrarydecorations.pathreplacing.code.tex
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/libraries/decorations/
+pgflibrarydecorations.pathreplacing.code.tex))
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/libs/tikzlibraryp
+gfplots.contourlua.code.tex)
+\pgfplots@numplots=\count313
+\pgfplots@xmin@reg=\dimen265
+\pgfplots@xmax@reg=\dimen266
+\pgfplots@ymin@reg=\dimen267
+\pgfplots@ymax@reg=\dimen268
+\pgfplots@zmin@reg=\dimen269
+\pgfplots@zmax@reg=\dimen270
+)
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/frontendlayer/tikz/lib
+raries/tikzlibraryplotmarks.code.tex
+File: tikzlibraryplotmarks.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/libraries/pgflibrarypl
+otmarks.code.tex
+File: pgflibraryplotmarks.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)))
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/libs/tikzlibraryp
+gfplots.groupplots.code.tex
+\pgfplots@group@current@plot=\count314
+\pgfplots@group@current@row=\count315
+\pgfplots@group@current@column=\count316
+
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/frontendlayer/tikz/lib
+raries/tikzlibrarycalc.code.tex
+File: tikzlibrarycalc.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+))
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/libs/tikzlibraryp
+gfplots.fillbetween.code.tex
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/pgfcontrib/tikzli
+braryfillbetween.code.tex
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/frontendlayer/tikz/lib
+raries/tikzlibraryintersections.code.tex
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgf/libraries/pgflibraryin
+tersections.code.tex
+\pgf@intersect@solutions=\count317
+))
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/pgfcontrib/tikzli
+brarydecorations.softclip.code.tex
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/pgfcontrib/pgflib
+raryfillbetween.code.tex)))
+(/usr/local/texlive/2026basic/texmf-dist/tex/generic/pgfplots/libs/tikzlibraryp
+gfplots.decorations.softclip.code.tex))
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/l3backend/l3backend-pdftex.d
+ef
+File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count318
+)
+No file plot_combined.aux.
+\openout1 = `plot_combined.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+(/usr/local/texlive/2026basic/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count319
+\scratchdimen=\dimen271
+\scratchbox=\box66
+\nofMPsegments=\count320
+\nofMParguments=\count321
+\everyMPshowfont=\toks36
+\MPscratchCnt=\count322
+\MPscratchDim=\dimen272
+\MPnumerator=\count323
+\makeMPintoPDFobject=\count324
+\everyMPtoPDFconversion=\toks37
+)
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.s
+ty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+Package pgfplots notification 'compat/show suggested version=true': document ha
+s been generated with the most recent feature set (\pgfplotsset{compat=1.18}).
+
+Package pgfplots info on input line 41: fill between: activating layered graphi
+cs
+\pgf@layerbox@axis background=\box67
+\pgf@layerboxsaved@axis background=\box68
+\pgf@layerbox@axis grid=\box69
+\pgf@layerboxsaved@axis grid=\box70
+\pgf@layerbox@axis ticks=\box71
+\pgf@layerboxsaved@axis ticks=\box72
+\pgf@layerbox@axis lines=\box73
+\pgf@layerboxsaved@axis lines=\box74
+\pgf@layerbox@axis tick labels=\box75
+\pgf@layerboxsaved@axis tick labels=\box76
+\pgf@layerbox@pre main=\box77
+\pgf@layerboxsaved@pre main=\box78
+\pgf@layerbox@axis descriptions=\box79
+\pgf@layerboxsaved@axis descriptions=\box80
+\pgf@layerbox@axis foreground=\box81
+\pgf@layerboxsaved@axis foreground=\box82
+Package pgfplots info on input line 41: Setting layers 'axis background,axis gr
+id,axis ticks,axis lines,axis tick labels,pre main,main,axis descriptions,axis 
+foreground'...
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 41.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 41.
+Package pgfplots info on input line 60: fill between: activating layered graphi
+cs
+Package pgfplots info on input line 60: Setting layers 'axis background,axis gr
+id,axis ticks,axis lines,axis tick labels,pre main,main,axis descriptions,axis 
+foreground'...
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <9> on input line 60.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 60.
+Package pgfplots info on input line 66: fill between: activating layered graphi
+cs
+Package pgfplots info on input line 66: Setting layers 'axis background,axis gr
+id,axis ticks,axis lines,axis tick labels,pre main,main,axis descriptions,axis 
+foreground'...
+[1
+
+
+Non-PDF special ignored!
+<special> papersize=735.45079pt,259.54147pt
+{/usr/local/texlive/2026basic/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+(./plot_combined.aux)
+ ***********
+LaTeX2e <2025-11-01>
+L3 programming layer <2026-01-19>
+ ***********
+ ) 
+Here is how much of TeX's memory you used:
+ 23566 strings out of 469006
+ 637980 string characters out of 5454813
+ 1167319 words of memory out of 5000000
+ 51903 multiletter control sequences out of 15000+600000
+ 629852 words of font info for 47 fonts, out of 8000000 for 9000
+ 319 hyphenation exceptions out of 8191
+ 117i,7n,121p,752b,2163s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx1
+0.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mmi10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmmi5.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmmi9.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmr10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmr5.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmr9.pfb>
+Output written on plot_combined.pdf (1 page, 79832 bytes).
+PDF statistics:
+ 46 PDF objects out of 1000 (max. 8388607)
+ 28 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 500000)
+ 13 words of extra memory for PDF output out of 10000 (max. 10000000)
+

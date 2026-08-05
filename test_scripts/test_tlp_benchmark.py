@@ -212,8 +212,13 @@ def main():
     # Test 2: Small circuit with SHA-256 (cryptographic)
     print("\n" + "=" * 70)
     print("TEST 2: Small circuit, SHA-256 (cryptographic)")
+<<<<<<< Updated upstream
     print("=" * 70)
     result = test_configuration(T=40, lam=256, use_sha256=True, num_puzzles=30, save_circuit=False)
+=======
+    print("█" * 70)
+    result = test_configuration(T=1, lam=256, use_sha256=True, num_puzzles=30, save_circuit=False)
+>>>>>>> Stashed changes
     all_results.append(result)
     
     # Test 3: Medium circuit with XOR mixing

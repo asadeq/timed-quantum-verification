@@ -1,0 +1,27 @@
+\documentclass[tikz,border=5pt]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots,fillbetween}
+
+\pgfplotsset{compat=1.18}
+
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[
+    width=0.7\columnwidth,
+    height=0.7\columnwidth,
+    grid=major,
+    grid style={dashed, gray!30},
+    xlabel={Matrix Size ($N$)},
+    xtick = {2,4,8,16},
+    ylabel={Circuit Depth},
+    title={\textbf{(a) Circuit Depth}},
+    ytick={0,2000,4000,6000,8000,10000,12000,14000},
+    scaled y ticks=false,
+]
+\addplot[name path=upper,draw=none] coordinates { (2, 817.9) (4, 1839.4) (8, 4858.5) (16, 13527.0) };
+\addplot[name path=lower,draw=none] coordinates { (2, 816.4) (4, 1838.8) (8, 4507.2) (16, 13180.3) };
+\addplot[blue!20] fill between[of=upper and lower];
+\addplot[blue,thick,mark=*] coordinates { (2, 817.1) (4, 1839.1) (8, 4682.9) (16, 13353.6) };
+\end{axis}
+\end{tikzpicture}
+\end{document}
