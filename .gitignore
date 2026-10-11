@@ -1,3 +1,19 @@
+# OS / editor
+.DS_Store
 /.vscode
 /.wslvenv
-/__pycache__
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+
+# Rust build artifacts (2.8 GB of wasm/obj files — never commit)
+target/
+
+# Soroban SDK auto-generated test snapshots
+contracts/quantum_verifier/test_snapshots/
+
+# Local scratch / secrets
+*.log
+.env

@@ -475,7 +475,8 @@ class PythonGarbledTLP:
         Z = (x_tilde, r, r_dot_m_xor_s)
         return Z
 
-    def PSolve(self, Z: Tuple, pp: Tuple = None) -> Tuple[int, bytes]:
+    def PSolve(self, Z: Tuple, pp: Tuple = None,
+               return_witness: bool = False) -> Tuple:
         """
         PSolve(Z, pp) - Puzzle solving algorithm from paper.
 
@@ -489,9 +490,14 @@ class PythonGarbledTLP:
         sealed under K_unlock, which is derived from the chain's output
         wire values.
 
+        Args:
+            return_witness: if True, also return the spot-check witness
+                            (boundary wire values + per-gate keys) needed
+                            by the on-chain verifier. Default False.
+
         Returns:
-            (s, y): the recovered secret bit and the circuit-output
-                    witness needed by PVerify.
+            If return_witness is False: (s, y)
+            If return_witness is True:  (s, y, witness)
         """
         if pp is None:
             if self.pp is None:
@@ -507,10 +513,12 @@ class PythonGarbledTLP:
             y_bits = evaluate_transformed_circuit(
                 C_tilde, encoded_inputA, encoded_inputB
             )
+            witness = None
         else:
             encoded_inputA, encoded_inputB, yao_material = x_tilde
-            y_bits = self._evaluate_prgc(
-                C_tilde, encoded_inputA, encoded_inputB, yao_material
+            y_bits, witness = self._evaluate_prgc(
+                C_tilde, encoded_inputA, encoded_inputB, yao_material,
+                return_witness=return_witness,
             )
 
         # Output bits are plaintext logical bits in both modes.
@@ -522,6 +530,8 @@ class PythonGarbledTLP:
         y_dot_r = bin(y_int & r_int).count('1') % 2
         s = r_dot_m_xor_s ^ y_dot_r
 
+        if return_witness:
+            return s, y, witness
         return s, y
 
     def PVerify(self, s_candidate: int, y: bytes, Z: Tuple) -> bool:
@@ -555,7 +565,7 @@ class PythonGarbledTLP:
 
 
     def _evaluate_prgc(self, C_tilde, encoded_inputA, encoded_inputB,
-                       yao_material) -> List[bool]:
+                       yao_material, return_witness: bool = False):
         """
         Solver-side PRGC evaluation, two passes:
 
@@ -568,6 +578,11 @@ class PythonGarbledTLP:
         delivered input keys, the unsealed boundary keys, and the keys
         recovered from earlier non-reusable gates (row chosen by the
         point-and-permute select bits). Decode outputs via out_perm.
+
+        Args:
+            return_witness: if True, also return a spot-check witness with
+                            the boundary wire values and per-gate (k_l,
+                            k_r, k_o) triples for the non-reusable gates.
         """
         details = C_tilde.details
         tables = yao_material['tables']
@@ -612,14 +627,16 @@ class PythonGarbledTLP:
 
         # ---- Unseal the boundary keys ----
         boundary: Dict[int, bytes] = {}
+        boundary_wire_values: Dict[int, int] = {}
         if boundary_sealed:
             sorted_bw = sorted(boundary_sealed)
             pre_bits = [int(evaluation[w]) for w in sorted_bw]
             k_unlock = unlock_key(pack_bits(pre_bits))
-            for w in sorted_bw:
+            for w, v in zip(sorted_bw, pre_bits):
                 boundary[w] = xor_bytes(
                     boundary_sealed[w], boundary_mask(k_unlock, w)
                 )
+                boundary_wire_values[w] = v
 
         def _as_key(v, wire):
             """Yao key for a non-reusable gate's parent."""
@@ -631,6 +648,7 @@ class PythonGarbledTLP:
             return boundary[wire]
 
         # ---- Pass 2: non-reusable (Yao) section ----
+        gate_keys: Dict[int, Tuple[bytes, bytes, bytes]] = {}
         for gi, gate in enumerate(C_tilde.gates):
             if gi not in non_reusable_gates:
                 continue
@@ -640,6 +658,7 @@ class PythonGarbledTLP:
             b = select_bit(k_r)
             ct = tables[gi][a][b]
             evaluation[gate.outputID] = xor_bytes(ct, pad(k_l, k_r, gi))
+            gate_keys[gi] = (k_l, k_r, evaluation[gate.outputID])
 
         # Extract outputs (reversed, like the C++ evaluator) and decode.
         output = []
@@ -648,7 +667,13 @@ class PythonGarbledTLP:
                 wire_idx = details.numWires - 1 - j - details.bitlengthOutputs * i
                 key = evaluation[wire_idx]
                 output.append(bool(select_bit(key) ^ out_perm[wire_idx]))
-        return output
+
+        if return_witness:
+            return output, {
+                'boundary_wire_values': boundary_wire_values,
+                'gate_keys': gate_keys,
+            }
+        return output, None
 
     def run_protocol(self, s: int):
         """
@@ -668,4 +693,21 @@ class PythonGarbledTLP:
 
 if __name__ == "__main__":
     print("TLP Python Garbling Library v4")
-    print("Use: from tlp_garbling4 import PythonGarbledTLP4")
+    print("Use: from timelock_puzzle.tlp_garbling import PythonGarbledTLP")
+
+    # Smoke-test the witness round-trip for a small puzzle.
+    tlp = PythonGarbledTLP(lam=128, message_size=128, T=2,
+                           use_sha256=False, garbling_mode="prgc")
+    assert tlp.run_protocol(s=0)
+    assert tlp.run_protocol(s=1)
+
+    # And the witness path.
+    pp = tlp.PSetup_Garble()
+    Z = tlp.PGen(1, pp)
+    s, y, witness = tlp.PSolve(Z, pp, return_witness=True)
+    assert s == 1
+    assert tlp.PVerify(s, y, Z)
+    assert witness is not None
+    assert 'boundary_wire_values' in witness
+    assert 'gate_keys' in witness
+    print("OK: witness round-trip works.")
