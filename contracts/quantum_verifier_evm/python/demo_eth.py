@@ -317,7 +317,12 @@ def main() -> None:
         ], "registerPuzzle")
         bench["runs"].append(_bench_row("registerPuzzle", h, ms, rpc))
         print(f"   tx {h}")
-        print(f"   stored puzzle_hash = 0x{puzzle_hash.hex()} (puzzle_id = 1)")
+        # The registry assigns ids sequentially; on a reused verifier the new
+        # puzzle is NOT id 1 — read the count back instead of assuming.
+        count_raw = run(["cast", "call", verifier, "puzzleCount()",
+                         "--rpc-url", rpc], "puzzleCount")
+        puzzle_id = int(count_raw, 16)
+        print(f"   stored puzzle_hash = 0x{puzzle_hash.hex()} (puzzle_id = {puzzle_id})")
 
         # ---- 5a. Honest claims (--repeat times, for gas averaging) ---------
         for rep in range(args.repeat):
@@ -327,7 +332,7 @@ def main() -> None:
             h, ms = send_timed([
                 "send", verifier,
                 "submitAndVerify(uint32,bytes)",
-                "1", f"0x{claim_hex}",
+                str(puzzle_id), f"0x{claim_hex}",
                 *auth, "--rpc-url", rpc, "--json",
             ], f"submit honest {rep}")
             print(f"   tx {h}   ({ms/1000:.1f}s to receipt)")
@@ -339,7 +344,7 @@ def main() -> None:
         h, ms = send_timed([
             "send", verifier,
             "submitAndVerify(uint32,bytes)",
-            "1", f"0x{cheat_hex}",
+            str(puzzle_id), f"0x{cheat_hex}",
             *auth, "--rpc-url", rpc, "--json",
         ], "submit cheat")
         print(f"   tx {h}   ({ms/1000:.1f}s to receipt)")

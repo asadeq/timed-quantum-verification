@@ -1123,5 +1123,117 @@
       "psolve_ms": 5.6760840088827536,
       "claim_build_ms": 2.5732089998200536
     }
+  },
+  {
+    "venue": "sepolia",
+    "chain_id": "11155111",
+    "timestamp_utc": "2026-10-14T17:41:20Z",
+    "params": {
+      "T": 1,
+      "lam": 128,
+      "msg_bits": 128,
+      "K": 8,
+      "repeat": 1
+    },
+    "runs": [
+      {
+        "name": "registerPuzzle",
+        "tx": "0xd301a75b7cfd684e5e3f63512a80cb494d545510f4117ef2bf16ab6fbccbfa7a",
+        "block": 11914815,
+        "gas_used": 147148,
+        "effective_gas_price_wei": 3000021,
+        "fee_wei": 441447090108,
+        "latency_ms": 18793.8
+      },
+      {
+        "name": "verify_honest_K8",
+        "tx": "0x3a2786797ed707de0729573c1852440a0aba5a39614daa7fd7df7786a69efdcd",
+        "block": 11914816,
+        "gas_used": 283544,
+        "effective_gas_price_wei": 3000021,
+        "fee_wei": 850637954424,
+        "latency_ms": 8863.2
+      },
+      {
+        "name": "verify_cheat",
+        "tx": "0x4d1bafa046a70abe148c8674d19e51d1df8439dde175cc682eb3f88938c71545",
+        "block": 11914817,
+        "gas_used": 283544,
+        "effective_gas_price_wei": 3000020,
+        "fee_wei": 850637670880,
+        "latency_ms": 11167.4
+      },
+      {
+        "name": "verify_unknown_puzzle",
+        "tx": "0x2d8aa9359d67970f6caad52e4b9d16e07032f70bd8cfe430f54050a6406cc139",
+        "block": 11914818,
+        "gas_used": 283544,
+        "effective_gas_price_wei": 3000020,
+        "fee_wei": 850637670880,
+        "latency_ms": 11562.3
+      }
+    ],
+    "offchain_ms": {
+      "psetup_garble_ms": 8.390666989726014,
+      "pgen_ms": 9.982207993743941,
+      "psolve_ms": 1.6422500048065558,
+      "claim_build_ms": 2.168125007301569
+    }
+  },
+  {
+    "venue": "sepolia",
+    "chain_id": "11155111",
+    "timestamp_utc": "2026-10-14T17:47:08Z",
+    "params": {
+      "T": 1,
+      "lam": 128,
+      "msg_bits": 128,
+      "K": 8,
+      "repeat": 1
+    },
+    "runs": [
+      {
+        "name": "registerPuzzle",
+        "tx": "0xdcd660b235de4dc27fb6ef0484be13fca2e6f94a5de719780ace2bcc19eb7cdc",
+        "block": 11914844,
+        "gas_used": 147148,
+        "effective_gas_price_wei": 82380879,
+        "fee_wei": 12122181583092,
+        "latency_ms": 16214.4
+      },
+      {
+        "name": "verify_honest_K8",
+        "tx": "0x0b64a4f8b99d6f029247fb70c7771b3e9766bd143464f13752b47b82b5d4b59f",
+        "block": 11914846,
+        "gas_used": 303114,
+        "effective_gas_price_wei": 100000020,
+        "fee_wei": 30311406062280,
+        "latency_ms": 22304.1
+      },
+      {
+        "name": "verify_cheat",
+        "tx": "0xc2aa67505eb09e026c5053100bc260d29a38118b55073103240bdfd9e49f1613",
+        "block": 11914850,
+        "gas_used": 299787,
+        "effective_gas_price_wei": 25575019,
+        "fee_wei": 7667058220953,
+        "latency_ms": 48500.0
+      },
+      {
+        "name": "verify_unknown_puzzle",
+        "tx": "0xef531b17d3a60431d19e7667f878df33fe413e91dacb922990b27a58921e6cc4",
+        "block": 11914855,
+        "gas_used": 283544,
+        "effective_gas_price_wei": 14287517,
+        "fee_wei": 4051139720248,
+        "latency_ms": 57528.9
+      }
+    ],
+    "offchain_ms": {
+      "psetup_garble_ms": 10.786083003040403,
+      "pgen_ms": 11.527959009981714,
+      "psolve_ms": 1.6238329990301281,
+      "claim_build_ms": 2.4488339986419305
+    }
   }
 ]
