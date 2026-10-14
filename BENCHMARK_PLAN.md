@@ -165,3 +165,43 @@ Trials: ≥10 per cell (existing scripts use 5–20); report mean ± std
   both numbers explicitly.
 - **K default.** Keep K=8 as the reference point across all axes so tables
   align with the fixtures and prior measurements.
+- **⚠️ Hard-fork repricing (measured 2026-10-13, Sepolia).** Deployment gas
+  under the *current* Sepolia spec is **11,183,331** for this verifier — ~7×
+  the 1.6M an anvil fork of the same chain reports. Per-verification gas is
+  nearly unchanged (303,294 live vs 309,246 anvil), so the repricing hits
+  one-time deploy, not per-claim cost. Consequences: (a) never trust
+  fork/local gas numbers for *deployment* budgeting; (b) always set an
+  explicit `--gas-limit` when deploying (2M and 5M both reverted silently,
+  burning the full limit); (c) re-validate per-op gas after every network
+  hard fork. `forge create` note: place `--rpc-url` **before**
+  `--constructor-args` (the variadic swallows trailing flags).
+
+## 9. First live-network results (Sepolia, 2026-10-13)
+
+Venue: chain 11155111 via Alchemy; verifier
+`0x70bA6106ab8624e286aD1D6232E9d43E391823e5` (immutable, free mode); solver
+wallet `0x463b6e48dEC519D1229bF3D152a1c3B93282B144`; K=8; claim 4,096 B.
+Raw rows: `contracts/quantum_verifier_evm/bench/evm_results.json`.
+
+| op | gas | fee (ETH) | verdict |
+|---|---|---|---|
+| registerPuzzle | 245,056 | 2.9e-7 | puzzle 1 registered |
+| verify honest K=8 | 303,294 | 3.6e-7 | **VERIFIED (s=1)** |
+| verify cheat (s flipped) | 299,967 | 3.6e-7 | REJECTED reason 4 |
+| verify unknown puzzle | 283,544 | 3.4e-7 | REJECTED reason 0 |
+
+Cross-venue consistency: live K=8 gas (303,294) matches the Anvil golden-vector
+measurement (309,246) within ~2%. Latency (22–72 s submit→receipt) is polluted
+by manual keystore-password entry and is an upper bound only.
+
+Demo usage (live network):
+
+```sh
+export PATH="$HOME/.foundry/bin:$PATH" CAST_PASSWORD=...   # keystore password
+uv run python python/demo_eth.py --spot-checks 8 \
+  --rpc-url $ETH_SEPOLIA_RPC --account base-sep \
+  --verifier 0x70bA...823e5 --benchmark
+```
+
+Keys live in a local cast keystore (`~/.foundry/keystores/base-sep`); the raw
+key never enters the repo. Testnet wallet: `0x463b6e48…B144`.

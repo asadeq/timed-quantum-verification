@@ -1,7 +1,8 @@
 out/
 cache/
-lib/
+/lib/
 broadcast/
 __pycache__/
 *.pyc
 .env
+bench/figures/
