@@ -34,8 +34,21 @@ def load_sessions() -> list[dict]:
     return json.loads(BENCH.read_text())
 
 
+# Map chain ids to short, plot-friendly venue names; anything with an explicit
+# --venue-label already has one, and legacy sessions recorded a raw URL.
+CHAIN_NAMES = {"31337": "anvil", "11155111": "sepolia", "84532": "base-sepolia"}
+
+
+def short_venue(session: dict) -> str:
+    v = session.get("venue", "?")
+    if v.startswith("http"):
+        cid = str(session.get("chain_id", ""))
+        return CHAIN_NAMES.get(cid, f"chain-{cid}")
+    return v
+
+
 def honest_gas_by_k(sessions: list[dict]) -> dict[int, list[int]]:
-    """venue -> {K: [gas, ...]} averaged across all sessions."""
+    """{K: [gas, ...]} averaged across all sessions."""
     by_k: dict[int, list[int]] = defaultdict(list)
     for s in sessions:
         for r in s["runs"]:
@@ -143,12 +156,9 @@ def main() -> None:
         print("compare: pass --python-baseline to include the Python-only column")
 
     # ---- 1b. Honest-claims value panel (gas / fee / latency per venue) ------
-    # Groups ALL honest verification runs by venue and shows the three metrics
-    # a user cares about: deterministic cost (gas), price paid (ETH), and
-    # time-to-verdict (latency).
     by_venue: dict[str, dict] = {}
     for s in sessions:
-        v = s.get("venue", "?")
+        v = short_venue(s)
         b = by_venue.setdefault(v, {"gas": [], "fee": [], "lat": []})
         for r in s["runs"]:
             if r["name"].startswith("verify_honest"):
@@ -159,42 +169,104 @@ def main() -> None:
         import statistics as st
         venues = list(by_venue)
         means = {
-            "gas": [st.mean(by_venue[v]["gas"]) for v in venues],
-            "fee": [st.mean(by_venue[v]["fee"]) for v in venues],
+            "gas": [st.mean(by_venue[v]["gas"]) / 1000 for v in venues],       # k-gas
+            "fee": [st.mean(by_venue[v]["fee"]) * 1e5 for v in venues],        # 1e-5 ETH
             "lat": [st.mean(by_venue[v]["lat"]) for v in venues],
+        }
+        stds = {
+            "gas": [(st.stdev(by_venue[v]["gas"]) if len(by_venue[v]["gas"]) > 1 else 0) / 1000
+                    for v in venues],
         }
         fig, axes = plt.subplots(1, 3, figsize=(13, 4.5))
         colors = ["#0f62fe"] + ["#8d8d8d"] * (len(venues) - 1)
         specs = [
-            ("gas", "Gas per honest verification", "{:,.0f}", 1000),
-            ("fee", "ETH fee per honest verification", "{:.8f}", 1),
-            ("lat", "Submit → receipt latency (s)", "{:.1f}", 1000),
+            ("gas", "Gas per honest verification (×1000)", "{:.1f}k"),
+            ("fee", "ETH fee per honest verification (×10⁻⁵)", "{:.2f}"),
+            ("lat", "Submit → receipt latency (s)", "{:.1f}s"),
         ]
-        for ax, (key, title, fmt, div) in zip(axes, specs):
-            vals = [m / div for m in means[key]]
-            bars = ax.bar(venues, vals, color=colors)
-            ax.set_title(title)
+        for ax, (key, title, fmt) in zip(axes, specs):
+            vals = means[key]
+            bars = ax.bar(venues, vals, color=colors, width=0.55)
+            if key == "gas":
+                ax.errorbar(venues, vals, yerr=stds["gas"], fmt="none",
+                            ecolor="black", capsize=4)
+            ax.set_title(title, fontsize=11)
             ax.grid(alpha=0.3, axis="y")
-            # annotate bars; rotate labels when venue names are long
             for bar, v in zip(bars, vals):
-                label = fmt.format(v)
-                if len(venues) > 2:
-                    ax.annotate(label, (bar.get_x() + bar.get_width() / 2, v),
-                                ha="center", va="bottom", fontsize=8, rotation=45)
-                else:
-                    ax.annotate(label, (bar.get_x() + bar.get_width() / 2, v),
-                                ha="center", va="bottom")
-            if len(venues) > 2:
-                ax.tick_params(axis="x", rotation=30)
-        # std as error bar on gas (the deterministic metric)
-        axes[0].errorbar(range(len(venues)), [m / 1000 for m in means["gas"]],
-                         yerr=[(st.stdev(by_venue[v]["gas"]) if len(by_venue[v]["gas"]) > 1 else 0) / 1000
-                               for v in venues], fmt="none", ecolor="black", capsize=4)
-        fig.suptitle("Honest verification cost by venue (mean over runs; "
-                     f"1 ETH = ${args.eth_usd:.0f})")
+                ax.annotate(fmt.format(v),
+                            (bar.get_x() + bar.get_width() / 2, bar.get_height()),
+                            ha="center", va="bottom", fontsize=9)
+            ax.set_ylim(0, max(vals) * 1.25)
+        fig.suptitle("Honest verification cost by venue "
+                     f"(mean over runs; 1 ETH = ${args.eth_usd:.0f})", fontsize=12)
         fig.tight_layout()
         fig.savefig(out_dir / "honest_metrics.png", dpi=150)
         print(f"wrote {out_dir / 'honest_metrics.png'}")
+
+    # ---- 1c. Sepolia constant-cost curves: gas vs K, and gas vs T ----------
+    # One panel per axis, per venue, so the "linear in K / flat in T" story is
+    # visible on live-network data, not just anvil.
+    sep = [s for s in sessions if short_venue(s) == "sepolia"]
+    if sep:
+        k_gas: dict[int, list[int]] = defaultdict(list)
+        t_gas: dict[int, list[int]] = defaultdict(list)
+        for s in sep:
+            k = s.get("params", {}).get("K", 8)
+            t = s.get("params", {}).get("T", 1)
+            for r in s["runs"]:
+                if r["name"].startswith("verify_honest"):
+                    k_gas[k].append(r["gas_used"])
+                    t_gas[t].append(r["gas_used"])
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4.5))
+        # gas vs K
+        ks = sorted(k_gas)
+        m = [st := sum(k_gas[k]) / len(k_gas[k]) for k in ks]
+        fit_slope = None
+        if len(ks) >= 2:
+            n = len(ks)
+            sx, sy = sum(ks), sum(m)
+            sxy = sum(k * y for k, y in zip(ks, m))
+            sxx = sum(k * k for k in ks)
+            fit_slope = (n * sxy - sx * sy) / (n * sxx - sx * sx)
+            intercept = (sy - fit_slope * sx) / n
+        ax1.plot(ks, m, "o-", color="#0f62fe")
+        ax1.plot(ks, [fit_slope * k + intercept for k in ks], "--", color="#999",
+                 label=f"fit: {fit_slope:,.0f} gas/K")
+        for k, y in zip(ks, m):
+            ax1.annotate(f"{y/1000:.0f}k", (k, y), textcoords="offset points",
+                         xytext=(0, 6), ha="center", fontsize=8)
+        ax1.set_xlabel("K (spot checks) — cheating prob 2^-K")
+        ax1.set_ylabel("Gas per verification")
+        ax1.set_title("Sepolia: gas vs K (linear)")
+        ax1.grid(alpha=0.3)
+        ax1.legend(fontsize=9)
+        # gas vs T
+        ts = sorted(t_gas)
+        mt = [sum(t_gas[t]) / len(t_gas[t]) for t in ts]
+        ax2.plot(ts, mt, "s-", color="#198038")
+        if len(ts) >= 2:
+            n = len(ts)
+            sx, sy = sum(ts), sum(mt)
+            sxy = sum(t * y for t, y in zip(ts, mt))
+            sxx = sum(t * t for t in ts)
+            t_slope = (n * sxy - sx * sy) / (n * sxx - sx * sx)
+            ax2.plot(ts, [t_slope * t + (sy - t_slope * sx) / n for t in ts],
+                     "--", color="#999", label=f"fit: {t_slope:,.0f} gas/T")
+        for t, y in zip(ts, mt):
+            ax2.annotate(f"{y/1000:.0f}k", (t, y), textcoords="offset points",
+                         xytext=(0, 6), ha="center", fontsize=8)
+        ax2.set_xlabel("T (time-lock length)")
+        ax2.set_ylabel("Gas per verification")
+        ax2.set_title("Sepolia: gas vs T (constant)")
+        ax2.grid(alpha=0.3)
+        ax2.legend(fontsize=9)
+        fig.suptitle("Live Sepolia verification cost", fontsize=12)
+        fig.tight_layout()
+        fig.savefig(out_dir / "sepolia_constant_cost.png", dpi=150)
+        print(f"wrote {out_dir / 'sepolia_constant_cost.png'} "
+              f"(K values: {ks}, T values: {ts})")
+    else:
+        print("sepolia panel: no sessions with venue 'sepolia' yet")
 
     # ---- Markdown summary ---------------------------------------------------
     lines = ["# Benchmark summary", ""]
