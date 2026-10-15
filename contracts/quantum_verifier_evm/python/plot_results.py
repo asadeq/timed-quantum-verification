@@ -142,6 +142,60 @@ def main() -> None:
     else:
         print("compare: pass --python-baseline to include the Python-only column")
 
+    # ---- 1b. Honest-claims value panel (gas / fee / latency per venue) ------
+    # Groups ALL honest verification runs by venue and shows the three metrics
+    # a user cares about: deterministic cost (gas), price paid (ETH), and
+    # time-to-verdict (latency).
+    by_venue: dict[str, dict] = {}
+    for s in sessions:
+        v = s.get("venue", "?")
+        b = by_venue.setdefault(v, {"gas": [], "fee": [], "lat": []})
+        for r in s["runs"]:
+            if r["name"].startswith("verify_honest"):
+                b["gas"].append(r["gas_used"])
+                b["fee"].append(r["fee_wei"] / 1e18)
+                b["lat"].append(r["latency_ms"] / 1000)
+    if by_venue:
+        import statistics as st
+        venues = list(by_venue)
+        means = {
+            "gas": [st.mean(by_venue[v]["gas"]) for v in venues],
+            "fee": [st.mean(by_venue[v]["fee"]) for v in venues],
+            "lat": [st.mean(by_venue[v]["lat"]) for v in venues],
+        }
+        fig, axes = plt.subplots(1, 3, figsize=(13, 4.5))
+        colors = ["#0f62fe"] + ["#8d8d8d"] * (len(venues) - 1)
+        specs = [
+            ("gas", "Gas per honest verification", "{:,.0f}", 1000),
+            ("fee", "ETH fee per honest verification", "{:.8f}", 1),
+            ("lat", "Submit → receipt latency (s)", "{:.1f}", 1000),
+        ]
+        for ax, (key, title, fmt, div) in zip(axes, specs):
+            vals = [m / div for m in means[key]]
+            bars = ax.bar(venues, vals, color=colors)
+            ax.set_title(title)
+            ax.grid(alpha=0.3, axis="y")
+            # annotate bars; rotate labels when venue names are long
+            for bar, v in zip(bars, vals):
+                label = fmt.format(v)
+                if len(venues) > 2:
+                    ax.annotate(label, (bar.get_x() + bar.get_width() / 2, v),
+                                ha="center", va="bottom", fontsize=8, rotation=45)
+                else:
+                    ax.annotate(label, (bar.get_x() + bar.get_width() / 2, v),
+                                ha="center", va="bottom")
+            if len(venues) > 2:
+                ax.tick_params(axis="x", rotation=30)
+        # std as error bar on gas (the deterministic metric)
+        axes[0].errorbar(range(len(venues)), [m / 1000 for m in means["gas"]],
+                         yerr=[(st.stdev(by_venue[v]["gas"]) if len(by_venue[v]["gas"]) > 1 else 0) / 1000
+                               for v in venues], fmt="none", ecolor="black", capsize=4)
+        fig.suptitle("Honest verification cost by venue (mean over runs; "
+                     f"1 ETH = ${args.eth_usd:.0f})")
+        fig.tight_layout()
+        fig.savefig(out_dir / "honest_metrics.png", dpi=150)
+        print(f"wrote {out_dir / 'honest_metrics.png'}")
+
     # ---- Markdown summary ---------------------------------------------------
     lines = ["# Benchmark summary", ""]
     for s in sessions:

@@ -180,3 +180,23 @@ off-chain: PSetup 55 ms · PGen 9 ms · PSolve 4 ms · claim-build 2.2 ms
 | verify_unknown_puzzle | 197,460 | 0.00007022 | 0.3 |
 
 off-chain: PSetup 106 ms · PGen 10 ms · PSolve 6 ms · claim-build 2.6 ms
+
+## sepolia — 2026-10-14T17:41:20Z (T=1, K=8)
+| op | gas | fee ETH | latency s |
+|---|---|---|---|
+| registerPuzzle | 147,148 | 0.00000044 | 18.8 |
+| verify_honest_K8 | 283,544 | 0.00000085 | 8.9 |
+| verify_cheat | 283,544 | 0.00000085 | 11.2 |
+| verify_unknown_puzzle | 283,544 | 0.00000085 | 11.6 |
+
+off-chain: PSetup 8 ms · PGen 10 ms · PSolve 2 ms · claim-build 2.2 ms
+
+## sepolia — 2026-10-14T17:47:08Z (T=1, K=8)
+| op | gas | fee ETH | latency s |
+|---|---|---|---|
+| registerPuzzle | 147,148 | 0.00001212 | 16.2 |
+| verify_honest_K8 | 303,114 | 0.00003031 | 22.3 |
+| verify_cheat | 299,787 | 0.00000767 | 48.5 |
+| verify_unknown_puzzle | 283,544 | 0.00000405 | 57.5 |
+
+off-chain: PSetup 11 ms · PGen 12 ms · PSolve 2 ms · claim-build 2.4 ms

@@ -5,4 +5,3 @@ broadcast/
 __pycache__/
 *.pyc
 .env
-bench/figures/
