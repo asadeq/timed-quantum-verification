@@ -117,6 +117,7 @@ def build_claim(
     s_claim: int,
     y: bytes,
     spot_check_indices: list[int],
+    solver: bytes | None = None,
 ) -> dict:
     x_tilde, r, r_dot_m_xor_s = Z
     _encoded_a, _encoded_b, yao_material = x_tilde
@@ -131,7 +132,11 @@ def build_claim(
     bitmap = bytes(bitmap)
 
     # --- leaves ------------------------------------------------------------
-    header_leaf = hashlib.sha256(r + be32(r_dot_m_xor_s) + bitmap).digest()
+    # The EVM verifier binds the claim to the submitting account: the header
+    # leaf includes the solver's 20-byte address, so a claim only verifies
+    # from the account it was built for (anti-front-running once a bounty is
+    # attached). `solver=None` keeps the Soroban leaf preimage.
+    header_leaf = hashlib.sha256(r + be32(r_dot_m_xor_s) + bitmap + (solver or b"")).digest()
 
     gate_leaves: list[bytes] = []
     for gi in non_reusable:
@@ -216,42 +221,52 @@ def main() -> None:
     non_reusable = sorted(witness["gate_keys"].keys())
     print(f"    s={s}  |y|={len(y)}B  non_reusable={len(non_reusable)}")
 
+    # Every fixture claim is bound to this fixed submitting address; the
+    # golden-vector test must `vm.prank` the same one. 0x…A11CE ("ALICE").
+    SOLVER = bytes.fromhex("00000000000000000000000000000000000A11CE")
+    OTHER_SOLVER = bytes.fromhex("0BADC0DE00000000000000000000000000000001")
+
     fixtures: list[tuple[str, bytes, bytes, bool, int]] = []
 
     def add(name: str, claim: dict, valid: bool, reason: int) -> None:
         fixtures.append((name, claim["puzzle_hash"], serialize_claim(claim), valid, reason))
 
     # 1. Honest, K=1
-    c = build_claim(tlp, Z, witness, s, y, non_reusable[:1])
+    c = build_claim(tlp, Z, witness, s, y, non_reusable[:1], solver=SOLVER)
     add("honest_k1", c, True, 0)
 
     # 2. Honest, K=8
-    c8 = build_claim(tlp, Z, witness, s, y, non_reusable[:8])
+    c8 = build_claim(tlp, Z, witness, s, y, non_reusable[:8], solver=SOLVER)
     add("honest_k8", c8, True, 0)
 
     # 3. Flipped s_claim -> reason 4 (Goldreich-Levin)
-    c = build_claim(tlp, Z, witness, s ^ 1, y, non_reusable[:1])
+    c = build_claim(tlp, Z, witness, s ^ 1, y, non_reusable[:1], solver=SOLVER)
     add("bad_s_claim", c, False, 4)
 
     # 4. Flipped k_o -> reason 3 (Yao spot-check)
-    c = build_claim(tlp, Z, witness, s, y, non_reusable[:1])
+    c = build_claim(tlp, Z, witness, s, y, non_reusable[:1], solver=SOLVER)
     c["spot_checks"][0]["k_o"] = flip_bit(c["spot_checks"][0]["k_o"], 7)
     add("bad_k_o", c, False, 3)
 
     # 5. Flipped table byte -> gate leaf changes -> reason 2 (gate Merkle)
-    c = build_claim(tlp, Z, witness, s, y, non_reusable[:1])
+    c = build_claim(tlp, Z, witness, s, y, non_reusable[:1], solver=SOLVER)
     t = c["spot_checks"][0]["table"]
     t[0][0] = flip_bit(t[0][0], 3)
     add("bad_table", c, False, 2)
 
     # 6. Flipped r byte -> header leaf changes -> reason 1 (header Merkle)
-    c = build_claim(tlp, Z, witness, s, y, non_reusable[:1])
+    c = build_claim(tlp, Z, witness, s, y, non_reusable[:1], solver=SOLVER)
     c["r"] = flip_bit(c["r"], 5)
     add("bad_r", c, False, 1)
 
     # 7. Unknown puzzle id -> reason 0
-    c = build_claim(tlp, Z, witness, s, y, non_reusable[:1])
+    c = build_claim(tlp, Z, witness, s, y, non_reusable[:1], solver=SOLVER)
     add("unknown_puzzle", c, False, 0)
+
+    # 8. Right claim, wrong submitting account -> the header leaf no longer
+    #    resolves to puzzleHash -> reason 1 (anti-front-running)
+    c = build_claim(tlp, Z, witness, s, y, non_reusable[:1], solver=OTHER_SOLVER)
+    add("wrong_solver", c, False, 1)
 
     # --- pad golden vectors ------------------------------------------------
     pad_vectors = []

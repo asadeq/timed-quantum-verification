@@ -26,6 +26,10 @@ contract QuantumVerifierTest is Test {
     address admin = makeAddr("admin");
     address solver = makeAddr("solver");
 
+    /// @dev The address every golden fixture claim is bound to (see
+    ///      `gen_fixtures.py`; the header leaf commits to it).
+    address constant FIXTURE_SOLVER = address(0x00000000000000000000000000000000000A11cE);
+
     function setUp() public {
         verifier = new QuantumVerifier(admin, address(0), 0);
     }
@@ -152,7 +156,7 @@ contract QuantumVerifierTest is Test {
             GeneratedFixtures.Fixture memory f = GeneratedFixtures.all()[i];
             if (keccak256(bytes(f.name)) == keccak256("unknown_puzzle")) continue;
             vm.prank(admin);
-            verifier.registerPuzzle(bytes32(0), bytes32(0), f.puzzleHash, 0);
+            verifier.registerPuzzle(bytes32(0), bytes32(0), f.puzzleHash, 0, 0);
         }
 
         for (uint256 i = 0; i < _fixtureCount(); ++i) {
@@ -162,7 +166,11 @@ contract QuantumVerifierTest is Test {
                 puzzleId = 999;
             }
 
-            vm.prank(solver);
+            // The header leaf commits to the submitting account, so every
+            // claim must arrive from the address it was generated for
+            // (FIXTURE_SOLVER). wrong_solver then fails at reason 1 — the
+            // anti-front-running property — instead of verifying.
+            vm.prank(FIXTURE_SOLVER);
             bool ok = verifier.submitAndVerify(puzzleId, f.claim);
 
             assertEq(ok, f.expectValid, f.name);
@@ -179,6 +187,146 @@ contract QuantumVerifierTest is Test {
                 "pad vector mismatch"
             );
         }
+    }
+
+    // -----------------------------------------------------------------------
+    // Tier 2.5 — escrow, solver binding, settlement
+    // -----------------------------------------------------------------------
+
+    function test_BountyPaidAtomicallyToSolver() public {
+        GeneratedFixtures.Fixture memory f = GeneratedFixtures.all()[0];
+        assertEq(
+            keccak256(bytes(f.name)), keccak256("honest_k1"), "fixture order changed"
+        );
+        uint96 bounty = 1 ether;
+        vm.deal(admin, bounty);
+        vm.prank(admin);
+        uint32 pid = verifier.registerPuzzle{value: bounty}(bytes32(0), bytes32(0), f.puzzleHash, 0, bounty);
+
+        // Zero gas price so the payout is the only ETH movement.
+        vm.txGasPrice(0);
+        vm.deal(FIXTURE_SOLVER, 1 ether);
+        vm.prank(FIXTURE_SOLVER);
+        assertTrue(verifier.submitAndVerify(pid, f.claim));
+
+        assertEq(FIXTURE_SOLVER.balance, 1 ether + bounty, "bounty not paid");
+        assertEq(address(verifier).balance, 0, "escrow not drained");
+        QuantumVerifier.PuzzleMeta memory meta = verifier.puzzleMetaOf(pid);
+        assertEq(meta.bounty, bounty, "bounty field is the audit trail");
+        assertEq(meta.claimedBy, FIXTURE_SOLVER, "claimer not recorded");
+    }
+
+    function test_BountyDoubleClaimRejectedReason5() public {
+        GeneratedFixtures.Fixture memory f = GeneratedFixtures.all()[0];
+        uint96 bounty = 0.5 ether;
+        vm.deal(admin, bounty);
+        vm.prank(admin);
+        uint32 pid = verifier.registerPuzzle{value: bounty}(bytes32(0), bytes32(0), f.puzzleHash, 0, bounty);
+
+        vm.prank(FIXTURE_SOLVER);
+        assertTrue(verifier.submitAndVerify(pid, f.claim));
+
+        vm.expectEmit(true, true, false, true, address(verifier));
+        emit QuantumVerifier.Rejected(pid, FIXTURE_SOLVER, 5);
+        vm.prank(FIXTURE_SOLVER);
+        assertFalse(verifier.submitAndVerify(pid, f.claim));
+        assertEq(address(verifier).balance, 0, "no second payout");
+    }
+
+    function test_ClaimIsBoundToSubmittingAddress() public {
+        GeneratedFixtures.Fixture memory f = GeneratedFixtures.all()[0];
+        vm.prank(admin);
+        uint32 pid = verifier.registerPuzzle(bytes32(0), bytes32(0), f.puzzleHash, 0, 0);
+
+        // The same valid bytes from a different account fail at the header
+        // leaf (reason 1): claims cannot be front-run for the bounty.
+        address mallory = makeAddr("mallory");
+        vm.expectEmit(true, true, false, true, address(verifier));
+        emit QuantumVerifier.Rejected(pid, mallory, 1);
+        vm.prank(mallory);
+        assertFalse(verifier.submitAndVerify(pid, f.claim));
+    }
+
+    function test_NoBountyAllowsRepeatedVerification() public {
+        GeneratedFixtures.Fixture memory f = GeneratedFixtures.all()[0];
+        vm.prank(admin);
+        uint32 pid = verifier.registerPuzzle(bytes32(0), bytes32(0), f.puzzleHash, 0, 0);
+
+        vm.prank(FIXTURE_SOLVER);
+        assertTrue(verifier.submitAndVerify(pid, f.claim));
+        vm.prank(FIXTURE_SOLVER);
+        assertTrue(verifier.submitAndVerify(pid, f.claim));
+    }
+
+    function test_ReclaimBountyReturnsFundsToAdmin() public {
+        GeneratedFixtures.Fixture memory f = GeneratedFixtures.all()[0];
+        uint96 bounty = 0.25 ether;
+        vm.deal(admin, bounty);
+        vm.prank(admin);
+        uint32 pid = verifier.registerPuzzle{value: bounty}(bytes32(0), bytes32(0), f.puzzleHash, 0, bounty);
+
+        vm.txGasPrice(0);
+        uint256 before = admin.balance;
+        vm.prank(admin);
+        verifier.reclaimBounty(pid);
+        assertEq(admin.balance, before + bounty, "bounty not returned");
+
+        vm.prank(admin);
+        vm.expectRevert(QuantumVerifier.NothingToReclaim.selector);
+        verifier.reclaimBounty(pid);
+    }
+
+    function test_ClaimedBountyCannotBeReclaimed() public {
+        GeneratedFixtures.Fixture memory f = GeneratedFixtures.all()[0];
+        uint96 bounty = 0.25 ether;
+        vm.deal(admin, bounty);
+        vm.prank(admin);
+        uint32 pid = verifier.registerPuzzle{value: bounty}(bytes32(0), bytes32(0), f.puzzleHash, 0, bounty);
+
+        vm.prank(FIXTURE_SOLVER);
+        assertTrue(verifier.submitAndVerify(pid, f.claim));
+
+        vm.prank(admin);
+        vm.expectRevert(QuantumVerifier.NothingToReclaim.selector);
+        verifier.reclaimBounty(pid);
+    }
+
+    function test_RegisterRejectsWrongBountyValue() public {
+        GeneratedFixtures.Fixture memory f = GeneratedFixtures.all()[0];
+        vm.deal(admin, 1 ether);
+        vm.prank(admin);
+        vm.expectRevert(
+            abi.encodeWithSelector(QuantumVerifier.WrongFee.selector, 2 ether, 1 ether)
+        );
+        verifier.registerPuzzle{value: 1 ether}(bytes32(0), bytes32(0), f.puzzleHash, 0, 2 ether);
+    }
+
+    function test_RegisterRejectsStrayValueWithoutBounty() public {
+        GeneratedFixtures.Fixture memory f = GeneratedFixtures.all()[0];
+        vm.deal(admin, 1);
+        vm.prank(admin);
+        vm.expectRevert(QuantumVerifier.UnexpectedValue.selector);
+        verifier.registerPuzzle{value: 1}(bytes32(0), bytes32(0), f.puzzleHash, 0, 0);
+    }
+
+    function test_ERC20BountyPaidToSolver() public {
+        MockERC20 token = new MockERC20();
+        QuantumVerifier escrow = new QuantumVerifier(admin, address(token), 0);
+
+        GeneratedFixtures.Fixture memory f = GeneratedFixtures.all()[0];
+        uint96 bounty = 100e18;
+        token.mint(admin, 1_000e18);
+
+        vm.startPrank(admin);
+        token.approve(address(escrow), bounty);
+        uint32 pid = escrow.registerPuzzle(bytes32(0), bytes32(0), f.puzzleHash, 0, bounty);
+        vm.stopPrank();
+
+        assertEq(token.balanceOf(address(escrow)), bounty, "bounty not escrowed");
+
+        vm.prank(FIXTURE_SOLVER);
+        assertTrue(escrow.submitAndVerify(pid, f.claim));
+        assertEq(token.balanceOf(FIXTURE_SOLVER), bounty, "bounty not paid in token");
     }
 
     // -----------------------------------------------------------------------
@@ -252,6 +400,37 @@ contract QuantumVerifierTest is Test {
     function test_RevertWhenNotAdmin() public {
         vm.expectRevert(QuantumVerifier.NotAdmin.selector);
         vm.prank(solver);
-        verifier.registerPuzzle(bytes32(0), bytes32(0), bytes32(0), 0);
+        verifier.registerPuzzle(bytes32(0), bytes32(0), bytes32(0), 0, 0);
+    }
+}
+
+/// @dev Minimal token for the ERC-20 bounty tests. Only what SafeERC20 needs.
+contract MockERC20 {
+    mapping(address => uint256) public balanceOf;
+    mapping(address => mapping(address => uint256)) public allowance;
+
+    function mint(address to, uint256 amount) external {
+        balanceOf[to] += amount;
+    }
+
+    function approve(address spender, uint256 amount) external returns (bool) {
+        allowance[msg.sender][spender] = amount;
+        return true;
+    }
+
+    function transfer(address to, uint256 amount) external returns (bool) {
+        _move(msg.sender, to, amount);
+        return true;
+    }
+
+    function transferFrom(address from, address to, uint256 amount) external returns (bool) {
+        allowance[from][msg.sender] -= amount;
+        _move(from, to, amount);
+        return true;
+    }
+
+    function _move(address from, address to, uint256 amount) private {
+        balanceOf[from] -= amount;
+        balanceOf[to] += amount;
     }
 }

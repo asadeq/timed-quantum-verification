@@ -128,6 +128,7 @@ REASONS = {
     2: "gate Merkle path invalid",
     3: "Yao spot-check failed",
     4: "Goldreich-Levin check failed",
+    5: "bounty already claimed",
 }
 
 
@@ -189,6 +190,11 @@ def main() -> None:
                          "of deploying a new one (useful on live networks)")
     ap.add_argument("--benchmark", action="store_true",
                     help="record gas/latency per tx into bench/evm_results.json")
+    ap.add_argument("--bounty", default="0",
+                    help="wei escrowed by registerPuzzle and paid atomically "
+                         "to the first honest solver. Claims are bound to the "
+                         "submitting address, so the bounty cannot be "
+                         "front-run. Default 0 (verify-only).")
     args = ap.parse_args()
 
     live = args.rpc_url is not None
@@ -204,6 +210,10 @@ def main() -> None:
     sender = None
     if live:
         sender = out.splitlines()[-1].strip()
+    # The account that will sign submitAndVerify — the claim's header leaf is
+    # bound to this address, so it must be known before the claim is built.
+    solver_addr = sender or ANVIL_ADDRESS
+    solver20 = bytes.fromhex(solver_addr.removeprefix("0x").lower())
     rpc = args.rpc_url or f"http://localhost:{args.port}"
     chain_id = "31337" if not live else None
     if live:
@@ -214,7 +224,8 @@ def main() -> None:
         "chain_id": chain_id,
         "timestamp_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "params": {"T": args.T, "lam": args.lam, "msg_bits": args.msg_bits,
-                   "K": args.spot_checks, "repeat": args.repeat},
+                   "K": args.spot_checks, "repeat": args.repeat,
+                   "bounty_wei": args.bounty, "solver": solver_addr},
         "runs": [],
     }
 
@@ -249,11 +260,11 @@ def main() -> None:
     assert tlp.PVerify(s, y, Z), "honest PVerify failed"
     t0 = time.perf_counter()
     non_reusable = sorted(witness["gate_keys"].keys())
-    honest = build_claim(tlp, Z, witness, s, y, non_reusable[:K])
+    honest = build_claim(tlp, Z, witness, s, y, non_reusable[:K], solver=solver20)
     offchain_ms["claim_build_ms"] = (time.perf_counter() - t0) * 1000
 
     bench["offchain_ms"] = offchain_ms
-    cheat = build_claim(tlp, Z, witness, s ^ 1, y, non_reusable[:K])
+    cheat = build_claim(tlp, Z, witness, s ^ 1, y, non_reusable[:K], solver=solver20)
     puzzle_hash = honest["puzzle_hash"]
     claim_hex = serialize_claim(honest).hex()
     cheat_hex = serialize_claim(cheat).hex()
@@ -307,14 +318,19 @@ def main() -> None:
         print(f"   verifier = {verifier}")
 
         # ---- 4. Register --------------------------------------------------
-        print("==> 4. registerPuzzle (admin)")
+        print("==> 4. registerPuzzle (admin)"
+              + (f", escrowing {int(args.bounty) / 1e18:.6f} ETH bounty"
+                 if int(args.bounty) else ""))
         zero32 = "0x" + "00" * 32
-        h, ms = send_timed([
+        reg_cmd = [
             "send", verifier,
-            "registerPuzzle(bytes32,bytes32,bytes32,uint32)",
-            zero32, zero32, f"0x{puzzle_hash.hex()}", "0",
+            "registerPuzzle(bytes32,bytes32,bytes32,uint32,uint96)",
+            zero32, zero32, f"0x{puzzle_hash.hex()}", "0", args.bounty,
             *auth, "--rpc-url", rpc, "--json",
-        ], "registerPuzzle")
+        ]
+        if int(args.bounty):
+            reg_cmd += ["--value", args.bounty]
+        h, ms = send_timed(reg_cmd, "registerPuzzle")
         bench["runs"].append(_bench_row("registerPuzzle", h, ms, rpc))
         print(f"   tx {h}")
         # The registry assigns ids sequentially; on a reused verifier the new

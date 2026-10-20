@@ -22,21 +22,28 @@ import {ReentrancyGuard} from "./utils/ReentrancyGuard.sol";
 ///         amount of SHA-256 over a few KB of proof bytes — independent of T.
 ///
 ///         The 49 KB puzzle body never touches the chain. `registerPuzzle`
-///         stores only its Merkle root (`puzzleHash`); each claim carries paths
-///         binding the header material and the spot-checked gate tables back to
-///         that root.
+///         stores only its Merkle root (`puzzleHash`) — plus an optional
+///         escrowed bounty — and each claim carries paths binding the header
+///         material and the spot-checked gate tables back to that root. A
+///         successful claim atomically releases the bounty to the submitting
+///         solver (verify-then-settle in one transaction). The header leaf
+///         commits to the submitter's address, so a valid claim is only valid
+///         from the account it was built for and cannot be front-run or
+///         replayed by a bystander.
 ///
 /// @dev Port of `contracts/quantum_verifier` (Soroban/Rust). The four rejection
 ///      reasons are preserved exactly so the two implementations can be
-///      differential-tested against the same fixtures:
+///      differential-tested against the same fixtures. Reasons 5+ and the
+///      escrow flow are EVM-only extensions:
 ///
 ///      | reason | check |
 ///      |---|---|
 ///      | 0 | puzzle not registered |
-///      | 1 | header Merkle path does not resolve to `puzzleHash` |
+///      | 1 | header Merkle path does not resolve to `puzzleHash` (includes wrong solver) |
 ///      | 2 | a spot-check's Merkle path does not resolve to `puzzleHash` |
 ///      | 3 | Yao spot-check failed (or gate not marked non-reusable) |
 ///      | 4 | Goldreich-Levin check failed |
+///      | 5 | bounty already claimed (EVM only) |
 contract QuantumVerifier is ReentrancyGuard {
     using SafeERC20 for IERC20;
 
@@ -45,6 +52,12 @@ contract QuantumVerifier is ReentrancyGuard {
         bytes32 pkCommitment;
         bytes32 puzzleHash;
         uint32 fee;
+        /// @dev Escrowed reward paid to the first honest solver. `0` means the
+        ///      puzzle is verify-only (any number of successful verifications).
+        uint96 bounty;
+        /// @dev Solver that already claimed the bounty; `address(0)` while
+        ///      unclaimed. Packs with `bounty` into one slot (96 + 160 bits).
+        address claimedBy;
     }
 
     /// @dev Sanity cap on a per-puzzle fee, to catch unit mistakes (stroops vs
@@ -70,9 +83,11 @@ contract QuantumVerifier is ReentrancyGuard {
 
     mapping(uint32 => PuzzleMeta) public puzzleMeta;
 
-    event PuzzleRegistered(uint32 indexed puzzleId, uint32 fee);
+    event PuzzleRegistered(uint32 indexed puzzleId, uint32 fee, uint96 bounty);
     event Verified(uint32 indexed puzzleId, address indexed solver, bytes32 claimHash, uint8 s);
     event Rejected(uint32 indexed puzzleId, address indexed solver, uint8 reason);
+    event BountyPaid(uint32 indexed puzzleId, address indexed solver, uint96 amount);
+    event BountyReclaimed(uint32 indexed puzzleId, address indexed to, uint96 amount);
     event FeeUpdated(uint256 oldFee, uint256 newFee);
     event Withdrawn(address indexed to, uint256 amount);
 
@@ -81,6 +96,7 @@ contract QuantumVerifier is ReentrancyGuard {
     error UnexpectedValue();
     error TransferFailed();
     error FeeTooHigh(uint32 fee, uint32 max);
+    error NothingToReclaim();
 
     /// @param admin_ Address allowed to register puzzles and withdraw.
     /// @param paymentToken_ ERC-20 to charge in, or `address(0)` for native ETH.
@@ -97,25 +113,45 @@ contract QuantumVerifier is ReentrancyGuard {
 
     /// @notice Register a puzzle by its commitment. Admin only.
     /// @dev Only the Merkle root is stored. The puzzle body stays off-chain.
+    ///      A non-zero `bounty` is escrowed here (msg.value for native ETH,
+    ///      `transferFrom` for ERC-20) and paid atomically to the first solver
+    ///      whose claim verifies. The bounty makes the claim's header leaf
+    ///      economically meaningful: without a reward, front-running a claim
+    ///      is harmless, with one it must be impossible — which is why the
+    ///      leaf also binds `msg.sender`.
     /// @return puzzleId The new puzzle's id (starts at 1).
     function registerPuzzle(
         bytes32 circuitHash,
         bytes32 pkCommitment,
         bytes32 puzzleHash,
-        uint32 fee
-    ) external returns (uint32 puzzleId) {
+        uint32 fee,
+        uint96 bounty
+    ) external payable returns (uint32 puzzleId) {
         if (msg.sender != admin) revert NotAdmin();
         if (fee > MAX_PUZZLE_FEE) revert FeeTooHigh(fee, MAX_PUZZLE_FEE);
+
+        if (bounty != 0) {
+            if (paymentToken == address(0)) {
+                if (msg.value != bounty) revert WrongFee(bounty, msg.value);
+            } else {
+                if (msg.value != 0) revert UnexpectedValue();
+                IERC20(paymentToken).safeTransferFrom(msg.sender, address(this), bounty);
+            }
+        } else if (msg.value != 0) {
+            revert UnexpectedValue();
+        }
 
         puzzleId = ++puzzleCount;
         puzzleMeta[puzzleId] = PuzzleMeta({
             circuitHash: circuitHash,
             pkCommitment: pkCommitment,
             puzzleHash: puzzleHash,
-            fee: fee
+            fee: fee,
+            bounty: bounty,
+            claimedBy: address(0)
         });
 
-        emit PuzzleRegistered(puzzleId, fee);
+        emit PuzzleRegistered(puzzleId, fee, bounty);
     }
 
     /// @notice Update the global per-verification fee. Admin only.
@@ -144,6 +180,28 @@ contract QuantumVerifier is ReentrancyGuard {
         }
 
         emit Withdrawn(to, amount);
+    }
+
+    /// @notice Return an unclaimed bounty to the admin.
+    /// @dev For puzzles nobody ever solves honestly; claimed bounties are gone
+    ///      for good (they were paid out), and there is deliberately no
+    ///      deadline — a puzzle stays solvable as long as the admin leaves the
+    ///      bounty posted.
+    function reclaimBounty(uint32 puzzleId) external nonReentrant {
+        if (msg.sender != admin) revert NotAdmin();
+
+        PuzzleMeta memory meta = puzzleMeta[puzzleId];
+        if (meta.bounty == 0 || meta.claimedBy != address(0)) revert NothingToReclaim();
+        puzzleMeta[puzzleId].bounty = 0;
+
+        emit BountyReclaimed(puzzleId, admin, meta.bounty);
+
+        if (paymentToken == address(0)) {
+            (bool ok,) = admin.call{value: meta.bounty}("");
+            if (!ok) revert TransferFailed();
+        } else {
+            IERC20(paymentToken).safeTransfer(admin, meta.bounty);
+        }
     }
 
     // -----------------------------------------------------------------------
@@ -176,12 +234,16 @@ contract QuantumVerifier is ReentrancyGuard {
         ClaimCodec.ClaimView memory v = ClaimCodec.decode(claim);
 
         // --- 1. Header Merkle -> puzzleHash --------------------------------
-        // leaf = SHA-256( r || r_dot_m_xor_s_be32 || bitmap )
+        // leaf = SHA-256( r || r_dot_m_xor_s_be32 || bitmap || msg.sender )
+        // The trailing bytes20 binds the claim to the submitting account: a
+        // claim is worthless from any other address, so an observed
+        // transaction cannot be front-run to steal the bounty.
         bytes32 headerLeaf = sha256(
             abi.encodePacked(
                 ClaimCodec.slice(v.rOff, v.rLen),
                 uint32(v.rDotMXorS),
-                ClaimCodec.slice(v.bitmapOff, v.bitmapLen)
+                ClaimCodec.slice(v.bitmapOff, v.bitmapLen),
+                msg.sender
             )
         );
         if (
@@ -229,6 +291,32 @@ contract QuantumVerifier is ReentrancyGuard {
         if (lhs != v.rDotMXorS) {
             emit Rejected(puzzleId, msg.sender, 4);
             return false;
+        }
+
+        // --- 5. Settle the bounty -------------------------------------------
+        // The claim was valid, so pay the solver in the same transaction.
+        // Effects (claim marker) strictly before the interaction (transfer);
+        // `nonReentrant` plus the marker close the double-payout paths. A
+        // bounty-less puzzle keeps the old semantics: every honest claim
+        // verifies, any number of times.
+        uint96 bounty = meta.bounty;
+        if (bounty != 0) {
+            if (meta.claimedBy != address(0)) {
+                emit Rejected(puzzleId, msg.sender, 5);
+                return false;
+            }
+            puzzleMeta[puzzleId].claimedBy = msg.sender;
+
+            emit Verified(puzzleId, msg.sender, sha256(claim), v.sClaim);
+            emit BountyPaid(puzzleId, msg.sender, bounty);
+
+            if (paymentToken == address(0)) {
+                (bool sent,) = msg.sender.call{value: bounty}("");
+                if (!sent) revert TransferFailed();
+            } else {
+                IERC20(paymentToken).safeTransfer(msg.sender, bounty);
+            }
+            return true;
         }
 
         emit Verified(puzzleId, msg.sender, sha256(claim), v.sClaim);

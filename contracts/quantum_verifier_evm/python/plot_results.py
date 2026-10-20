@@ -203,91 +203,175 @@ def main() -> None:
         fig.savefig(out_dir / "honest_metrics.png", dpi=150)
         print(f"wrote {out_dir / 'honest_metrics.png'}")
 
-    # ---- 1c. Sepolia constant-cost curves: gas vs K, and gas vs T ----------
-    # One panel per axis, per venue, so the "linear in K / flat in T" story is
-    # visible on live-network data, not just anvil.
+    # ---- 1c. Sepolia 2x2 (gas AND fee, vs K and T): gas AND fee vs K AND T ---------------------------
+    # Fee is what a user actually pays (gas price fluctuates per block), so
+    # the per-parameter curves should show it alongside gas. Latency is left
+    # off these curves deliberately: each sweep point is 1-2 samples and
+    # Sepolia's ~12s block time dominates, so error bars would be larger than
+    # the signal — per-venue latency lives in honest_metrics.png instead.
     sep = [s for s in sessions if short_venue(s) == "sepolia"]
     if sep:
-        k_gas: dict[int, list[int]] = defaultdict(list)
-        t_gas: dict[int, list[int]] = defaultdict(list)
+        agg: dict[str, dict[int, dict[str, list[float]]]] = {
+            "K": defaultdict(lambda: defaultdict(list)),
+            "T": defaultdict(lambda: defaultdict(list)),
+        }
+        fee_scatter: list[tuple[float, float]] = []  # (basefee gwei, paid fee ETH)
+        off_t: dict[int, float] = {}
+        REF_GWEI = 1.0  # reference gas price for normalized fee curves
         for s in sep:
             k = s.get("params", {}).get("K", 8)
             t = s.get("params", {}).get("T", 1)
             for r in s["runs"]:
-                if r["name"].startswith("verify_honest"):
-                    k_gas[k].append(r["gas_used"])
-                    t_gas[t].append(r["gas_used"])
-        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4.5))
-        # gas vs K
-        ks = sorted(k_gas)
-        m = [st := sum(k_gas[k]) / len(k_gas[k]) for k in ks]
-        fit_slope = None
-        if len(ks) >= 2:
-            n = len(ks)
-            sx, sy = sum(ks), sum(m)
-            sxy = sum(k * y for k, y in zip(ks, m))
-            sxx = sum(k * k for k in ks)
-            fit_slope = (n * sxy - sx * sy) / (n * sxx - sx * sx)
-            intercept = (sy - fit_slope * sx) / n
-        ax1.plot(ks, m, "o-", color="#0f62fe")
-        ax1.plot(ks, [fit_slope * k + intercept for k in ks], "--", color="#999",
-                 label=f"fit: {fit_slope:,.0f} gas/K")
-        for k, y in zip(ks, m):
-            ax1.annotate(f"{y/1000:.0f}k", (k, y), textcoords="offset points",
-                         xytext=(0, 6), ha="center", fontsize=8)
-        ax1.set_xlabel("K (spot checks) — cheating prob 2^-K")
-        ax1.set_ylabel("Gas per verification")
-        ax1.set_title("Sepolia: gas vs K (linear)")
-        ax1.grid(alpha=0.3)
-        ax1.legend(fontsize=9)
-        # gas vs T
-        ts = sorted(t_gas)
-        mt = [sum(t_gas[t]) / len(t_gas[t]) for t in ts]
-        ax2.plot(ts, mt, "s-", color="#198038")
-        if len(ts) >= 2:
-            n = len(ts)
-            sx, sy = sum(ts), sum(mt)
-            sxy = sum(t * y for t, y in zip(ts, mt))
-            sxx = sum(t * t for t in ts)
-            t_slope = (n * sxy - sx * sy) / (n * sxx - sx * sx)
-            ax2.plot(ts, [t_slope * t + (sy - t_slope * sx) / n for t in ts],
-                     "--", color="#999", label=f"fit: {t_slope:,.0f} gas/T")
-        for t, y in zip(ts, mt):
-            ax2.annotate(f"{y/1000:.0f}k", (t, y), textcoords="offset points",
-                         xytext=(0, 6), ha="center", fontsize=8)
-        ax2.set_xlabel("T (time-lock length)")
-        ax2.set_ylabel("Gas per verification")
-        ax2.set_title("Sepolia: gas vs T (constant)")
-        ax2.grid(alpha=0.3)
-        ax2.legend(fontsize=9)
-        fig.suptitle("Live Sepolia verification cost", fontsize=12)
+                if not r["name"].startswith("verify_honest"):
+                    continue
+                gas = r["gas_used"]
+                eff_wei = r.get("effective_gas_price_wei", 0)
+                basefee_gwei = (eff_wei / 1e9) if eff_wei else 0.0
+                agg["K"][k]["gas"].append(gas)
+                agg["K"][k]["fee_ref"].append(gas * REF_GWEI / 1e9)  # ETH @ ref
+                agg["T"][t]["gas"].append(gas)
+                agg["T"][t]["fee_ref"].append(gas * REF_GWEI / 1e9)
+                if basefee_gwei > 0:
+                    fee_scatter.append((basefee_gwei, gas * basefee_gwei / 1e18))
+            oc = s.get("offchain_ms", {})
+            if oc and t not in off_t:
+                off_t[t] = oc.get("psolve_ms", 0.0)
+
+        def mean_series(d: dict[int, dict[str, list]], key: str) -> tuple[list, list]:
+            xs = sorted(d)
+            return xs, [sum(d[x][key]) / len(d[x][key]) for x in xs]
+
+        kx, kg = mean_series(agg["K"], "gas")
+        tx, tg = mean_series(agg["T"], "gas")
+        _, kf_ref = mean_series(agg["K"], "fee_ref")
+        _, tf_ref = mean_series(agg["T"], "fee_ref")
+
+        fig, axes = plt.subplots(2, 2, figsize=(12, 8))
+        panels = [
+            (axes[0][0], kx, kg, "Gas vs K", "K (spot checks; cheat prob 2^-K)",
+             "o-", "#0f62fe", "gas", "~29.8k gas per extra spot check"),
+            (axes[0][1], tx, tg, "Gas vs T", "T (time-lock length)",
+             "s-", "#198038", "gas", None),
+            (axes[1][0], kx, kf_ref, "Fee vs K (normalized @ 1 gwei)",
+             "K (spot checks)", "o-", "#0f62fe", "fee_ref",
+             "fee = gas x price; price held fixed"),
+            (axes[1][1], tx, tf_ref, "Fee vs T (normalized @ 1 gwei)",
+             "T (time-lock length)", "s-", "#198038", "fee_ref", None),
+        ]
+        for ax, xs, ys, title, xlabel, style, color, kind, note in panels:
+            ax.plot(xs, ys, style, color=color)
+            if len(xs) >= 2:
+                n = len(xs)
+                sx, sy = sum(xs), sum(ys)
+                sxy = sum(x * y for x, y in zip(xs, ys))
+                sxx = sum(x * x for x in xs)
+                slope = (n * sxy - sx * sy) / (n * sxx - sx * sx)
+                icpt = (sy - slope * sx) / n
+                unit = "gas/step" if kind == "gas" else f"ETH/step @ {REF_GWEI:g} gwei"
+                label = f"fit: {slope:,.0f} {unit}" if kind == "gas" \
+                    else f"fit: {slope:.2e} {unit}"
+                ax.plot(xs, [slope * x + icpt for x in xs], "--",
+                        color="#999", label=label)
+                if "vs T" in title and kind == "gas":
+                    # annotate the drift's cause honestly
+                    ax.annotate("drift = bitmap header growth\n"
+                                "(ceil(max_gate/8) bytes; NOT verify logic)",
+                                xy=(xs[-1], ys[-1]), xytext=(-140, 10),
+                                textcoords="offset points", fontsize=8,
+                                arrowprops=dict(arrowstyle="->", color="#666"))
+                ax.legend(fontsize=8)
+            for x, y in zip(xs, ys):
+                fmt = f"{y/1000:.0f}k" if kind == "gas" else f"{y:.1e}"
+                ax.annotate(fmt, (x, y), textcoords="offset points",
+                            xytext=(0, 6), ha="center", fontsize=7)
+            ax.set_xlabel(xlabel)
+            ax.set_ylabel("ETH @ 1 gwei" if kind == "fee_ref" else "Gas")
+            ax.set_title(title, fontsize=11)
+            ax.grid(alpha=0.3)
+        if off_t:
+            otx = sorted(off_t)
+            axes[0][1].plot(otx, [off_t[t] for t in otx], "^--", color="#da1e28",
+                            label="PSolve off-chain (ms) — grows linearly")
+            axes[0][1].legend(fontsize=8)
+        fig.suptitle("Live Sepolia verification cost (verifier 0xB40d…b0F5)",
+                     fontsize=12)
         fig.tight_layout()
         fig.savefig(out_dir / "sepolia_constant_cost.png", dpi=150)
         print(f"wrote {out_dir / 'sepolia_constant_cost.png'} "
-              f"(K values: {ks}, T values: {ts})")
+              f"(K: {kx}, T: {tx})")
+
+        # ---- fee volatility: paid fee tracks the market, not the protocol ---
+        if len(fee_scatter) >= 3:
+            fig2, ax = plt.subplots(figsize=(7, 4.5))
+            bf, fee = zip(*sorted(fee_scatter))
+            ax.scatter(bf, fee, color="#0f62fe", s=40)
+            # reference line: fee for the median-K gas at each basefee
+            ref_gas = 303_000  # K=8 anchor
+            import numpy as _np
+            xs_line = _np.linspace(min(bf), max(bf), 50)
+            ax.plot(xs_line, [g * p / 1e18 for g, p in
+                              zip([ref_gas] * len(xs_line), xs_line)],
+                    "--", color="#da1e28",
+                    label=f"gas x price at {ref_gas:,} gas (K=8)")
+            ax.set_xlabel("Block effective gas price (gwei)")
+            ax.set_ylabel("Paid fee (ETH)")
+            ax.set_title("Paid fee tracks the market, not the protocol\n"
+                         "(same K=8 gas — fee varies with Sepolia base fee)")
+            ax.grid(alpha=0.3)
+            ax.legend(fontsize=9)
+            fig.tight_layout()
+            fig.savefig(out_dir / "fee_volatility.png", dpi=150)
+            print(f"wrote {out_dir / 'fee_volatility.png'}")
     else:
         print("sepolia panel: no sessions with venue 'sepolia' yet")
 
-    # ---- Markdown summary ---------------------------------------------------
-    lines = ["# Benchmark summary", ""]
+    # ---- 1e. Latency vs K and vs T, per venue ------------------------------
+    # Expected result: latency is INDEPENDENT of K and T (the contract does
+    # ~300k gas of work; inclusion time dominates), and scales with the
+    # venue's block cadence (anvil instant, Sepolia ~12s). Panels use median
+    # + IQR whiskers because latency is heavy-tailed (a tx that just missed
+    # a block waits a full interval).
+    lat: dict[str, dict[str, dict[int, list[float]]]] = {
+        "K": defaultdict(lambda: defaultdict(list)),
+        "T": defaultdict(lambda: defaultdict(list)),
+    }
     for s in sessions:
-        lines.append(f"## {s.get('venue')} — {s.get('timestamp_utc', '?')} "
-                     f"(T={s.get('params', {}).get('T')}, K={s.get('params', {}).get('K')})")
-        lines.append("| op | gas | fee ETH | latency s |")
-        lines.append("|---|---|---|---|")
+        v = short_venue(s)
+        k = s.get("params", {}).get("K", 8)
+        t = s.get("params", {}).get("T", 1)
         for r in s["runs"]:
-            lines.append(f"| {r['name']} | {r['gas_used']:,} | "
-                         f"{r['fee_wei'] / 1e18:.8f} | {r['latency_ms'] / 1000:.1f} |")
-        if "offchain_ms" in s:
-            oc = s["offchain_ms"]
-            lines.append("")
-            lines.append(f"off-chain: PSetup {oc['psetup_garble_ms']:.0f} ms · "
-                         f"PGen {oc['pgen_ms']:.0f} ms · PSolve {oc['psolve_ms']:.0f} ms · "
-                         f"claim-build {oc['claim_build_ms']:.1f} ms")
-        lines.append("")
-    summary = out_dir / "summary.md"
-    summary.write_text("\n".join(lines))
-    print(f"wrote {summary}")
+            if not r["name"].startswith("verify_honest"):
+                continue
+            lat["K"][v][k].append(r["latency_ms"] / 1000)
+            lat["T"][v][t].append(r["latency_ms"] / 1000)
+
+    def _median_plot(ax, per_venue, xlabel, title):
+        for v, per_x in sorted(per_venue.items()):
+            xs = sorted(per_x)
+            med = [st.median(per_x[x]) for x in xs]
+            q1 = [st.quantiles(per_x[x], n=4)[0] if len(per_x[x]) >= 4 else med[i]
+                  for i, x in enumerate(xs)]
+            q3 = [st.quantiles(per_x[x], n=4)[2] if len(per_x[x]) >= 4 else med[i]
+                  for i, x in enumerate(xs)]
+            ax.plot(xs, med, "o-", label=f"{v} (median, n={len(per_x[x])})")
+            ax.fill_between(xs, q1, q3, alpha=0.2)
+        ax.set_xlabel(xlabel)
+        ax.set_ylabel("submit → receipt (s)")
+        ax.set_title(title, fontsize=11)
+        ax.grid(alpha=0.3)
+        ax.legend(fontsize=8)
+
+    if any(per_x for per_x in lat["K"].values() if per_x):
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4.5))
+        _median_plot(ax1, lat["K"], "K (spot checks)",
+                     "Latency vs K — flat: inclusion time dominates")
+        _median_plot(ax2, lat["T"], "T (time-lock length)",
+                     "Latency vs T — flat: T lives off-chain")
+        fig.suptitle("Time-to-verdict is independent of the claim's parameters",
+                     fontsize=12)
+        fig.tight_layout()
+        fig.savefig(out_dir / "latency_sweeps.png", dpi=150)
+        print(f"wrote {out_dir / 'latency_sweeps.png'}")
 
 
 if __name__ == "__main__":

@@ -39,10 +39,14 @@ Built off-chain by the puzzle generator; only the root (`puzzleHash`) is
 registered on-chain.
 
 ```
-header leaf   = SHA-256( r || r_dot_m_xor_s_be32 || bitmap )
+header leaf   = SHA-256( r || r_dot_m_xor_s_be32 || bitmap || solver_be20 )
 gate leaf(gi) = SHA-256( table[gi]_4x16B || gi_be32 )
 internal      = SHA-256( left || right )   (odd count: last pairs with itself)
 ```
+
+`solver_be20` is the submitting account's address, so a claim only verifies
+from the account it was built for — with a bounty attached, an observed
+transaction cannot be front-run to steal the payout.
 
 Path entry `(sibling, is_left)`: `is_left = 1` means the sibling is the LEFT
 child (the current node is the right child); the path byte must be 0 or 1.
@@ -55,10 +59,20 @@ child (the current node is the right child); the path byte must be 0 or 1.
 | `r_dot_m_xor_s` | u32 | u8 | it is a bit |
 | `s_claim` | u32 | u8 | it is a bit |
 | `y_bits` | `u32[]` of bits | raw bytes | 112 B saved |
+| header leaf | `SHA-256(r ‖ flag ‖ list)` | `SHA-256(r ‖ flag ‖ bitmap ‖ solver)` | binds the claim to the submitting account (anti-front-running for escrowed bounties) |
 
 **Consequence:** the header leaf differs, so `puzzle_hash` differs from the
 Soroban one. Compute each chain's hash off-chain and register it on that chain.
 The claim bytes differ anyway (`scval` vs packed calldata).
+
+## Bounty settlement (EVM only)
+
+`registerPuzzle` takes a `uint96 bounty` escrowed in the payment token (native
+ETH or ERC-20). The first `submitAndVerify` whose claim passes all checks pays
+the bounty to `msg.sender` in the same transaction (`BountyPaid` event,
+`claimedBy` recorded) and re-verifications are rejected with reason 5. A bounty
+of `0` keeps the verify-only semantics: honest claims verify any number of
+times. Unclaimed bounties can be returned to the admin via `reclaimBounty`.
 
 ## Canonical decoding rules (anti-malleability)
 
