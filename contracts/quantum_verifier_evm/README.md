@@ -9,7 +9,8 @@ in [`ETHEREUM_SERVICE.md`](../../ETHEREUM_SERVICE.md).
 
 ```
 src/
-  QuantumVerifier.sol          entry point: registerPuzzle / submitAndVerify
+  QuantumVerifier.sol          entry point: registerPuzzle / submitAndVerify /
+                               reclaimBounty (escrowed bounties settle atomically)
   lib/Cursor.sol               bounds-checked packed-format decoder
   lib/ClaimCodec.sol           claim wire format + non-reusable bitmap
   lib/Merkle.sol               SHA-256 Merkle path verification
@@ -39,6 +40,23 @@ forge test -vvv
 export PATH="$HOME/.foundry/bin:$PATH"   # foundryup must be on PATH
 cd contracts/quantum_verifier_evm
 uv run python python/demo_eth.py --spot-checks 8
+```
+
+## Commerce experiment (client escrows, server profits)
+
+The full service loop with three distinct parties — client registers a puzzle
+and escrows a bounty, server solves the time-lock and claims it atomically,
+attacker exercises every failure path:
+
+```sh
+uv run python python/experiment_commerce.py --t 1 --k 8            # happy path + attacks
+uv run python python/experiment_commerce.py --sweep-t 1,10,25,50,100 --k 8
+uv run python python/experiment_commerce.py --sweep-k 1,2,4,8,16 --t 1
+uv run python python/plot_commerce.py                              # -> bench/figures/commerce_profit.png
+```
+
+Ledger lands in `bench/commerce_ledger.json`. Live run (three funded cast
+keystores): add `--rpc-url $ETH_SEPOLIA_RPC --accounts CLIENT SERVER ATTACKER`.
 ```
 
 This is the EVM counterpart of `scripts/verify_sdk.py`. It runs PSetup → PGen →

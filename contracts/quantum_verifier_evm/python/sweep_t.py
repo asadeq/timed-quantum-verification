@@ -51,6 +51,8 @@ def main() -> None:
     ap.add_argument("--private-key", default=None)
     ap.add_argument("--verifier", default=None)
     ap.add_argument("--venue-label", default=None)
+    ap.add_argument("--solve-repeat", type=int, default=1,
+                    help="off-chain PSolve repetitions per T (median timing)")
     args = ap.parse_args()
 
     ts = [int(t) for t in args.t_values.split(",")]
@@ -63,6 +65,7 @@ def main() -> None:
             "--T", str(t),
             "--spot-checks", str(args.spot_checks),
             "--repeat", str(args.repeat),
+            "--solve-repeat", str(args.solve_repeat),
             "--benchmark",
         ]
         for flag, val in [("--rpc-url", args.rpc_url), ("--account", args.account),

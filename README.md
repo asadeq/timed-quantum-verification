@@ -2,6 +2,10 @@
 
 ![Workflow Diagram](./diagram_of_scheme.png)
 
+> **New to the repo?** Start with the [GLOSSARY](GLOSSARY.md) — it defines every
+> term below (TLP, PRGC, spot checks, bounty flow, experiment metrics) with
+> links to the implementing files.
+
 A Publicly verifiable Classical Verification of Quantum Computation Scheme utilizing Time Locked puzzles to prove the correctnesss of the quantum computation using a non-quantum verifier.
 
 It uses a garbled circuit of $\mu$ repetitions of a sequential function (in our case SHA-256 which is considered Post-Quantum Secure), which must be computed $\mu$ times by the prover such that the time it takes to solve the puzzle and recover the puzzle secret is strictly greater than the time it takes to run the Quantum Circuit. 

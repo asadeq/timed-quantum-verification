@@ -52,6 +52,9 @@ contract QuantumVerifier is ReentrancyGuard {
         bytes32 pkCommitment;
         bytes32 puzzleHash;
         uint32 fee;
+        /// @dev Registrant: the client who escrowed the bounty and may
+        ///      reclaim it if the puzzle is never honestly solved.
+        address owner;
         /// @dev Escrowed reward paid to the first honest solver. `0` means the
         ///      puzzle is verify-only (any number of successful verifications).
         uint96 bounty;
@@ -64,7 +67,8 @@ contract QuantumVerifier is ReentrancyGuard {
     ///      wei vs token decimals) before they reach users.
     uint32 public constant MAX_PUZZLE_FEE = 1_000_000_000;
 
-    /// @notice Address allowed to register puzzles and withdraw fees.
+    /// @notice Address allowed to set/withdraw service fees. Does not control
+    ///         puzzles or their escrowed bounties (those belong to owners).
     address public immutable admin;
 
     /// @notice Token used for payment. `address(0)` means native ETH.
@@ -83,7 +87,7 @@ contract QuantumVerifier is ReentrancyGuard {
 
     mapping(uint32 => PuzzleMeta) public puzzleMeta;
 
-    event PuzzleRegistered(uint32 indexed puzzleId, uint32 fee, uint96 bounty);
+    event PuzzleRegistered(uint32 indexed puzzleId, address indexed owner, uint32 fee, uint96 bounty);
     event Verified(uint32 indexed puzzleId, address indexed solver, bytes32 claimHash, uint8 s);
     event Rejected(uint32 indexed puzzleId, address indexed solver, uint8 reason);
     event BountyPaid(uint32 indexed puzzleId, address indexed solver, uint96 amount);
@@ -92,13 +96,14 @@ contract QuantumVerifier is ReentrancyGuard {
     event Withdrawn(address indexed to, uint256 amount);
 
     error NotAdmin();
+    error NotPuzzleOwner(address caller, address owner);
     error WrongFee(uint256 expected, uint256 got);
     error UnexpectedValue();
     error TransferFailed();
     error FeeTooHigh(uint32 fee, uint32 max);
     error NothingToReclaim();
 
-    /// @param admin_ Address allowed to register puzzles and withdraw.
+    /// @param admin_ Address allowed to set and withdraw service fees.
     /// @param paymentToken_ ERC-20 to charge in, or `address(0)` for native ETH.
     /// @param feePerVerify_ Initial fee; `0` for free mode.
     constructor(address admin_, address paymentToken_, uint256 feePerVerify_) {
@@ -111,14 +116,21 @@ contract QuantumVerifier is ReentrancyGuard {
     // Admin
     // -----------------------------------------------------------------------
 
-    /// @notice Register a puzzle by its commitment. Admin only.
-    /// @dev Only the Merkle root is stored. The puzzle body stays off-chain.
+    /// @notice Register a puzzle by its commitment. Permissionless.
+    /// @dev Anyone may register: the caller becomes the puzzle's `owner` —
+    ///      the client who escrowed the bounty and may reclaim it if the
+    ///      puzzle is never honestly solved. The admin's fee/withdraw powers
+    ///      do not extend to puzzles: escrowed funds belong to owners, not
+    ///      to the operator.
+    ///
+    ///      Only the Merkle root is stored. The puzzle body stays off-chain.
     ///      A non-zero `bounty` is escrowed here (msg.value for native ETH,
     ///      `transferFrom` for ERC-20) and paid atomically to the first solver
     ///      whose claim verifies. The bounty makes the claim's header leaf
     ///      economically meaningful: without a reward, front-running a claim
     ///      is harmless, with one it must be impossible — which is why the
-    ///      leaf also binds `msg.sender`.
+    ///      leaf also binds `msg.sender` (the solver must therefore be known
+    ///      when the root is computed off-chain).
     /// @return puzzleId The new puzzle's id (starts at 1).
     function registerPuzzle(
         bytes32 circuitHash,
@@ -127,7 +139,6 @@ contract QuantumVerifier is ReentrancyGuard {
         uint32 fee,
         uint96 bounty
     ) external payable returns (uint32 puzzleId) {
-        if (msg.sender != admin) revert NotAdmin();
         if (fee > MAX_PUZZLE_FEE) revert FeeTooHigh(fee, MAX_PUZZLE_FEE);
 
         if (bounty != 0) {
@@ -147,11 +158,12 @@ contract QuantumVerifier is ReentrancyGuard {
             pkCommitment: pkCommitment,
             puzzleHash: puzzleHash,
             fee: fee,
+            owner: msg.sender,
             bounty: bounty,
             claimedBy: address(0)
         });
 
-        emit PuzzleRegistered(puzzleId, fee, bounty);
+        emit PuzzleRegistered(puzzleId, msg.sender, fee, bounty);
     }
 
     /// @notice Update the global per-verification fee. Admin only.
@@ -182,25 +194,25 @@ contract QuantumVerifier is ReentrancyGuard {
         emit Withdrawn(to, amount);
     }
 
-    /// @notice Return an unclaimed bounty to the admin.
-    /// @dev For puzzles nobody ever solves honestly; claimed bounties are gone
-    ///      for good (they were paid out), and there is deliberately no
-    ///      deadline — a puzzle stays solvable as long as the admin leaves the
+    /// @notice Return an unclaimed bounty to the puzzle's owner.
+    /// @dev For puzzles nobody ever solves honestly. Only the owner — the
+    ///      client who escrowed the funds — may reclaim; claimed bounties are
+    ///      gone for good (they were paid out), and there is deliberately no
+    ///      deadline — a puzzle stays solvable as long as the owner leaves the
     ///      bounty posted.
     function reclaimBounty(uint32 puzzleId) external nonReentrant {
-        if (msg.sender != admin) revert NotAdmin();
-
         PuzzleMeta memory meta = puzzleMeta[puzzleId];
+        if (msg.sender != meta.owner) revert NotPuzzleOwner(msg.sender, meta.owner);
         if (meta.bounty == 0 || meta.claimedBy != address(0)) revert NothingToReclaim();
         puzzleMeta[puzzleId].bounty = 0;
 
-        emit BountyReclaimed(puzzleId, admin, meta.bounty);
+        emit BountyReclaimed(puzzleId, msg.sender, meta.bounty);
 
         if (paymentToken == address(0)) {
-            (bool ok,) = admin.call{value: meta.bounty}("");
+            (bool ok,) = msg.sender.call{value: meta.bounty}("");
             if (!ok) revert TransferFailed();
         } else {
-            IERC20(paymentToken).safeTransfer(admin, meta.bounty);
+            IERC20(paymentToken).safeTransfer(msg.sender, meta.bounty);
         }
     }
 

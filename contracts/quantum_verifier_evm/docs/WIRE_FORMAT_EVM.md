@@ -67,12 +67,29 @@ The claim bytes differ anyway (`scval` vs packed calldata).
 
 ## Bounty settlement (EVM only)
 
-`registerPuzzle` takes a `uint96 bounty` escrowed in the payment token (native
-ETH or ERC-20). The first `submitAndVerify` whose claim passes all checks pays
-the bounty to `msg.sender` in the same transaction (`BountyPaid` event,
-`claimedBy` recorded) and re-verifications are rejected with reason 5. A bounty
-of `0` keeps the verify-only semantics: honest claims verify any number of
-times. Unclaimed bounties can be returned to the admin via `reclaimBounty`.
+`registerPuzzle` is **permissionless**: anyone can register a puzzle root and
+escrow a `uint96 bounty` in the payment token (native ETH or ERC-20); the
+caller becomes the puzzle's `owner`, the only party that can `reclaimBounty`.
+The first `submitAndVerify` whose claim passes all checks pays the bounty to
+`msg.sender` in the same transaction (`BountyPaid` event, `claimedBy`
+recorded) and re-verifications are rejected with reason 5. A bounty of `0`
+keeps the verify-only semantics: honest claims verify any number of times.
+
+Money map (the commerce flow):
+
+```
+client  --escrow bounty--> contract --pay on verified claim--> server
+client  --feePerVerify*--> contract --withdraw--> admin        (*optional; 0 = free mode)
+server  --gas (linear in K)--> chain, win or lose
+```
+
+The header leaf binds the submitting account, so the client must know the
+solver's address when computing the root it registers — registration commits
+to a (puzzle, solver) pair, and no bystander can divert the payout.
+`experiment_commerce.py` runs this loop end-to-end with distinct
+client/server/attacker accounts and records a balance-accounted ledger to
+`bench/commerce_ledger.json`; `plot_commerce.py` renders
+`bench/figures/commerce_profit.png`.
 
 ## Canonical decoding rules (anti-malleability)
 

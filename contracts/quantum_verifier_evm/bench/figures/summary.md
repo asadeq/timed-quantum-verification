@@ -8,7 +8,7 @@
 | verify_cheat | 305,919 | 0.00020882 | 0.3 |
 | verify_unknown_puzzle | 181,160 | 0.00010852 | 0.3 |
 
-## https://eth-sepolia.g.alchemy.com/v2/alch_MCyeqSaC5J_RF-nSR3uc8 — ? (T=None, K=None)
+## sepolia — 2026-10-13T00:00:00Z (T=None, K=None)
 | op | gas | fee ETH | latency s |
 |---|---|---|---|
 | registerPuzzle | 245,056 | 0.00000029 | 71.3 |

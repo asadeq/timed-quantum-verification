@@ -258,7 +258,7 @@ contract QuantumVerifierTest is Test {
         assertTrue(verifier.submitAndVerify(pid, f.claim));
     }
 
-    function test_ReclaimBountyReturnsFundsToAdmin() public {
+    function test_ReclaimBountyReturnsFundsToOwner() public {
         GeneratedFixtures.Fixture memory f = GeneratedFixtures.all()[0];
         uint96 bounty = 0.25 ether;
         vm.deal(admin, bounty);
@@ -274,6 +274,34 @@ contract QuantumVerifierTest is Test {
         vm.prank(admin);
         vm.expectRevert(QuantumVerifier.NothingToReclaim.selector);
         verifier.reclaimBounty(pid);
+    }
+
+    /// @dev The escrow belongs to the registrant, not the operator: a client
+    ///      can post a bounty without trusting the admin with the funds.
+    function test_NonAdminCanRegisterAndOwnsBounty() public {
+        GeneratedFixtures.Fixture memory f = GeneratedFixtures.all()[0];
+        address client = makeAddr("client");
+        uint96 bounty = 0.5 ether;
+        vm.deal(client, bounty);
+        vm.prank(client);
+        uint32 pid = verifier.registerPuzzle{value: bounty}(bytes32(0), bytes32(0), f.puzzleHash, 0, bounty);
+
+        QuantumVerifier.PuzzleMeta memory meta = verifier.puzzleMetaOf(pid);
+        assertEq(meta.owner, client, "owner not recorded");
+
+        // The admin cannot touch the client's escrow.
+        vm.prank(admin);
+        vm.expectRevert(
+            abi.encodeWithSelector(QuantumVerifier.NotPuzzleOwner.selector, admin, client)
+        );
+        verifier.reclaimBounty(pid);
+
+        // ...but the owner gets it back.
+        vm.txGasPrice(0);
+        uint256 before = client.balance;
+        vm.prank(client);
+        verifier.reclaimBounty(pid);
+        assertEq(client.balance, before + bounty, "owner reclaim failed");
     }
 
     function test_ClaimedBountyCannotBeReclaimed() public {
@@ -397,10 +425,15 @@ contract QuantumVerifierTest is Test {
         assertEq(verifier.totalCollected(), 0);
     }
 
+    /// @dev Registration is permissionless; the admin gate remains on the
+    ///      service-fee controls only.
     function test_RevertWhenNotAdmin() public {
         vm.expectRevert(QuantumVerifier.NotAdmin.selector);
         vm.prank(solver);
-        verifier.registerPuzzle(bytes32(0), bytes32(0), bytes32(0), 0, 0);
+        verifier.setFeePerVerify(1);
+        vm.expectRevert(QuantumVerifier.NotAdmin.selector);
+        vm.prank(solver);
+        verifier.withdraw(solver);
     }
 }
 

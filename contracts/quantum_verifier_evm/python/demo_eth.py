@@ -31,6 +31,7 @@ import argparse
 import json
 import os
 import shutil
+import statistics
 import subprocess
 import sys
 import time
@@ -174,6 +175,9 @@ def main() -> None:
     ap.add_argument("--repeat", type=int, default=1,
                     help="number of honest-claim submissions per puzzle "
                          "(for averaging gas; each is a real tx)")
+    ap.add_argument("--solve-repeat", type=int, default=1,
+                    help="off-chain PSolve repetitions for timing; the median "
+                         "is recorded (min/max for error bars). Costs no gas.")
     ap.add_argument("--rpc-url", default=None,
                     help="target a live network (e.g. $BASE_SEPOLIA_RPC) "
                          "instead of starting a local Anvil")
@@ -201,10 +205,17 @@ def main() -> None:
     if live and not (args.private_key or args.account):
         raise SystemExit("--rpc-url requires --private-key or --account")
     pk = args.private_key or ANVIL_PK
-    # Auth flags appended to every cast send.
+    # Auth flags appended to every cast send. A keystore with
+    # KEYSTORE_PASSWORD set in the environment runs non-interactively.
+    keystore_pw = os.environ.get("KEYSTORE_PASSWORD")
     auth = ["--account", args.account] if args.account else ["--private-key", pk]
+    if args.account and keystore_pw:
+        auth += ["--password", keystore_pw]
     if args.account:
-        out = run(["cast", "wallet", "address", "--account", args.account], "wallet address")
+        addr_cmd = ["cast", "wallet", "address", "--account", args.account]
+        if keystore_pw:
+            addr_cmd += ["--password", keystore_pw]
+        out = run(addr_cmd, "wallet address")
     else:
         out = run(["cast", "wallet", "address", "--private-key", pk], "wallet address")
     sender = None
@@ -253,9 +264,18 @@ def main() -> None:
     Z = tlp.PGen(1, pp)
     offchain_ms["pgen_ms"] = (time.perf_counter() - t0) * 1000
 
-    t0 = time.perf_counter()
-    s, y, witness = tlp.PSolve(Z, pp, return_witness=True)
-    offchain_ms["psolve_ms"] = (time.perf_counter() - t0) * 1000
+    # Single-shot ms-scale timing is dominated by interpreter noise; repeat
+    # and take the median (min/max recorded for error bars).
+    solves = []
+    for _ in range(max(1, args.solve_repeat)):
+        t0 = time.perf_counter()
+        s, y, witness = tlp.PSolve(Z, pp, return_witness=True)
+        solves.append((time.perf_counter() - t0) * 1000)
+    solves.sort()
+    offchain_ms["psolve_ms"] = statistics.median(solves)
+    offchain_ms["psolve_ms_min"] = solves[0]
+    offchain_ms["psolve_ms_max"] = solves[-1]
+    offchain_ms["psolve_ms_n"] = len(solves)
 
     assert tlp.PVerify(s, y, Z), "honest PVerify failed"
     t0 = time.perf_counter()

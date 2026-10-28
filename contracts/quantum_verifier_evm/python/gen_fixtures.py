@@ -110,15 +110,17 @@ def path_for(levels: list[list[bytes]], idx: int) -> list[tuple[bytes, bool]]:
 # Claim construction
 # ---------------------------------------------------------------------------
 
-def build_claim(
-    tlp,
+def _puzzle_tree(
     Z: tuple,
-    witness: dict,
-    s_claim: int,
-    y: bytes,
-    spot_check_indices: list[int],
     solver: bytes | None = None,
-) -> dict:
+) -> tuple[bytes, list[list[bytes]], list[int]]:
+    """Build the Merkle tree from generator material alone.
+
+    The client can run this *without solving the TLP*: every leaf input comes
+    from `PGen`'s output (`Z`), never from the solver's witness. The `solver`
+    address is bound into the header leaf here, at registration time — which
+    is why the client must know the server's address before posting the bounty.
+    """
     x_tilde, r, r_dot_m_xor_s = Z
     _encoded_a, _encoded_b, yao_material = x_tilde
 
@@ -145,6 +147,26 @@ def build_claim(
         gate_leaves.append(hashlib.sha256(flat + be32(gi)).digest())
 
     root, levels = build_tree([header_leaf] + gate_leaves)
+    return root, levels, non_reusable, bitmap
+
+
+def puzzle_root(Z: tuple, solver: bytes | None = None) -> bytes:
+    """The on-chain `puzzleHash`: what the client registers (and escrows against)."""
+    return _puzzle_tree(Z, solver)[0]
+
+
+def build_claim(
+    tlp,
+    Z: tuple,
+    witness: dict,
+    s_claim: int,
+    y: bytes,
+    spot_check_indices: list[int],
+    solver: bytes | None = None,
+) -> dict:
+    root, levels, non_reusable, bitmap = _puzzle_tree(Z, solver)
+    x_tilde, r, r_dot_m_xor_s = Z
+    _encoded_a, _encoded_b, yao_material = x_tilde
     header_path = path_for(levels, 0)
     gate_paths = {gi: path_for(levels, 1 + i) for i, gi in enumerate(non_reusable)}
 
