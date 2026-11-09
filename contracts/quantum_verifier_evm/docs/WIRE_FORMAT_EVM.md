@@ -95,6 +95,47 @@ client/server/attacker accounts and records a balance-accounted ledger to
 `bench/commerce_ledger.json`; `plot_commerce.py` renders
 `bench/figures/commerce_profit.png`.
 
+### Service pricing: the server quotes, the client escrows
+
+The bounty is the service price, and it has two legs: the estimated
+verification gas (a pass-through the client covers at cost, priced from the
+measured gas model) and the **server's margin** — the labor price for the
+sequential `PSolve` work. Only the server knows what that labor is worth, so
+the server publishes it to the standalone
+[`FeeQuoteRegistry`](../../src/FeeQuoteRegistry.sol)
+(`setQuote(marginWei)` / `quoteOf(server)`), and the client reads the quote
+before escrowing:
+
+```
+server  --setQuote(marginWei)--> FeeQuoteRegistry
+client  --quoteOf(server)------> registry                (price discovery)
+client  --registerPuzzle(root, bounty = gasLeg + quote)--> QuantumVerifier
+server  --bounty >= quote? --yes--> submitAndVerify -> paid atomically
+                           --no--> refuse (no work); client reclaimBounty
+```
+
+The quote is discovery, not enforcement: the bounty pays whatever was
+escrowed, and the server's acceptance stays implicit (it checks the bounty
+against its quote before submitting and simply refuses if underpaid —
+escrow-before-work is what makes that refusal safe). The margin is quoted flat
+(the server's labor scales with T, not K — K only drives the reimbursed gas
+leg); a per-T quote is the natural v2. `experiment_commerce.py --quote-from
+<registry>` reads the quote; without it, the legacy client-side `--margin-usd`
+guess applies.
+
+**The pricing window** (`experiment_pricing.py`, rendered as
+`pricing_window.png`): sweeping a bounty multiplier λ over the fair price
+shows the two-sided constraint. Below the server's reservation
+(λ < 1) the market does not clear — measured refusals, client reclaims. Above
+it the server's net rises linearly — but so does the forger's incentive
+`2^-K·B − gas`: the minimum safe K for a bounty of λ·B is
+`K_req = log2(λ·B/gas)`, which crosses the client's chosen K at
+`λ* = 2^K·gas/B`. Measured on Base Sepolia at K=8 (B ≈ $0.504, forger gas ≈
+$0.0057): **λ\* = 2.90** — pay less than fair and no server serves you; pay
+more than ~2.9× and your own generosity makes the bounty worth attacking. On
+L1 at 30 gwei the same formula gives λ\* ≈ 251: on an expensive chain the gas,
+not the bounty, deters forgery.
+
 ## Canonical decoding rules (anti-malleability)
 
 The decoder (`Cursor` + `ClaimCodec`) enforces, and a claim that violates any of

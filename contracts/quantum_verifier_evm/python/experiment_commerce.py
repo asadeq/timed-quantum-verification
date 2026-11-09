@@ -179,12 +179,30 @@ def make_puzzle(t: int):
     return tlp, pp, Z
 
 
-def price_bounty(k: int, gas_price_wei: int, margin_usd: float, eth_usd: float) -> int:
-    """gas + margin: verification gas estimate plus a fixed server margin."""
+def price_bounty(k: int, gas_price_wei: int, margin_wei: int) -> int:
+    """gas + margin: verification gas estimate plus the server's margin."""
     est_gas = EST_BASE_GAS + EST_PER_CHECK_GAS * k
-    gas_leg = est_gas * gas_price_wei
-    margin_wei = int(margin_usd / eth_usd * 1e18) if eth_usd else 0
-    return gas_leg + margin_wei
+    return est_gas * gas_price_wei + margin_wei
+
+
+def server_margin(args, rpc: str, server_addr: str) -> tuple[int, str]:
+    """The server's labor price in wei, plus where it came from.
+
+    With --quote-from this is the server's own published quote
+    (FeeQuoteRegistry.quoteOf); without it, the legacy client-side
+    --margin-usd guess.
+    """
+    if args.quote_from:
+        out = run(["cast", "call", args.quote_from, "quoteOf(address)(uint96)",
+                   server_addr, "--rpc-url", rpc], "quoteOf")
+        wei = int(out.strip().splitlines()[-1].split()[0], 0)
+        if wei == 0:
+            raise SystemExit(
+                f"server {server_addr} has no quote in {args.quote_from} — "
+                "have the server publish one (python/publish_quotes.py)")
+        return wei, f"registry {args.quote_from}"
+    return (int(args.margin_usd / args.eth_usd * 1e18) if args.eth_usd else 0,
+            f"--margin-usd {args.margin_usd} (client guess)")
 
 
 def register(client: str, args, rpc: str, ledger: list, root: bytes, bounty: int) -> int:
@@ -213,10 +231,12 @@ def run_cycle(args, rpc: str, ledger: list, addrs: dict, t: int, k: int) -> dict
     server20 = bytes.fromhex(addrs["server"].removeprefix("0x").lower())
     root = puzzle_root(Z, solver=server20)          # client-side, no solving
     gas_price = int(run(["cast", "gas-price", "--rpc-url", rpc], "gas-price"))
-    bounty = price_bounty(k, gas_price, args.margin_usd, args.eth_usd)
+    margin_wei, quote_src = server_margin(args, rpc, addrs["server"])
+    bounty = price_bounty(k, gas_price, margin_wei)
 
     print(f"==> client: T={t} garble+seal {setup_ms:.0f}ms, bounty {bounty / 1e18:.6f} ETH "
-          f"(gas est + ${args.margin_usd} margin @ {gas_price / 1e9:.2f} gwei)")
+          f"(gas est + {margin_wei / 1e18:.6f} ETH margin [{quote_src}] "
+          f"@ {gas_price / 1e9:.2f} gwei)")
     pid = register("client", args, rpc, ledger, root, bounty)
 
     # ---- hand the puzzle to the server (in-process; would be a network msg)
@@ -229,6 +249,14 @@ def run_cycle(args, rpc: str, ledger: list, addrs: dict, t: int, k: int) -> dict
     assert claim["puzzle_hash"] == root, "server root != registered root"
     claim_hex = serialize_claim(claim).hex()
     print(f"==> server: solved in {solve_ms:.0f}ms, claim {len(claim_hex) // 2} B (K={k})")
+
+    # Server acceptance is implicit but checked: the bounty must at least
+    # cover the quoted margin. The gas leg is the client's reimbursement
+    # estimate; residual gas-price drift between estimate and execution is
+    # the server's only exposure. A server that finds the bounty too low
+    # simply refuses (does no work) and the client reclaims.
+    if bounty < margin_wei:
+        raise SystemExit(f"server refuses: bounty {bounty} < quoted margin {margin_wei}")
 
     server_before = balance_of(addrs["server"], rpc)
     row = send("server", args, rpc, ledger, "verify_honest", None,
@@ -244,6 +272,7 @@ def run_cycle(args, rpc: str, ledger: list, addrs: dict, t: int, k: int) -> dict
 
     return {
         "pid": pid, "bounty_wei": bounty, "claim_hex": claim_hex, "ok": ok,
+        "margin_wei": margin_wei, "quote_src": quote_src,
         "l1_fee_residual_wei": l1_fee_residual_wei,
         "solve_ms": solve_ms, "setup_ms": setup_ms, "gas_used": row["gas_used"],
         "gas_cost_wei": row["gas_cost_wei"],
@@ -276,7 +305,8 @@ def run_controls(args, rpc: str, ledger: list, addrs: dict, main: dict) -> None:
     tlp, pp, Z = make_puzzle(args.t)
     attacker20_root = puzzle_root(Z, solver=attacker20)
     gas_price = int(run(["cast", "gas-price", "--rpc-url", rpc], "gas-price"))
-    bounty = price_bounty(args.k, gas_price, args.margin_usd, args.eth_usd)
+    margin_wei, _ = server_margin(args, rpc, addrs["server"])
+    bounty = price_bounty(args.k, gas_price, margin_wei)
     pid2 = register("client", args, rpc, ledger, attacker20_root, bounty)
 
     s, y, witness = tlp.PSolve(Z, pp, return_witness=True)
@@ -313,7 +343,11 @@ def main() -> None:
                     default=["client", "server", "attacker"],
                     help="cast keystore names for the three roles (live mode)")
     ap.add_argument("--margin-usd", type=float, default=0.50,
-                    help="server profit margin per verified claim, USD")
+                    help="server profit margin per verified claim, USD "
+                         "(ignored when --quote-from is given)")
+    ap.add_argument("--quote-from", default=None,
+                    help="FeeQuoteRegistry address: read the server's quoted "
+                         "margin from chain instead of --margin-usd")
     ap.add_argument("--eth-usd", type=float, default=3000.0)
     ap.add_argument("--sweep-t", default=None,
                     help="comma list of T values; runs the honest cycle per T "
@@ -363,6 +397,7 @@ def main() -> None:
     summary: dict = {"venue": "anvil" if not live else f"sepolia-{chain_id}",
                      "chain_id": chain_id, "rpc": rpc, "verifier": args.verifier,
                      "addrs": addrs, "margin_usd": args.margin_usd,
+                     "quote_registry": args.quote_from,
                      "eth_usd": args.eth_usd,
                      "params": {"T": args.t, "K": args.k},
                      "cycles": [], "steps": ledger}

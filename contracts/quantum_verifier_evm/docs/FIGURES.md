@@ -2,7 +2,9 @@
 
 Captions and interpretation for the figures in [`bench/figures/`](../bench/figures).
 The images themselves carry data only — axis labels, tick labels and legends.
-Everything explanatory lives here.
+Everything explanatory lives here. Every panel is its own image file
+(`figNa_…` / `figNb_…`); the prose below refers to them as panel (a)/(b) of
+figure N.
 
 ## Scope
 
@@ -28,9 +30,11 @@ Per-spot-check cost is ~29.6 k gas and the fixed cost ~69.9 k gas, so the
 
 ---
 
-## Figure 1 — `fig1_flat_in_T.png`
+## Figure 1 — `fig1a_gas_vs_T.png` + `fig1b_claim_bytes_vs_T.png`
 
-![Gas composition and on-chain bytes vs T](../bench/figures/fig1_flat_in_T.png)
+![Gas composition vs T](../bench/figures/fig1a_gas_vs_T.png)
+
+![On-chain bytes per claim vs T](../bench/figures/fig1b_claim_bytes_vs_T.png)
 
 **(a) Gas composition vs T.** Verification gas at `K = 8` for
 `T ∈ {1, 10, 25, 50, 100}`, split into the part that does not depend on `T`
@@ -57,9 +61,11 @@ former 4,096-byte bitmap limit is gone with the bitmap itself.
 
 ---
 
-## Figure 2 — `fig2_linear_in_K.png`
+## Figure 2 — `fig2a_gas_vs_K.png` + `fig2b_fee_vs_K.png`
 
-![Gas and fee vs K](../bench/figures/fig2_linear_in_K.png)
+![Gas and false-claim probability vs K](../bench/figures/fig2a_gas_vs_K.png)
+
+![Fee per verification vs K](../bench/figures/fig2b_fee_vs_K.png)
 
 **(a) Gas and false-claim probability vs K.** Gas for
 `K ∈ {1, 2, 4, 8, 16}` at `T = 1` (left axis), against the probability `2^-K`
@@ -80,9 +86,11 @@ more per claim than the server earns, which happens at `K ≥ 8` on L1 at 5 gwei
 
 ---
 
-## Figure 3 — `fig3_payoff.png`
+## Figure 3 — `fig3a_ev_vs_K.png` + `fig3b_payment_split.png`
 
-![Expected value and payment split](../bench/figures/fig3_payoff.png)
+![Expected value per claim vs K](../bench/figures/fig3a_ev_vs_K.png)
+
+![Split of the client's payment](../bench/figures/fig3b_payment_split.png)
 
 **(a) Expected value per claim vs K.** The honest server's payoff (it keeps the
 $0.50 margin) against a forger's per-attempt expected value
@@ -103,9 +111,11 @@ chain, the larger the share of the client's money that reaches the server
 
 ---
 
-## Figure 4 — `fig4_why_chain.png`
+## Figure 4 — `fig4a_verdict_time_vs_T.png` + `fig4b_offchain_phases_vs_T.png`
 
-![Time to a verdict and off-chain phases](../bench/figures/fig4_why_chain.png)
+![Time to a trusted verdict vs T](../bench/figures/fig4a_verdict_time_vs_T.png)
+
+![Off-chain phases vs T](../bench/figures/fig4b_offchain_phases_vs_T.png)
 
 **(a) Wall-clock to a trusted verdict vs T.** Two ways for a client to obtain a
 verdict it believes: re-run the protocol itself, or read the on-chain verdict.
@@ -151,9 +161,30 @@ client far more for the privilege (Figure 3b), so the operating point is
 
 ---
 
+## Bounty-cost assumption and sensitivity
+
+Figures 2b, 3a, 3b and 5 price the bounty as `fee + margin` with the margin
+**assumed USD 0.50** — the server's published `FeeQuoteRegistry` quote at
+benchmark time; each of those titles states the assumption. The margin is the
+dynamic quantity (the server can re-quote at any time), so
+`bounty_sensitivity.tex` / `bounty_sensitivity.png` tabulate the outcomes per
+quoted margin at K = 8: the client's bounty and the forger's EV on an L2
+(0.05 gwei) and on L1 (30 gwei), and the minimum safe K per venue. Reading:
+on the L2 the margin is the security dial (K\* rises 3 → 6 over
+$0.10 → $2.00 and the forger's EV stays negative but approaches zero); on L1
+the gas dominates at every margin (K\* = 1, EV ≈ −$27.5).
+
 ## Supporting material
 
-The main argument is Figures 1–5 plus the commerce demo. The former
+The main argument is Figures 1–5 plus the commerce demo
+(`commerce_profit_vs_T.png`, `commerce_ev_vs_K.png`,
+`commerce_client_cost_vs_K.png`) and the pricing-window demo
+(`pricing_service_vs_lambda.png`, `pricing_security_vs_lambda.png`: the
+measured server-net step at the reservation price, and the bounty's attack
+incentive — the operating window [1, λ\*] where service is available and the
+bounty is not worth attacking at the chosen K). The bounty's margin now comes
+from the server's published
+quote (`FeeQuoteRegistry`), not a client-side guess. The former
 diagnostic figures (`honest_metrics`, `latency_sweeps`, `fee_volatility`,
 `sepolia_metrics`, `constant_cost`, `sepolia_constant_cost`, `frontier`) and
 their generators (`plot_results.py`, `plot_sepolia.py`) are archived under
@@ -166,7 +197,7 @@ reproducibility but are not part of the figure set.
 ```sh
 cd contracts/quantum_verifier_evm
 uv run python python/plot_paper.py        # fig1..fig5
-uv run python python/plot_commerce.py     # commerce_profit.png
+uv run python python/plot_commerce.py     # commerce_profit.png + pricing_window.png
 ```
 
 ## Known data issues
