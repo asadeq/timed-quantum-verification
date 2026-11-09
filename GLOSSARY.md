@@ -65,7 +65,8 @@ setup.
 
 **Non-reusable gates** — gates whose output keys cannot be re-derived without
 doing the T sequential work. The only gates eligible for spot checks
-(enforced on-chain by the bitmap check). Sorted list of 640 for the default
+(enforced on-chain by the gate-leaf Merkle proof: the puzzle tree contains a
+leaf only for non-reusable gates). Sorted list of 640 for the default
 configuration.
 
 **Wire keys (`k_l`, `k_r`, `k_o`)** — 16-byte random keys per wire. A spot
@@ -96,7 +97,7 @@ Freivalds/Blum sense. See [SPEC.md](SPEC.md) and
 unit of K. Capped on-chain at `MAX_K = 64`.
 
 **Claim** — the solver's packed submission (~4 KB at K=8): Goldreich–Levin
-material, the non-reusable bitmap, K spot checks, and the output bits
+material, K spot checks, and the output bits
 (`y`) + claimed bit (`s_claim`).
 
 **Goldreich–Levin (GL) check** — the inner-product binding
@@ -143,9 +144,11 @@ verified server. The mode used by all experiments.
 **Solver binding** — the header-leaf address commitment above. Exists
 because a bounty makes front-running profitable otherwise.
 
-**Bitmap** — the 112-byte (default config) bit-array of non-reusable gate
-indices, committed in the header leaf; O(1) membership replacing the older
-O(K×N) list scan.
+**Bitmap** — *removed.* The 112-byte (default config) bit-array of non-reusable
+gate indices was committed in the header leaf as an O(1) membership test
+replacing the older O(K×N) list scan; it was then dropped entirely because the
+puzzle tree only contains non-reusable leaves, making the gate-leaf Merkle
+proof the membership proof (and the claim size constant in T).
 
 ## Experiment and metrics
 
@@ -161,12 +164,17 @@ cheat: `s_claim` flipped, expected `Rejected(4)`. The gas of both is
 recorded (cheating costs the same calldata and buys an auditable rejection).
 
 **Gas** — EVM execution+calldata units. Verification gas is linear in K
-(~30 K gas per extra spot check) and near-flat in T.
+(~29.9 K gas per extra spot check on top of a ~67 K fixed base) and *flat in
+T*: the claim's only former T-dependent term (the non-reusable-gate bitmap
+header, `ceil(max_gate/8)` bytes, 112 B at T=1 → 1,696 B at T=100, +26% over
+T=1→100) was removed with the non-reusable gate list. See
+`fig1_flat_in_T.png`.
 
-**Fee** — gas × effective gas price, reported in ETH. Figures quote fees at a
-1 gwei reference gas price (`REF_GWEI` in `plot_paper.py`); live Sepolia
-prices during the experiments ranged 0.0003–0.05 gwei, making measured fees
-10⁻⁸–10⁻⁵ ETH.
+**Fee** — gas × effective gas price, reported in ETH or USD. Figures price the
+measured gas at the named venue base fees in `plot_paper.py:VENUES` (0.05,
+1, 5, 30 gwei) and in `plot_results.py` at a single `REF_GWEI` reference;
+live Sepolia prices during the experiments ranged 0.0003–0.05 gwei, making
+measured fees 10⁻⁸–10⁻⁵ ETH.
 
 **Latency** — wall-clock time from `cast send` to receipt (dominated by
 block cadence, ~12 s on Sepolia), independent of T and K.
@@ -186,8 +194,16 @@ K-selection rule follows.
 ([experiment_commerce.py](contracts/quantum_verifier_evm/python/experiment_commerce.py)):
 register + escrow → solve → submit → payout, plus the four attack controls.
 
+**Economic security threshold** — the smallest integer K for which
+`cheat EV < 0`. Since `B = fee + margin`, it reduces to
+`K* = ceil(log2(1 + margin/fee))`: the *cheaper* the chain, the *more* spot
+checks are needed to make forgery unprofitable. At a $0.50 margin that is K=5
+on an L2 (0.05 gwei), K=2 at 1 gwei, and K=1 at ≥5 gwei
+(`fig5_security_map.png`).
+
 **Ledgers** — `contracts/quantum_verifier_evm/bench/evm_results.json`
 (benchmark sweeps: gas/fee/latency per tx) and
 `contracts/quantum_verifier_evm/bench/commerce_ledger.json`
 (commerce cycles: balances, events, profit). Paper figures render from these
-via `plot_paper.py`.
+via `plot_paper.py`; captions and interpretation are in
+[FIGURES.md](contracts/quantum_verifier_evm/docs/FIGURES.md).

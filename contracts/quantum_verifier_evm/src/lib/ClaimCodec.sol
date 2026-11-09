@@ -11,8 +11,6 @@ import {Cursor} from "./Cursor.sol";
 /// u32            r_len
 /// bytes          r                      (Goldreich-Levin mask)
 /// u8             r_dot_m_xor_s
-/// u32            bitmap_len
-/// bytes          bitmap                 (bit gi set => gate gi is non-reusable)
 /// u32            header_path_count
 /// (bytes32,u8)[] header_path            (sibling, is_left)
 /// u32            spot_checks_count      (K)
@@ -32,32 +30,30 @@ import {Cursor} from "./Cursor.sol";
 ///
 /// @dev Two deliberate departures from the Soroban wire format in `SPEC.md`:
 ///
-///      1. **The non-reusable gate list is a bitmap, not a `u32[]`.** For
-///         `lam = msg_bits = 128` there are 640 non-reusable gates with a max
-///         index of 895, so the list costs 2,564 bytes — 38% of the whole claim.
-///         A 112-byte bitmap replaces it, and membership becomes an O(1) bit
-///         test instead of the O(K x N) linear scan the Rust version does.
-///         At 40 gas/byte that is ~99,000 gas saved per verification.
+///      1. **The non-reusable gate list is not carried at all.** The Soroban
+///         claim header commits to a `u32[]` of non-reusable gate indices
+///         (2,564 B for lam = msg_bits = 128, 38% of the claim) and the
+///         verifier scans it per spot check. Unnecessary: the puzzle tree
+///         contains a leaf *only* for non-reusable gates, so a valid gate-leaf
+///         Merkle proof is itself the non-reusability proof. Dropping the list
+///         (an earlier EVM revision carried it as a bitmap, whose
+///         ceil(max_gate_index/8) length was the only T-dependent term in the
+///         claim) makes the claim size constant in T.
 ///
 ///      2. **`r_dot_m_xor_s` and `s_claim` are single bytes, not u32.** They are
 ///         bits; the extra 3 bytes each were pure padding.
 ///
-///      Consequence: the EVM `puzzle_hash` differs from the Soroban one, because
-///      the header leaf commits to the bitmap rather than the list. That is fine
+///      Consequence: the EVM `puzzle_hash` differs from the Soroban one,
+///      because the header leaf commits to different material. That is fine
 ///      for the dual-chain story — `registerPuzzle` takes the hash as a
-///      parameter, so you compute each chain's hash off-chain and register it on
-///      that chain. The claim bytes differ anyway (`scval` vs packed calldata).
+///      parameter, so you compute each chain's hash off-chain and register it
+///      on that chain. The claim bytes differ anyway (`scval` vs packed calldata).
 library ClaimCodec {
     using Cursor for Cursor.C;
 
     /// @dev Caps on caller-controlled lengths. Without these a malicious claim
     ///      could force unbounded memory allocation before any check runs.
     uint256 internal constant MAX_R_LEN = 64;
-    // Bitmap length = ceil(max_gate_index / 8), and max gate index grows with
-    // the circuit size (T=1 -> 112 B, T=100 -> 1,696 B). 4096 B supports gate
-    // indices up to 32,767, i.e. T well past 200. This is a sanity cap against
-    // absurd claims, not a protocol limit — the real limit is calldata pricing.
-    uint256 internal constant MAX_BITMAP_LEN = 4096;
     uint256 internal constant MAX_Y_LEN = 64;
     uint256 internal constant MAX_K = 64;
     uint256 internal constant MAX_PATH_DEPTH = 64;
@@ -80,8 +76,6 @@ library ClaimCodec {
         uint256 rOff;
         uint32 rLen;
         uint8 rDotMXorS;
-        uint256 bitmapOff;
-        uint32 bitmapLen;
         /// @dev Calldata offset of the header path's u32 count.
         uint256 headerPathOff;
         SpotCheckView[] spotChecks;
@@ -103,10 +97,6 @@ library ClaimCodec {
 
         v.rDotMXorS = c.u8();
         if (v.rDotMXorS > 1) revert TooLarge("r_dot_m_xor_s", v.rDotMXorS, 1);
-
-        v.bitmapLen = c.u32();
-        _cap("bitmap", v.bitmapLen, MAX_BITMAP_LEN);
-        v.bitmapOff = c.skip(v.bitmapLen);
 
         v.headerPathOff = c.off;
         _skipPath(c);
@@ -139,25 +129,6 @@ library ClaimCodec {
         // one via `min(a.len(), b.len())`, which would let a solver choose how
         // much of `r` gets checked.
         if (v.rLen != v.yLen) revert LengthMismatch("r/y", v.rLen, v.yLen);
-    }
-
-    /// @notice Test whether `gateIndex` is marked non-reusable in the bitmap.
-    /// @dev O(1). Replaces the Rust `non_reusable.iter().position(...)` scan,
-    ///      which was O(K x N) — ~50,000 gas on the EVM, comparable to the
-    ///      entire calldata cost.
-    function isNonReusable(ClaimView memory v, uint32 gateIndex)
-        internal
-        pure
-        returns (bool)
-    {
-        uint256 byteIdx = uint256(gateIndex) >> 3;
-        if (byteIdx >= v.bitmapLen) return false;
-        uint256 off = v.bitmapOff + byteIdx;
-        uint8 b;
-        assembly ("memory-safe") {
-            b := shr(248, calldataload(off))
-        }
-        return (b >> (gateIndex & 7)) & 1 == 1;
     }
 
     /// @notice Copy a calldata region into a fresh `bytes`.

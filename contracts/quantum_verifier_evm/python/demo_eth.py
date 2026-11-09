@@ -5,8 +5,7 @@ End-to-end Quantum-Verification demo on a local Ethereum node (Anvil).
 This is the EVM counterpart of `scripts/verify_sdk.py`. Flow:
 
   1. PSetup -> PGen -> PSolve off-chain (real TLP, PRGC mode).
-  2. Merkle-ize the puzzle body off-chain (bitmap header, see
-     docs/WIRE_FORMAT_EVM.md) -> puzzle_hash.
+  2. Merkle-ize the puzzle body off-chain (see docs/WIRE_FORMAT_EVM.md)
   3. Start Anvil, deploy QuantumVerifier (free mode).
   4. registerPuzzle — stores ONLY the root commitment on-chain.
   5. submitAndVerify (K spot checks):

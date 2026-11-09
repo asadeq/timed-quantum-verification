@@ -100,7 +100,7 @@ library Cursor {
     }
 
     /// @notice Advance past `n` bytes and return the offset of the skipped region.
-    /// @dev Used for variable-length blobs (`r`, the bitmap, `y`) that are
+    /// @dev Used for variable-length blobs (`r`, `y`) that are
     ///      hashed or scanned in place rather than copied into memory.
     function skip(C memory c, uint256 n) internal pure returns (uint256 off) {
         _need(c, n);

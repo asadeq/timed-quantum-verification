@@ -14,8 +14,6 @@ All integers are big-endian. This is the format produced by
 u32            r_len
 bytes          r                      (Goldreich-Levin mask)
 u8             r_dot_m_xor_s          (0 or 1; >1 rejected)
-u32            bitmap_len
-bytes          bitmap                 (bit gi set => gate gi is non-reusable)
 u32            header_path_count
 (bytes32,u8)[] header_path            (sibling, is_left)
 u32            K                      (spot-check count)
@@ -39,7 +37,7 @@ Built off-chain by the puzzle generator; only the root (`puzzleHash`) is
 registered on-chain.
 
 ```
-header leaf   = SHA-256( r || r_dot_m_xor_s_be32 || bitmap || solver_be20 )
+header leaf   = SHA-256( r || r_dot_m_xor_s_be32 || solver_be20 )
 gate leaf(gi) = SHA-256( table[gi]_4x16B || gi_be32 )
 internal      = SHA-256( left || right )   (odd count: last pairs with itself)
 ```
@@ -48,6 +46,12 @@ internal      = SHA-256( left || right )   (odd count: last pairs with itself)
 from the account it was built for — with a bounty attached, an observed
 transaction cannot be front-run to steal the payout.
 
+The tree contains a leaf **only for non-reusable gates**, so a valid gate-leaf
+Merkle proof is itself the non-reusability proof — the claim carries no
+non-reusable gate list (the Soroban format's `u32[]`, or the earlier EVM
+bitmap, are gone). This makes the claim size constant in T: only the gate
+*indices* move with T, and they live inside fixed-width fields.
+
 Path entry `(sibling, is_left)`: `is_left = 1` means the sibling is the LEFT
 child (the current node is the right child); the path byte must be 0 or 1.
 
@@ -55,11 +59,11 @@ child (the current node is the right child); the path byte must be 0 or 1.
 
 | Field | Soroban | EVM | Why |
 |---|---|---|---|
-| non-reusable gates | `u32[]` (2,564 B for 640 gates) | **bitmap** (112 B) | ~99 K gas saved; O(1) membership |
+| non-reusable gates | `u32[]` (2,564 B for 640 gates) | **not carried** | the tree only has non-reusable leaves, so the gate-leaf Merkle proof is the membership proof; claim size is constant in T |
 | `r_dot_m_xor_s` | u32 | u8 | it is a bit |
 | `s_claim` | u32 | u8 | it is a bit |
 | `y_bits` | `u32[]` of bits | raw bytes | 112 B saved |
-| header leaf | `SHA-256(r ‖ flag ‖ list)` | `SHA-256(r ‖ flag ‖ bitmap ‖ solver)` | binds the claim to the submitting account (anti-front-running for escrowed bounties) |
+| header leaf | `SHA-256(r ‖ flag ‖ list)` | `SHA-256(r ‖ flag ‖ solver)` | binds the claim to the submitting account (anti-front-running for escrowed bounties) |
 
 **Consequence:** the header leaf differs, so `puzzle_hash` differs from the
 Soroban one. Compute each chain's hash off-chain and register it on that chain.
@@ -99,7 +103,7 @@ these reverts before any cryptographic check runs:
 - every read is bounds-checked (`Truncated`), including inside `assembly`;
 - booleans are canonical: path `is_left` and both committed bits must be 0 or 1;
 - the claim region must be consumed exactly (`TrailingBytes`);
-- caller-controlled lengths are capped: `r`/`y` ≤ 64 B, bitmap ≤ 512 B, K ≤ 64,
+- caller-controlled lengths are capped: `r`/`y` ≤ 64 B, K ≤ 64,
   path depth ≤ 64;
 - `r` and `y` must have equal length (the Rust port silently truncated — that
   would let a solver choose how much of `r` is checked).
@@ -107,11 +111,13 @@ these reverts before any cryptographic check runs:
 ## Measured sizes and gas
 
 Fixture: `lam = msg_bits = 128`, T = 1, 640 non-reusable gates, Merkle depth 10.
+Claim size is constant in T (3,980 B at K=8 for T = 1…100).
 
-| K | claim bytes | total gas (measured, forge trace) |
+| K | claim bytes | verify gas (gasleft probe, forge test) |
 |---|---|---|
-| 1 | 3,744 | 103,812 |
-| 8 | ~6,890 | 312,010 |
+| 1 | 830 | 112,736 |
+| 8 | 3,980 | 320,842 |
 
-Reject paths cost less (they bail out early). The dominant term is calldata
-(~40 gas per nonzero byte under EIP-7623).
+Measured T=1 vs T=100 at K=8: 321,130 vs 320,986 — flat (Δ 0.04%; the old
+bitmap-header format drifted +26% over the same range). Reject paths cost less
+(they bail out early).

@@ -85,18 +85,20 @@ From `scripts/serialize.py::serialize_claim` with the real shapes
 | `y_bits` (128 × u8) | 132 | 2 % |
 | `s_claim` + length prefixes | 5 | — |
 
-> The shipped EVM verifier adopts the **bitmap** header (§6.2), shrinking the
-> claim to ~6.9 KB for K=8 — see
+> The shipped EVM verifier drops the non-reusable gate list entirely
+> (superseding §6.2's bitmap step: the puzzle tree only contains non-reusable
+> leaves, so the gate-leaf Merkle proof is the membership proof), shrinking the
+> claim to ~4.0 KB for K=8 — see
 > [`contracts/quantum_verifier_evm/docs/WIRE_FORMAT_EVM.md`](contracts/quantum_verifier_evm/docs/WIRE_FORMAT_EVM.md).
 
 ### 2.3 Where the gas goes (K=8)
 
 | Term | Gas | Notes |
 |---|---|---|
-| **Calldata** | **~248,000** | EIP-7623 floor: `10 × (zero + 4 × nonzero)` → 40 gas/nonzero byte; 6.2 KB bitmap claim |
+| **Calldata** | **~248,000** | EIP-7623 floor: `10 × (zero + 4 × nonzero)` → 40 gas/nonzero byte; 6.9 KB claim (measured before the non-reusable list was dropped; the claim is now ~4.0 KB) |
 | SHA-256 precompile | 10,080 | `60 + 12 × ⌈len/32⌉`; header leaf 1,080, 8 gate paths 6,720, `pad()` 672 |
-| Decoder + XOR + GL + scan | ~54,000 | with the O(1) bitmap membership |
-| **Total per verification (measured)** | **312,010** | forge trace, `honest_k8` fixture |
+| Decoder + XOR + GL | ~54,000 | membership is now the gate-leaf Merkle proof itself (no list/bitmap scan) |
+| **Total per verification (measured)** | **312,010** | forge trace, `honest_k8` fixture (pre-list-removal contract) |
 
 > **Measured, not estimated.** After implementation, the K=8 verification
 > measures **312,010 gas** on the shipped contract
@@ -326,13 +328,14 @@ sorted, so replace it with either:
 
 | Change | Saves | Cost |
 |---|---|---|
-| Commit to a **bitmap** of non-reusable gates in the header leaf instead of the full list | ~2,484 B (~99 K gas) | wire-format v2; regenerate golden vectors |
+| ~~Commit to a **bitmap** of non-reusable gates in the header leaf instead of the full list~~ | ~2,484 B (~99 K gas) | shipped, then **superseded**: the list is dropped entirely — the tree only contains non-reusable leaves, so the gate-leaf Merkle proof is the membership proof and the claim is constant in T |
 | Pack `y_bits` as bytes instead of `u32[]` | 112 B (~4.5 K gas) | trivial |
 | Merkle **multiproof** across the K spot checks (share the top ~3 levels) | ~768 B (~31 K gas) | moderate |
 | Drop `r` from the claim (it is already committed in the header leaf) | 132 B | needs a re-derivation path |
 
-The bitmap change alone removes ~39 % of the bill. It is the single highest-value
-optimisation and it is worth doing **before** the first Ethereum deployment,
+The list removal (beyond the bitmap step) makes the claim constant in T. It is
+the highest-value optimisation and it is worth doing **before** the first
+Ethereum deployment,
 because it is a wire-format change and those are cheapest to make once.
 
 ### 6.3 Fix the duplicated spot-check
@@ -493,8 +496,10 @@ let the same off-chain artifacts serve both.
    "Base". If reach, L1 + ZK is the coherent long-term answer.
 3. **Is Stylus acceptable?** It would let the existing Rust verifier ship almost
    unchanged. Worth a one-day spike before committing to Solidity.
-4. **Does the bitmap header change break the paper's artifact?** The wire format
-   is referenced by the CCS submission; a v2 format needs a note in
+4. **Does the wire-format change break the paper's artifact?** The bitmap header
+   shipped, and the non-reusable list was then dropped entirely (claim constant
+   in T). The wire format
+   is referenced by the CCS submission; each format revision needs a note in
    [SPEC.md](SPEC.md) and possibly in the artifact.
 5. **Who audits the decoder?** The cryptography is simple and already reviewed;
    the hand-rolled calldata parser is the new risk and is the thing an auditor

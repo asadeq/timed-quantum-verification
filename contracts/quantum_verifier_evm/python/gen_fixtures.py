@@ -4,7 +4,7 @@ Generate Solidity test fixtures for the EVM verifier from real TLP runs.
 
 This is the bridge between the chain-agnostic Python TLP and the Solidity
 verifier. It runs PSetup -> PGen -> PSolve, builds the EVM claim wire format
-(bitmap header, see `docs/WIRE_FORMAT_EVM.md`), Merkle-izes the puzzle body,
+(see `docs/WIRE_FORMAT_EVM.md`), Merkle-izes the puzzle body,
 and emits `test/fixtures/GeneratedFixtures.sol` containing:
 
   * one fixture per verdict case (honest, and one per rejection reason)
@@ -126,19 +126,17 @@ def _puzzle_tree(
 
     non_reusable = sorted(yao_material["non_reusable"])
 
-    # --- bitmap of non-reusable gates -------------------------------------
-    max_gi = max(non_reusable)
-    bitmap = bytearray((max_gi + 8) // 8)
-    for gi in non_reusable:
-        bitmap[gi >> 3] |= 1 << (gi & 7)
-    bitmap = bytes(bitmap)
-
     # --- leaves ------------------------------------------------------------
     # The EVM verifier binds the claim to the submitting account: the header
     # leaf includes the solver's 20-byte address, so a claim only verifies
     # from the account it was built for (anti-front-running once a bounty is
     # attached). `solver=None` keeps the Soroban leaf preimage.
-    header_leaf = hashlib.sha256(r + be32(r_dot_m_xor_s) + bitmap + (solver or b"")).digest()
+    #
+    # Only non-reusable gates get leaves, so a valid gate-leaf Merkle proof is
+    # itself the non-reusability proof — no bitmap/list needs to travel in the
+    # claim (it used to, and its ceil(max_gate_index/8) length was the only
+    # T-dependent term in the claim size).
+    header_leaf = hashlib.sha256(r + be32(r_dot_m_xor_s) + (solver or b"")).digest()
 
     gate_leaves: list[bytes] = []
     for gi in non_reusable:
@@ -147,7 +145,7 @@ def _puzzle_tree(
         gate_leaves.append(hashlib.sha256(flat + be32(gi)).digest())
 
     root, levels = build_tree([header_leaf] + gate_leaves)
-    return root, levels, non_reusable, bitmap
+    return root, levels, non_reusable
 
 
 def puzzle_root(Z: tuple, solver: bytes | None = None) -> bytes:
@@ -164,7 +162,7 @@ def build_claim(
     spot_check_indices: list[int],
     solver: bytes | None = None,
 ) -> dict:
-    root, levels, non_reusable, bitmap = _puzzle_tree(Z, solver)
+    root, levels, non_reusable = _puzzle_tree(Z, solver)
     x_tilde, r, r_dot_m_xor_s = Z
     _encoded_a, _encoded_b, yao_material = x_tilde
     header_path = path_for(levels, 0)
@@ -186,7 +184,6 @@ def build_claim(
     return {
         "r": r,
         "r_dot_m_xor_s": r_dot_m_xor_s,
-        "bitmap": bitmap,
         "header_path": header_path,
         "spot_checks": spot_checks,
         "y": y,
@@ -205,7 +202,6 @@ def serialize_path(path: list[tuple[bytes, bool]]) -> bytes:
 def serialize_claim(c: dict) -> bytes:
     out = be32(len(c["r"])) + c["r"]
     out += bytes([c["r_dot_m_xor_s"]])
-    out += be32(len(c["bitmap"])) + c["bitmap"]
     out += serialize_path(c["header_path"])
 
     out += be32(len(c["spot_checks"]))

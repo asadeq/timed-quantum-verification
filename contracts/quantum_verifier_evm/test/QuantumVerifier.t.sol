@@ -369,8 +369,8 @@ contract QuantumVerifierTest is Test {
         // produces real claims rarely enough that we bound this test to bytes
         // that are clearly not valid claims (wrong total length for the header).
         vm.assume(data.length != 0);
-        // A claim needs at least r_len(4) + r(1..64) + flag(1) + bitmap_len(4)
-        // + bitmap(1..512) + path_count(4) + K(4) + ... — at minimum ~20 bytes.
+        // A claim needs at least r_len(4) + r(1..64) + flag(1) + path_count(4)
+        // + K(4) + ... — at minimum ~20 bytes.
         if (data.length < 20) {
             vm.expectRevert();
             this.decodeExternal(data);

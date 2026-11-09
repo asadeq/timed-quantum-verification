@@ -246,7 +246,7 @@ contract QuantumVerifier is ReentrancyGuard {
         ClaimCodec.ClaimView memory v = ClaimCodec.decode(claim);
 
         // --- 1. Header Merkle -> puzzleHash --------------------------------
-        // leaf = SHA-256( r || r_dot_m_xor_s_be32 || bitmap || msg.sender )
+        // leaf = SHA-256( r || r_dot_m_xor_s_be32 || msg.sender )
         // The trailing bytes20 binds the claim to the submitting account: a
         // claim is worthless from any other address, so an observed
         // transaction cannot be front-run to steal the bounty.
@@ -254,7 +254,6 @@ contract QuantumVerifier is ReentrancyGuard {
             abi.encodePacked(
                 ClaimCodec.slice(v.rOff, v.rLen),
                 uint32(v.rDotMXorS),
-                ClaimCodec.slice(v.bitmapOff, v.bitmapLen),
                 msg.sender
             )
         );
@@ -284,13 +283,10 @@ contract QuantumVerifier is ReentrancyGuard {
                 return false;
             }
 
-            // The gate must be one the puzzle declared non-reusable. Without
-            // this a solver could spot-check a gate they trivially control.
-            if (!ClaimCodec.isNonReusable(v, sc.gateIndex)) {
-                emit Rejected(puzzleId, msg.sender, 3);
-                return false;
-            }
-
+            // No separate non-reusability check is needed: the puzzle tree
+            // contains a leaf only for non-reusable gates, so a proof that
+            // `gateLeaf` folds to `puzzleHash` already proves the gate is
+            // non-reusable.
             if (!SpotCheck.verifyOneCalldata(sc.kL, sc.kR, sc.kO, sc.tableOff, sc.gateIndex)) {
                 emit Rejected(puzzleId, msg.sender, 3);
                 return false;

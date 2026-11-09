@@ -40,13 +40,15 @@ def main() -> None:
 
     eth_usd = cycles[-1]["eth_usd"]
 
-    # de-dupe (venue, T, K): last cycle wins; sweeps are per-venue so the
-    # live Sepolia cycles never silently replace the systematic anvil ones
+    # de-dupe (venue, T, K): last cycle wins
     by_vtk: dict[tuple[str, int, int], dict] = {}
     for c in cycles:
         by_vtk[(c["venue"], c.get("T", 1), c.get("K", 8))] = c
-    by_tk = {("anvil", t, k): c for (_, t, k), c in by_vtk.items() if c["venue"] == "anvil"}
-    live = {(v, t, k): c for (v, t, k), c in by_vtk.items() if v.startswith("sepolia")}
+
+    # Primary series = the latest live-chain venue (Base Sepolia today); anvil
+    # remains the fallback when no live sweep has been recorded yet.
+    live_venues = [c["venue"] for c in cycles if c["venue"].startswith("sepolia")]
+    primary_venue = live_venues[-1] if live_venues else "anvil"
 
     # ---- series ------------------------------------------------------------
     # Panel A: only the T-sweep session. Mixing in the (T=1, K=8) cycle from
@@ -56,10 +58,12 @@ def main() -> None:
     for c in cycles:
         if c.get("K", 8) == 8:
             t_sessions[(c["venue"], c["s_idx"])].add(c.get("T", 1))
-    best = max(t_sessions, key=lambda kk: len(t_sessions[kk])) if t_sessions else None
+    best = max(t_sessions, key=lambda kk: (len(t_sessions[kk]), kk[1])) \
+        if t_sessions else None
     tk8 = sorted((c["T"], c) for c in cycles
                  if best and (c["venue"], c["s_idx"]) == best and c.get("K", 8) == 8)
-    t1k = sorted((k, c) for (_, t, k), c in by_tk.items() if t == 1)
+    t1k = sorted((k, c) for (_, t, k), c in by_vtk.items()
+                 if t == 1 and c["venue"] == primary_venue)
 
     fig, axes = plt.subplots(1, 3, figsize=(15, 4.4))
 
@@ -67,19 +71,13 @@ def main() -> None:
     ax = axes[0]
     if tk8:
         ts = [t for t, _ in tk8]
-        pf = [c["server_profit_wei"] / 1e18 for _, c in tk8]
+        pf = [c["server_profit_wei"] / 1e12 for _, c in tk8]   # wei -> µETH
         drift = (pf[-1] - pf[0]) / pf[0] * 100 if len(pf) > 1 else 0.0
         ax.plot(ts, pf, "o-", color=ACCENT)
         ax.set_ylim(0, max(pf) * 1.25)
-        for t, p in zip(ts, pf):
-            ax.annotate(f"{p * 1e6:.1f}", (t, p), textcoords="offset points",
-                        xytext=(0, 7), fontsize=8, color=FLAT, ha="center")
         ax.set_xlabel("Time-lock length T (sequential steps)")
-        ax.set_ylabel("Server net profit (ETH ×10⁻⁶)")
-        ax.set_title(f"A. Profit vs T (K=8) — flat: {drift:+.2f}% over T={ts[0]}→{ts[-1]}")
-        ax.text(0.02, 0.04, "labels: profit in µETH; variation is bitmap/tree\n"
-                            "growth, not time-lock cost — the chain never re-runs T",
-                transform=ax.transAxes, fontsize=7.5, color=FLAT)
+        ax.set_ylabel("Server net profit (µETH)")
+        ax.set_title(f"(a) Net server profit vs T, K=8", fontsize=10)
 
     # B. honest vs cheat EV, linear USD — the comparison IS the message
     ax = axes[1]
@@ -89,37 +87,29 @@ def main() -> None:
         ev = [((2.0 ** -k) * c["bounty_wei"] - c["gas_cost_wei"]) / 1e18 * eth_usd
               for k, c in t1k]
         ax.plot(ks, pf, "o-", color=ACCENT, label="honest: keep the bounty")
-        ax.plot(ks, ev, "x--", color=WARN, label="cheat: 2^-K·bounty − gas")
-        for k, e in zip(ks, ev):
-            ax.annotate(f"${e:+.3f}", (k, e), textcoords="offset points",
-                        xytext=(4, -12), fontsize=8, color=WARN)
+        ax.plot(ks, ev, "x--", color=WARN, label="forger, 2^-K·bounty − gas")
         ax.axhline(0, color=FLAT, lw=0.8)
-        for (_, _, k), c in sorted(live.items()):
-            lp = c["server_profit_wei"] / 1e18 * eth_usd
-            ax.plot([k], [lp], "D", color="#198038", markersize=8,
-                    label=f"live Sepolia (K={k})")
-        ax.set_xlabel("Spot checks K (cheat probability 2^-K)")
+        ax.set_xlim(min(ks) - 0.6, max(ks) + 0.8)
+        ax.set_xlabel("Spot checks K")
         ax.set_ylabel("Expected value per attempt (USD)")
-        ax.set_title("B. Honesty strictly dominates at every K")
-        ax.legend(loc="center left", fontsize=8)
+        ax.set_title("(b) Expected value per claim vs K", fontsize=10)
+        ax.set_ylim(-0.12, max(pf) * 1.25)
+        ax.legend(loc="upper left", fontsize=6.6)
 
     # C. client cost vs K
     ax = axes[2]
     if t1k:
         ks = [k for k, _ in t1k]
-        bounty = [c["bounty_wei"] / 1e18 for _, c in t1k]
-        ax.plot(ks, bounty, "s-", color=ACCENT, label="client cost (escrowed bounty)")
-        usd = [b * eth_usd for b in bounty]
-        for k, b, u in zip(ks, bounty, usd):
-            ax.annotate(f"${u:.2f}", (k, b), textcoords="offset points",
-                        xytext=(6, 4), fontsize=8, color=FLAT)
+        usd = [c["bounty_wei"] / 1e18 * eth_usd for _, c in t1k]
+        ax.plot(ks, usd, "s-", color=ACCENT, label="escrowed bounty")
+        ax.set_xlim(min(ks) - 1.2, max(ks) + 1.2)
+        ax.set_ylim(0, max(usd) * 1.22)
         ax.set_xlabel("Spot checks K")
-        ax.set_ylabel("Escrowed bounty (ETH)")
-        ax.set_title(f"C. Client cost vs K (@ ${eth_usd:,.0f}/ETH)")
-        ax.legend()
+        ax.set_ylabel("Escrowed bounty (USD)")
+        ax.set_title("(c) Client cost vs K", fontsize=10)
+        ax.legend(fontsize=8)
 
-    fig.suptitle("PV-CVQC commerce experiment — client escrow, server profit, cheat economics",
-                 fontsize=13, fontweight="bold")
+    fig.suptitle(f"Commerce experiment (ETH = ${eth_usd:,.0f})", fontsize=12)
     fig.tight_layout(rect=(0, 0, 1, 0.94))
     OUT.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(OUT, dpi=150)

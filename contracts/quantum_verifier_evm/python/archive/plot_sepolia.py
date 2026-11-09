@@ -48,31 +48,47 @@ def main() -> None:
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
-    sessions = [s for s in json_sessions() if short_venue(s) == "sepolia"]
+    sessions = [s for s in json_sessions()
+                if short_venue(s) in ("sepolia", "base-sepolia")]
     if not sessions:
         raise SystemExit("no sepolia sessions in bench/evm_results.json")
 
+    # Latest session per (K, T) combination wins: sessions are in file order,
+    # and newer ones use the current wire format — older Ethereum-Sepolia
+    # sessions predate the non-reusable-list removal and would mix a different
+    # gas profile into the fits.
+    latest: dict[tuple[int, int], dict] = {}
+    for s in sessions:
+        p = s.get("params", {})
+        latest[(p.get("K", 8), p.get("T", 1))] = s
+
     # agg[axis][x] = dict of metric lists
     agg = {a: defaultdict(lambda: defaultdict(list)) for a in ("K", "T")}
-    for s in sessions:
-        k = s.get("params", {}).get("K", 8)
-        t = s.get("params", {}).get("T", 1)
+    for (k, t), s in latest.items():
         for r in s["runs"]:
             if not r["name"].startswith("verify_honest"):
                 continue
             gas = r["gas_used"]
-            for axis, x in (("K", k), ("T", t)):
-                m = agg[axis][x]
+            # K curve only from K-sweep sessions (T=1); T curve only from
+            # T-sweep sessions (K=8) — otherwise the T=1 point averages
+            # across every K value of the K sweep.
+            if t == 1:
+                m = agg["K"][k]
                 m["gas"].append(gas)
-                m["fee"].append(gas * args.ref_gwei / 1e9)      # ETH @ ref price
+                m["fee"].append(gas * args.ref_gwei / 1e9)  # ETH @ ref price
+                m["lat"].append(r["latency_ms"] / 1000)
+            if k == 8:
+                m = agg["T"][t]
+                m["gas"].append(gas)
+                m["fee"].append(gas * args.ref_gwei / 1e9)  # ETH @ ref price
                 m["lat"].append(r["latency_ms"] / 1000)
 
     # Off-chain solver time (the cost being avoided) per T, for contrast.
     off_t: dict[int, float] = {}
-    for s in sessions:
+    for s in latest.values():
         t = s.get("params", {}).get("T", 1)
         oc = s.get("offchain_ms", {})
-        if oc and t not in off_t:
+        if oc:
             off_t[t] = oc.get("psolve_ms", 0.0)
 
     def series(axis: str, metric: str) -> tuple[list, list]:
@@ -109,7 +125,7 @@ def main() -> None:
         ax.annotate(f"{y/1000:.0f}k", (x, y), textcoords="offset points",
                     xytext=(0, 6), ha="center", fontsize=8)
     ax.set_ylabel("Gas per verification")
-    ax.set_title("Gas vs K — linear (security dial)", fontsize=11)
+    ax.set_title("Gas vs K", fontsize=11)
     ax.grid(alpha=0.3); ax.legend(fontsize=8)
 
     ax = axes[0][1]
@@ -128,8 +144,7 @@ def main() -> None:
         ax.annotate(f"{y/1000:.0f}k", (x, y), textcoords="offset points",
                     xytext=(0, 6), ha="center", fontsize=8)
     ax.set_ylabel("Gas per verification")
-    ax.set_title("Gas vs T — near-constant (drift = bitmap header)",
-                 fontsize=11)
+    ax.set_title("Gas vs T", fontsize=11)
     ax.grid(alpha=0.3); ax.legend(fontsize=8, loc="upper left")
 
     # --- Row 2: fee (normalized) --------------------------------------------
@@ -142,7 +157,7 @@ def main() -> None:
         ax.annotate(f"{y:.1e}", (x, y), textcoords="offset points",
                     xytext=(0, 6), ha="center", fontsize=8)
     ax.set_ylabel(f"ETH fee (@ {args.ref_gwei:g} gwei)")
-    ax.set_title("Fee vs K — linear", fontsize=11)
+    ax.set_title("Fee vs K (normalized)", fontsize=11)
     ax.grid(alpha=0.3); ax.legend(fontsize=8)
 
     ax = axes[1][1]
@@ -155,8 +170,7 @@ def main() -> None:
                     xytext=(0, 6), ha="center", fontsize=8)
     usd = tf[-1] * args.eth_usd
     ax.set_ylabel(f"ETH fee (@ {args.ref_gwei:g} gwei)")
-    ax.set_title(f"Fee vs T — near-constant (~${usd:.4f} at T=100)",
-                 fontsize=11)
+    ax.set_title("Fee vs T (normalized)", fontsize=11)
     ax.grid(alpha=0.3); ax.legend(fontsize=8)
 
     # --- Row 3: latency -------------------------------------------------------
@@ -181,7 +195,8 @@ def main() -> None:
 
     fig.suptitle(
         f"Sepolia honest-verification metrics  "
-        f"(n≥{n_samples} per point where repeated; 1 ETH = ${args.eth_usd:.0f})",
+        f"(latest session per point, Ethereum + Base Sepolia; "
+        f"1 ETH = ${args.eth_usd:.0f})",
         fontsize=13)
     fig.tight_layout()
 

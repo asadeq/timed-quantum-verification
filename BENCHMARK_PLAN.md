@@ -78,9 +78,10 @@ Already largely instrumented:
 | **On-chain gas** | **flat** — T enters only the 13-byte `CircuitSpec` hash |
 
 Second-order effect: larger circuits can change the non-reusable gate count,
-which grows the puzzle body (off-chain) and the EVM bitmap header at
-⌈max_gate_index/8⌉ bytes → mild, sub-linear gas growth via header hashing.
-Expect near-flat with small steps, not a perfectly straight line.
+which grows the puzzle body (off-chain). On-chain the claim is fully constant
+in T: the non-reusable gate list was dropped from the EVM wire format (the
+puzzle tree only contains non-reusable leaves, so the gate-leaf Merkle proof
+is the membership proof), and only fixed-width fields move with T.
 
 ### Axis B: HHL / quantum problem size
 

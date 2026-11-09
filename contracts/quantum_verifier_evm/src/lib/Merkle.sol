@@ -14,7 +14,7 @@ import {Cursor} from "./Cursor.sol";
 ///
 /// @dev Tree shape (built by `python/gen_fixtures.py::build_tree`):
 ///      ```
-///      header leaf   = SHA-256( r || r_dot_m_xor_s_be32 || bitmap )
+///      header leaf   = SHA-256( r || r_dot_m_xor_s_be32 || solver_be20 )
 ///      gate leaf(gi) = SHA-256( table[gi]_4x16B || gi_be32 )
 ///      internal      = SHA-256( left || right )   (odd count: last pairs with itself)
 ///      ```

@@ -57,7 +57,25 @@ uv run python python/plot_commerce.py                              # -> bench/fi
 
 Ledger lands in `bench/commerce_ledger.json`. Live run (three funded cast
 keystores): add `--rpc-url $ETH_SEPOLIA_RPC --accounts CLIENT SERVER ATTACKER`.
+
+## Paper figures
+
+`plot_paper.py` renders the five figures of the proof-of-concept argument
+(640-gate circuits, `T <= 100`, measured on Sepolia). The images carry data
+only; captions, interpretation and the known data caveats are in
+[docs/FIGURES.md](docs/FIGURES.md).
+
+```sh
+uv run python python/plot_paper.py        # -> bench/figures/fig{1..5}_*.png
 ```
+
+| figure | |
+|---|---|
+| `fig1_flat_in_T.png` | gas composition and on-chain bytes per claim vs `T` |
+| `fig2_linear_in_K.png` | gas and false-claim probability, and fee per verification vs `K` |
+| `fig3_payoff.png` | expected value per claim, and the split of the client's payment |
+| `fig4_why_chain.png` | time to a trusted verdict vs `T`; off-chain phase costs |
+| `fig5_security_map.png` | minimum `K` for a non-positive forger EV vs base fee |
 
 This is the EVM counterpart of `scripts/verify_sdk.py`. It runs PSetup → PGen →
 PSolve off-chain, starts Anvil, deploys the verifier in free mode, registers the

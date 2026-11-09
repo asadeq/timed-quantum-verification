@@ -234,12 +234,17 @@ def run_cycle(args, rpc: str, ledger: list, addrs: dict, t: int, k: int) -> dict
     row = send("server", args, rpc, ledger, "verify_honest", None,
                "submitAndVerify(uint32,bytes)", str(pid), f"0x{claim_hex}")
     paid = row["balance_after_wei"] - server_before + row["gas_cost_wei"]
-    ok = row.get("verdict") == "verified" and paid == bounty
+    # On OP-Stack L2s the sender's debit includes an L1 data-fee component that
+    # `gas_used * effectiveGasPrice` does not capture, so the net payout is the
+    # bounty minus that small residual — compare with a tolerance, not exactly.
+    l1_fee_residual_wei = max(bounty - paid, 0)
+    ok = row.get("verdict") == "verified" and l1_fee_residual_wei <= bounty // 50
     print(f"   bounty received: {paid / 1e18:.8f} ETH (expected {bounty / 1e18:.8f}) | "
           f"gas {row['gas_cost_wei']:,} wei | server net {paid - row['gas_cost_wei']:,} wei")
 
     return {
         "pid": pid, "bounty_wei": bounty, "claim_hex": claim_hex, "ok": ok,
+        "l1_fee_residual_wei": l1_fee_residual_wei,
         "solve_ms": solve_ms, "setup_ms": setup_ms, "gas_used": row["gas_used"],
         "gas_cost_wei": row["gas_cost_wei"],
         "server_profit_wei": paid - row["gas_cost_wei"],
