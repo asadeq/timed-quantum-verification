@@ -113,6 +113,7 @@ def path_for(levels: list[list[bytes]], idx: int) -> list[tuple[bytes, bool]]:
 def _puzzle_tree(
     Z: tuple,
     solver: bytes | None = None,
+    commitment: bytes | None = None,
 ) -> tuple[bytes, list[list[bytes]], list[int]]:
     """Build the Merkle tree from generator material alone.
 
@@ -120,7 +121,14 @@ def _puzzle_tree(
     from `PGen`'s output (`Z`), never from the solver's witness. The `solver`
     address is bound into the header leaf here, at registration time — which
     is why the client must know the server's address before posting the bounty.
+
+    `commitment` = SHA-256(y || s || r) over the *honest* (y, s): the header
+    leaf binds it, so the registered root only verifies claims whose output
+    and solution bit match the embedded secret. Preimaging it requires
+    solving the puzzle.
     """
+    if commitment is None:
+        raise ValueError("_puzzle_tree requires the registration commitment")
     x_tilde, r, r_dot_m_xor_s = Z
     _encoded_a, _encoded_b, yao_material = x_tilde
 
@@ -136,7 +144,13 @@ def _puzzle_tree(
     # itself the non-reusability proof — no bitmap/list needs to travel in the
     # claim (it used to, and its ceil(max_gate_index/8) length was the only
     # T-dependent term in the claim size).
-    header_leaf = hashlib.sha256(r + be32(r_dot_m_xor_s) + (solver or b"")).digest()
+    #
+    # The trailing `commitment` binds the embedded secret: the contract
+    # recomputes d = SHA-256(y || s_claim || r) from the claim's own fields
+    # and folds it into the leaf, so a claim with a wrong output or solution
+    # bit fails the header Merkle check (reason 1).
+    header_leaf = hashlib.sha256(
+        r + be32(r_dot_m_xor_s) + commitment + (solver or b"")).digest()
 
     gate_leaves: list[bytes] = []
     for gi in non_reusable:
@@ -148,9 +162,27 @@ def _puzzle_tree(
     return root, levels, non_reusable
 
 
-def puzzle_root(Z: tuple, solver: bytes | None = None) -> bytes:
-    """The on-chain `puzzleHash`: what the client registers (and escrows against)."""
-    return _puzzle_tree(Z, solver)[0]
+def puzzle_commitment(y: bytes, s: int, r: bytes) -> bytes:
+    """d = SHA-256(y || s || r) — the registration-time secret commitment.
+
+    The client knows (m, s, r) at PGen time (it samples m; `tlp.embedded_message`),
+    and the honest claim's (y, s_claim) = (m, s). The header leaf binds d, so a
+    claim verifies only if it carries the true embedded secret: preimaging d
+    requires actually solving the puzzle.
+    """
+    return hashlib.sha256(y + bytes([s]) + r).digest()
+
+
+def puzzle_root(Z: tuple, solver: bytes | None = None,
+                commitment: bytes | None = None) -> bytes:
+    """The on-chain `puzzleHash`: what the client registers (and escrows against).
+
+    `commitment` is the registration-time secret commitment (puzzle_commitment);
+    it is bound into the header leaf, so the registered root only verifies
+    claims carrying the true (y, s_claim)."""
+    if commitment is None:
+        raise ValueError("puzzle_root requires the registration commitment")
+    return _puzzle_tree(Z, solver, commitment)[0]
 
 
 def build_claim(
@@ -161,9 +193,20 @@ def build_claim(
     y: bytes,
     spot_check_indices: list[int],
     solver: bytes | None = None,
+    commitment: bytes | None = None,
 ) -> dict:
-    root, levels, non_reusable = _puzzle_tree(Z, solver)
+    """Build a claim bound to the registration-time `commitment`.
+
+    `commitment` = puzzle_commitment over the *honest* (y, s) — the value the
+    client registered. Tampered claims (flipped s_claim, wrong y) must still
+    be built against the honest commitment so the on-chain leaf check catches
+    them; a claim built against its own tampered commitment would be
+    self-consistent (the registrant would be scaming only themselves).
+    """
+    if commitment is None:
+        raise ValueError("build_claim requires the registration commitment")
     x_tilde, r, r_dot_m_xor_s = Z
+    root, levels, non_reusable = _puzzle_tree(Z, solver, commitment)
     _encoded_a, _encoded_b, yao_material = x_tilde
     header_path = path_for(levels, 0)
     gate_paths = {gi: path_for(levels, 1 + i) for i, gi in enumerate(non_reusable)}
@@ -188,6 +231,7 @@ def build_claim(
         "spot_checks": spot_checks,
         "y": y,
         "s_claim": s_claim,
+        "commitment": commitment,
         "puzzle_hash": root,
     }
 
@@ -239,6 +283,11 @@ def main() -> None:
     non_reusable = sorted(witness["gate_keys"].keys())
     print(f"    s={s}  |y|={len(y)}B  non_reusable={len(non_reusable)}")
 
+    # The registration-time secret commitment: the honest (y, s) is the pair
+    # the client committed to at PGen (y == the embedded message — canary).
+    commitment = puzzle_commitment(y, s, Z[1])
+    assert y == tlp.embedded_message, "honest output != embedded message"
+
     # Every fixture claim is bound to this fixed submitting address; the
     # golden-vector test must `vm.prank` the same one. 0x…A11CE ("ALICE").
     SOLVER = bytes.fromhex("00000000000000000000000000000000000A11CE")
@@ -250,41 +299,63 @@ def main() -> None:
         fixtures.append((name, claim["puzzle_hash"], serialize_claim(claim), valid, reason))
 
     # 1. Honest, K=1
-    c = build_claim(tlp, Z, witness, s, y, non_reusable[:1], solver=SOLVER)
+    c = build_claim(tlp, Z, witness, s, y, non_reusable[:1], solver=SOLVER,
+                    commitment=commitment)
     add("honest_k1", c, True, 0)
 
     # 2. Honest, K=8
-    c8 = build_claim(tlp, Z, witness, s, y, non_reusable[:8], solver=SOLVER)
+    c8 = build_claim(tlp, Z, witness, s, y, non_reusable[:8], solver=SOLVER,
+                     commitment=commitment)
     add("honest_k8", c8, True, 0)
 
-    # 3. Flipped s_claim -> reason 4 (Goldreich-Levin)
-    c = build_claim(tlp, Z, witness, s ^ 1, y, non_reusable[:1], solver=SOLVER)
-    add("bad_s_claim", c, False, 4)
+    # 3. Flipped s_claim -> the leaf's secret commitment no longer matches
+    #    the registered root -> reason 1 (header Merkle; the commitment
+    #    subsumes the GL check)
+    c = build_claim(tlp, Z, witness, s ^ 1, y, non_reusable[:1], solver=SOLVER,
+                    commitment=commitment)
+    add("bad_s_claim", c, False, 1)
 
     # 4. Flipped k_o -> reason 3 (Yao spot-check)
-    c = build_claim(tlp, Z, witness, s, y, non_reusable[:1], solver=SOLVER)
+    c = build_claim(tlp, Z, witness, s, y, non_reusable[:1], solver=SOLVER,
+                    commitment=commitment)
     c["spot_checks"][0]["k_o"] = flip_bit(c["spot_checks"][0]["k_o"], 7)
     add("bad_k_o", c, False, 3)
 
     # 5. Flipped table byte -> gate leaf changes -> reason 2 (gate Merkle)
-    c = build_claim(tlp, Z, witness, s, y, non_reusable[:1], solver=SOLVER)
+    c = build_claim(tlp, Z, witness, s, y, non_reusable[:1], solver=SOLVER,
+                    commitment=commitment)
     t = c["spot_checks"][0]["table"]
     t[0][0] = flip_bit(t[0][0], 3)
     add("bad_table", c, False, 2)
 
     # 6. Flipped r byte -> header leaf changes -> reason 1 (header Merkle)
-    c = build_claim(tlp, Z, witness, s, y, non_reusable[:1], solver=SOLVER)
+    c = build_claim(tlp, Z, witness, s, y, non_reusable[:1], solver=SOLVER,
+                    commitment=commitment)
     c["r"] = flip_bit(c["r"], 5)
     add("bad_r", c, False, 1)
 
     # 7. Unknown puzzle id -> reason 0
-    c = build_claim(tlp, Z, witness, s, y, non_reusable[:1], solver=SOLVER)
+    c = build_claim(tlp, Z, witness, s, y, non_reusable[:1], solver=SOLVER,
+                    commitment=commitment)
     add("unknown_puzzle", c, False, 0)
 
     # 8. Right claim, wrong submitting account -> the header leaf no longer
     #    resolves to puzzleHash -> reason 1 (anti-front-running)
-    c = build_claim(tlp, Z, witness, s, y, non_reusable[:1], solver=OTHER_SOLVER)
+    c = build_claim(tlp, Z, witness, s, y, non_reusable[:1], solver=OTHER_SOLVER,
+                    commitment=commitment)
     add("wrong_solver", c, False, 1)
+
+    # 9. Wrong output with a coset-consistent s_claim: the GL parity check
+    #    alone would accept this pair (any y' has a matching s'), but the
+    #    leaf's secret commitment does not -> reason 1. This is the case the
+    #    commitment check exists for.
+    y_bad = flip_bit(y, 11)
+    r_int = int.from_bytes(Z[1], "big")
+    y_int = int.from_bytes(y_bad, "big")
+    s_consistent = Z[2] ^ (bin(r_int & y_int).count("1") % 2)
+    c = build_claim(tlp, Z, witness, s_consistent, y_bad, non_reusable[:1],
+                    solver=SOLVER, commitment=commitment)
+    add("bad_y_consistent_s", c, False, 1)
 
     # --- pad golden vectors ------------------------------------------------
     pad_vectors = []

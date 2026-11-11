@@ -48,6 +48,7 @@ from experiment_commerce import (  # noqa: E402
     build_claim,
     make_puzzle,
     price_bounty,
+    puzzle_commitment,
     puzzle_root,
     register,
     role_address,
@@ -106,7 +107,8 @@ def main() -> None:
         print(f"\n== lambda = {lam}")
         bounty = int(fair * lam)
         tlp, pp, Z = make_puzzle(args.t)
-        root = puzzle_root(Z, solver=server20)
+        commitment = puzzle_commitment(tlp.embedded_message, 1, Z[1])
+        root = puzzle_root(Z, solver=server20, commitment=commitment)
         pid = register("client", args, rpc, ledger, root, bounty)
 
         if bounty < reservation:
@@ -127,7 +129,7 @@ def main() -> None:
         solve_ms = (time.perf_counter() - t0) * 1000
         non_reusable = sorted(witness["gate_keys"].keys())
         claim = build_claim(tlp, Z, witness, s, y, non_reusable[:args.k],
-                            solver=server20)
+                            solver=server20, commitment=commitment)
         assert claim["puzzle_hash"] == root
         server_before = balance_of(addrs["server"], rpc)
         row = send("server", args, rpc, ledger, "verify_honest", None,

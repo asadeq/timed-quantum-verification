@@ -193,25 +193,8 @@ def main() -> None:
     fig.savefig(OUT.parent / "commerce_ev_vs_K.png", dpi=150)
     plt.close(fig)
 
-    # ---- commerce panel: commerce_client_cost_vs_K ----
-    fig, ax = plt.subplots(figsize=(6.4, 4.4))
-    if t1k:
-        ks = [k for k, _ in t1k]
-        usd = [c["bounty_wei"] / 1e18 * eth_usd for _, c in t1k]
-        ax.plot(ks, usd, "s-", color=ACCENT, label="escrowed bounty")
-        ax.set_xlim(min(ks) - 1.2, max(ks) + 1.2)
-        ax.set_ylim(0, max(usd) * 1.22)
-        ax.set_xlabel("Spot checks K")
-        ax.set_ylabel("Escrowed bounty (USD)")
-        ax.set_title("Client cost vs K", fontsize=10)
-        ax.legend(fontsize=8)
 
-    fig.tight_layout()
-    fig.savefig(OUT.parent / "commerce_client_cost_vs_K.png", dpi=150)
-    plt.close(fig)
-
-    print("wrote commerce_profit_vs_T.png, commerce_ev_vs_K.png, "
-          "commerce_client_cost_vs_K.png")
+    print("wrote commerce_profit_vs_T.png, commerce_ev_vs_K.png")
 
     pricing_sessions = [s for s in all_sessions if s.get("experiment") == "pricing"]
     if pricing_sessions:

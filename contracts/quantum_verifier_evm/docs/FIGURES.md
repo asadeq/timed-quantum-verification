@@ -25,8 +25,9 @@ and latency) and [`bench/commerce_ledger.json`](../bench/commerce_ledger.json)
 replayed from the real TLP rather than modelled. Fees are quoted at
 ETH = $3,000.
 
-Per-spot-check cost is ~29.6 k gas and the fixed cost ~69.9 k gas, so the
-`K = 8` configuration used throughout costs ~306 k gas to verify.
+Per-spot-check cost is ~29.5 k gas and the fixed cost ~71.7 k gas (incl. the
+secret-commitment check), so the `K = 8` configuration used throughout costs
+~308 k gas to verify.
 
 ---
 
@@ -40,7 +41,7 @@ Per-spot-check cost is ~29.6 k gas and the fixed cost ~69.9 k gas, so the
 `T ∈ {1, 10, 25, 50, 100}`, split into the part that does not depend on `T`
 (grey: operations, Merkle paths, Goldreich–Levin; blue: the eight Yao
 spot-checks). Both segments are constant by construction and confirmed constant
-by measurement: the `K`-linear model `gas = 69,864 + 29,569·K` predicts the
+by measurement: the `K`-linear model `gas = 71,673 + 29,537·K` predicts the
 measured totals within 0.1 % at every `T`, so no third segment is drawn — the
 former T-dependent term (the non-reusable-gate bitmap header) was removed from
 the wire format: the puzzle tree contains a leaf only for non-reusable gates,
@@ -70,7 +71,7 @@ former 4,096-byte bitmap limit is gone with the bitmap itself.
 **(a) Gas and false-claim probability vs K.** Gas for
 `K ∈ {1, 2, 4, 8, 16}` at `T = 1` (left axis), against the probability `2^-K`
 that a false claim survives all spot-checks (right axis). Gas is linear:
-99,658 → 543,156, i.e. +29,570 per check.
+101,402 → 544,384, i.e. +29,537 per check.
 
 **(b) Fee per verification vs K.** The same measured gas priced at four base
 fees: an L2 at 0.05 gwei (Base/Arbitrum), and L1 at 1, 5 and 30 gwei. Black
@@ -103,7 +104,7 @@ the server's margin and the chain's fee, as a share of what the client pays.
 **Reading.** On an L2 the forger's EV is still positive at `K = 1`
 (+$0.24) and only breaks even near `K = 4` (+$0.005); the first `K` that
 actually loses money is 8 (−$0.04). On L1 the gas cost alone makes forgery
-unprofitable at every `K` (−$0.92 at 1 gwei, −$4.57 at 5 gwei, −$27.55 at
+unprofitable at every `K` (−$0.92 at 1 gwei, −$4.60 at 5 gwei, −$27.61 at
 30 gwei at `K = 8`) — the forger pays the same calldata price for a rejected
 claim as for an accepted one. The corollary is panel (b): the cheaper the
 chain, the larger the share of the client's money that reaches the server
@@ -119,17 +120,17 @@ chain, the larger the share of the client's money that reaches the server
 
 **(a) Wall-clock to a trusted verdict vs T.** Two ways for a client to obtain a
 verdict it believes: re-run the protocol itself, or read the on-chain verdict.
-The self-recompute cost is `1.62 ms + 32.7 µs per sequential step`, fitted from
+The self-recompute cost is `1.70 ms + 33.1 µs per sequential step`, fitted from
 the measured `T = 1 … 100` range (dots, median of 5 solves per point) and drawn
-dashed beyond it. The on-chain cost is one block — median ~2.1 s on Base
+dashed beyond it. The on-chain cost is one block — median ~2.0 s on Base
 Sepolia (2 s blocks) — which is independent of `T`. The open marker is the
 crossing point.
 
 **(b) Off-chain phases vs T.** What the server actually spends: `PSetup`
 (garble and seal) is linear in `T`, 11.4 ms → 111.4 ms; `PGen` is roughly flat
-at 8.4–11.0 ms; `PSolve` (producing the answer) is 1.6 ms → 4.9 ms.
+at 8.4–11.0 ms; `PSolve` (producing the answer) is 1.8 ms → 5.1 ms.
 
-**Reading.** The two curves in (a) cross at `T ≈ 63,000`. Below that, checking
+**Reading.** The two curves in (a) cross at `T ≈ 60,000`. Below that, checking
 the claim locally is faster than waiting for a block; above it, the sequential
 work dominates and the on-chain check is the only practical option. At the
 toy scale used here the crossing is far to the right — this is the honest
@@ -161,6 +162,26 @@ client far more for the privilege (Figure 3b), so the operating point is
 
 ---
 
+## Figure 6 — `fig6_rejection_paths.png`
+
+![Every branch of submitAndVerify](../bench/figures/fig6_rejection_paths.png)
+
+Gas per attempt for the three measured branches of `submitAndVerify` at
+K = 8 on Base Sepolia (current contract): the honest claim (Verified, 308k),
+the lying solver (Rejected, reason 1 — the header leaf's secret commitment
+`d = SHA-256(y ‖ s_claim ‖ r)` mismatches, 177k), and the unknown puzzle
+(Rejected, reason 0 — the earliest exit, 177k).
+
+**Reading.** The contract's decision tree is visible in gas terms: a tampered
+claim exits at the secret-commitment check — *before* the expensive
+spot-check phase — so rejection costs ~42 % less than honesty. The forger's
+cheap rejection is the flip side of the payout gate: the bounty pays only
+claims carrying the true embedded secret, and the forger cannot even reach
+the spot-check phase. This is the "how the contract behaves" complement to
+the economics figures: every branch is measured, not asserted.
+
+---
+
 ## Bounty-cost assumption and sensitivity
 
 Figures 2b, 3a, 3b and 5 price the bounty as `fee + margin` with the margin
@@ -176,9 +197,8 @@ the gas dominates at every margin (K\* = 1, EV ≈ −$27.5).
 
 ## Supporting material
 
-The main argument is Figures 1–5 plus the commerce demo
-(`commerce_profit_vs_T.png`, `commerce_ev_vs_K.png`,
-`commerce_client_cost_vs_K.png`) and the pricing-window demo
+The main argument is Figures 1–6 plus the commerce demo
+(`commerce_profit_vs_T.png`, `commerce_ev_vs_K.png`) and the pricing-window demo
 (`pricing_service_vs_lambda.png`, `pricing_security_vs_lambda.png`: the
 measured server-net step at the reservation price, and the bounty's attack
 incentive — the operating window [1, λ\*] where service is available and the
@@ -196,7 +216,7 @@ reproducibility but are not part of the figure set.
 
 ```sh
 cd contracts/quantum_verifier_evm
-uv run python python/plot_paper.py        # fig1..fig5
+uv run python python/plot_paper.py        # fig1a..fig6 + bounty_sensitivity
 uv run python python/plot_commerce.py     # commerce_profit.png + pricing_window.png
 ```
 

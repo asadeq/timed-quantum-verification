@@ -246,14 +246,27 @@ contract QuantumVerifier is ReentrancyGuard {
         ClaimCodec.ClaimView memory v = ClaimCodec.decode(claim);
 
         // --- 1. Header Merkle -> puzzleHash --------------------------------
-        // leaf = SHA-256( r || r_dot_m_xor_s_be32 || msg.sender )
+        // leaf = SHA-256( r || r_dot_m_xor_s_be32 || d || msg.sender )
+        //   where d = SHA-256( y || s_claim || r ) is the registration-time
+        //   commitment to the puzzle's embedded secret: the client knows
+        //   (m, s, r) at setup and the honest claim's (y, s_claim) = (m, s).
+        // A claim whose output or solution bit differs fails this leaf check
+        // (reason 1) — preimaging d requires actually solving the puzzle.
         // The trailing bytes20 binds the claim to the submitting account: a
         // claim is worthless from any other address, so an observed
         // transaction cannot be front-run to steal the bounty.
+        bytes32 secretCommitment = sha256(
+            abi.encodePacked(
+                ClaimCodec.slice(v.yOff, v.yLen),
+                v.sClaim,
+                ClaimCodec.slice(v.rOff, v.rLen)
+            )
+        );
         bytes32 headerLeaf = sha256(
             abi.encodePacked(
                 ClaimCodec.slice(v.rOff, v.rLen),
                 uint32(v.rDotMXorS),
+                secretCommitment,
                 msg.sender
             )
         );

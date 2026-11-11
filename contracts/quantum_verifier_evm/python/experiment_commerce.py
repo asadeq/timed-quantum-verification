@@ -9,7 +9,8 @@ Demonstrates the full PV-CVQC service loop with three distinct parties:
     server   grinds the T sequential steps, builds a solver-bound claim
              and submits it; the bounty pays out in the same transaction
     attacker exercises the failure paths: front-running replay (reason 1),
-             double claim (reason 5), lying output (reason 4)
+             double claim (reason 5), lying output (reason 1 — the secret
+             commitment in the header leaf rejects it)
 
 and records a per-step ledger (balances, gas, events) to
 bench/commerce_ledger.json, so the "server is in profit" claim is measured,
@@ -53,7 +54,12 @@ from demo_eth import (  # noqa: E402
     tx_hash,
     wait_for_node,
 )
-from gen_fixtures import build_claim, puzzle_root, serialize_claim  # noqa: E402
+from gen_fixtures import (  # noqa: E402
+    build_claim,
+    puzzle_commitment,
+    puzzle_root,
+    serialize_claim,
+)
 from timelock_puzzle.tlp_garbling import PythonGarbledTLP  # noqa: E402
 
 # Anvil's well-known accounts — free ether, no real funds involved.
@@ -229,7 +235,10 @@ def run_cycle(args, rpc: str, ledger: list, addrs: dict, t: int, k: int) -> dict
     setup_ms = (time.perf_counter() - t0) * 1000
 
     server20 = bytes.fromhex(addrs["server"].removeprefix("0x").lower())
-    root = puzzle_root(Z, solver=server20)          # client-side, no solving
+    # Registration-time secret commitment: the client knows (m, s, r) at PGen
+    # (make_puzzle uses PGen(1, pp)); the honest claim's (y, s_claim) = (m, s).
+    commitment = puzzle_commitment(tlp.embedded_message, 1, Z[1])
+    root = puzzle_root(Z, solver=server20, commitment=commitment)  # client-side, no solving
     gas_price = int(run(["cast", "gas-price", "--rpc-url", rpc], "gas-price"))
     margin_wei, quote_src = server_margin(args, rpc, addrs["server"])
     bounty = price_bounty(k, gas_price, margin_wei)
@@ -245,7 +254,8 @@ def run_cycle(args, rpc: str, ledger: list, addrs: dict, t: int, k: int) -> dict
     s, y, witness = tlp.PSolve(Z, pp, return_witness=True)
     solve_ms = (time.perf_counter() - t0) * 1000
     non_reusable = sorted(witness["gate_keys"].keys())
-    claim = build_claim(tlp, Z, witness, s, y, non_reusable[:k], solver=server20)
+    claim = build_claim(tlp, Z, witness, s, y, non_reusable[:k], solver=server20,
+                        commitment=commitment)
     assert claim["puzzle_hash"] == root, "server root != registered root"
     claim_hex = serialize_claim(claim).hex()
     print(f"==> server: solved in {solve_ms:.0f}ms, claim {len(claim_hex) // 2} B (K={k})")
@@ -303,7 +313,8 @@ def run_controls(args, rpc: str, ledger: list, addrs: dict, main: dict) -> None:
     # 3. Lying solver: second puzzle, attacker submits a flipped output bit.
     print("==> control: lying solver (flipped s_claim)")
     tlp, pp, Z = make_puzzle(args.t)
-    attacker20_root = puzzle_root(Z, solver=attacker20)
+    commitment = puzzle_commitment(tlp.embedded_message, 1, Z[1])
+    attacker20_root = puzzle_root(Z, solver=attacker20, commitment=commitment)
     gas_price = int(run(["cast", "gas-price", "--rpc-url", rpc], "gas-price"))
     margin_wei, _ = server_margin(args, rpc, addrs["server"])
     bounty = price_bounty(args.k, gas_price, margin_wei)
@@ -311,12 +322,13 @@ def run_controls(args, rpc: str, ledger: list, addrs: dict, main: dict) -> None:
 
     s, y, witness = tlp.PSolve(Z, pp, return_witness=True)
     non_reusable = sorted(witness["gate_keys"].keys())
-    cheat = build_claim(tlp, Z, witness, s ^ 1, y, non_reusable[:args.k], solver=attacker20)
+    cheat = build_claim(tlp, Z, witness, s ^ 1, y, non_reusable[:args.k],
+                        solver=attacker20, commitment=commitment)
     cheat_hex = serialize_claim(cheat).hex()
     attacker_before = balance_of(addrs["attacker"], rpc)
     row = send("attacker", args, rpc, ledger, "lying_solve", None,
                "submitAndVerify(uint32,bytes)", str(pid2), f"0x{cheat_hex}")
-    assert row.get("reason") == 4, f"expected reason 4, got {row.get('reason')}"
+    assert row.get("reason") == 1, f"expected reason 1, got {row.get('reason')}"
     delta = balance_of(addrs["attacker"], rpc) - attacker_before
     print(f"   attacker balance delta: {delta} wei (gas loss only)")
 

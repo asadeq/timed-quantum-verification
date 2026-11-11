@@ -156,8 +156,10 @@ def claim_sizes(ts):
         z = tlp.PGen(1, pp)
         s, y, w = tlp.PSolve(z, pp, return_witness=True)
         nr = sorted(w["gate_keys"].keys())
-        _root, _levels, _nr = G._puzzle_tree(z, solver)
-        claim = G.build_claim(tlp, z, w, s, y, nr[:8], solver=solver)
+        commitment = G.puzzle_commitment(y, s, z[1])
+        _root, _levels, _nr = G._puzzle_tree(z, solver, commitment)
+        claim = G.build_claim(tlp, z, w, s, y, nr[:8], solver=solver,
+                              commitment=commitment)
         out[t] = {"claim": len(G.serialize_claim(claim)),
                   "max_gate": max(nr)}
     return out
@@ -188,6 +190,52 @@ def min_k_economic(gwei, gas_fn, margin=MARGIN_USD, kmax=24):
         if cheat_ev_usd(gas_fn(k), gwei, k, margin) < 0:
             return k
     return kmax
+
+
+def rejection_paths(sessions):
+    """Every measured branch of submitAndVerify at one venue: the honest
+    claim (Verified), the lying solver (Rejected — the header leaf's secret
+    commitment), and the unknown puzzle (Rejected — the earliest exit). Shows
+    the contract's decision tree in gas terms: tampered claims exit before
+    the expensive spot-check phase, so rejection costs ~42% less than
+    honesty. Only sessions on the current contract (post commitment-fix)
+    are pooled."""
+    venue = "base-sepolia"
+    cutoff = "2026-11-10"          # commitment-fix deployment date
+    paths = {"honest claim\n(Verified)": [], "lying solver\n(Rejected)": [],
+             "unknown puzzle\n(Rejected)": []}
+    for s in sessions:
+        if s.get("venue") != venue or s.get("timestamp_utc", "") < cutoff:
+            continue
+        for r in s["runs"]:
+            if r["name"].startswith("verify_honest"):
+                paths["honest claim\n(Verified)"].append(r["gas_used"])
+            elif r["name"] == "verify_cheat":
+                paths["lying solver\n(Rejected)"].append(r["gas_used"])
+            elif r["name"] == "verify_unknown_puzzle":
+                paths["unknown puzzle\n(Rejected)"].append(r["gas_used"])
+
+    labels = list(paths)
+    meds = [float(np.median(paths[k])) for k in labels]
+    ns = [len(paths[k]) for k in labels]
+    colors = [GAS, CHEAT, FIXED]
+
+    fig, ax = plt.subplots(figsize=(6.4, 4.2))
+    bars = ax.bar(labels, meds, color=colors, width=0.55)
+    for bar, med, n in zip(bars, meds, ns):
+        ax.annotate(f"{med / 1e3:,.0f}k\n(n={n})",
+                    (bar.get_x() + bar.get_width() / 2, med),
+                    textcoords="offset points", xytext=(0, 4),
+                    ha="center", fontsize=8)
+    ax.set_ylim(0, max(meds) * 1.18)
+    ax.set_ylabel("gas per attempt")
+    ax.set_title("Every branch of submitAndVerify (Base Sepolia, K = 8)",
+                 fontsize=10)
+    ax.grid(alpha=0.3, axis="y")
+    fig.tight_layout()
+    fig.savefig(FIG / "fig6_rejection_paths.png", dpi=200)
+    plt.close(fig)
+    print(f"wrote {FIG / 'fig6_rejection_paths.png'}")
 
 
 def bounty_sensitivity_table(intercept, slope):
@@ -518,6 +566,7 @@ def main() -> None:
 
     # ------------------------------------------------------------ printout
     print("wrote fig1a..fig5 to bench/figures/\n")
+    rejection_paths(sessions)
     bounty_sensitivity_table(intercept, slope)
     print(f"K-fit: gas(K) = {intercept:,.0f} + {slope:,.0f}*K   (K=8 -> {base:,.0f} at T=1)\n")
     print(f"{'T':>4} {'gas':>8} {'logic':>8} {'resid':>8} {'res%':>6} "

@@ -37,7 +37,8 @@ Built off-chain by the puzzle generator; only the root (`puzzleHash`) is
 registered on-chain.
 
 ```
-header leaf   = SHA-256( r || r_dot_m_xor_s_be32 || solver_be20 )
+header leaf   = SHA-256( r || r_dot_m_xor_s_be32 || d || solver_be20 )
+                d = SHA-256( y || s_claim || r )
 gate leaf(gi) = SHA-256( table[gi]_4x16B || gi_be32 )
 internal      = SHA-256( left || right )   (odd count: last pairs with itself)
 ```
@@ -45,6 +46,14 @@ internal      = SHA-256( left || right )   (odd count: last pairs with itself)
 `solver_be20` is the submitting account's address, so a claim only verifies
 from the account it was built for — with a bounty attached, an observed
 transaction cannot be front-run to steal the payout.
+
+`d` is the **secret commitment**: the client knows the puzzle's embedded
+message `m` at setup (`PGen` samples it), and the honest claim's
+`(y, s_claim) = (m, s)`. The contract recomputes `d` from the claim's own
+`(y, s_claim, r)` fields and folds it into the leaf, so a claim whose output
+or solution bit differs from the embedded secret fails the header check
+(reason 1) — preimaging `d` requires actually solving the puzzle. This is the
+on-chain analog of Protocol 4.2's `Ver(d, (sk', r'))` commitment check.
 
 The tree contains a leaf **only for non-reusable gates**, so a valid gate-leaf
 Merkle proof is itself the non-reusability proof — the claim carries no

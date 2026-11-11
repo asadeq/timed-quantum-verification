@@ -341,6 +341,12 @@ class PythonGarbledTLP:
         r = secrets.token_bytes(self.lam // 8)
         z_zero = bytes(self.message_size // 8)
 
+        # Client-side knowledge: the puzzle generator knows the embedded
+        # message (it chose it). Exposed so the client can compute a binding
+        # commitment d = SHA-256(m || s || r) at registration time — the
+        # on-chain check that makes the payout require the true (m, s).
+        self.embedded_message = m
+
         # Goldreich-Levin masking: r·m ⊕ s (over the common prefix if
         # lam != message_size)
         r_int = int.from_bytes(r, 'big')

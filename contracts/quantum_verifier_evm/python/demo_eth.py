@@ -10,7 +10,8 @@ This is the EVM counterpart of `scripts/verify_sdk.py`. Flow:
   4. registerPuzzle — stores ONLY the root commitment on-chain.
   5. submitAndVerify (K spot checks):
        * honest claim        -> Verified event
-       * s_claim flipped     -> Rejected event, reason 4 (Goldreich-Levin)
+       * s_claim flipped     -> Rejected event, reason 1 (secret commitment
+                               mismatch — the header leaf binds d)
        * unknown puzzle id   -> Rejected event, reason 0
 
 The ~49 KB puzzle body never touches the chain. The claim is ~6.9 KB for K=8.
@@ -59,6 +60,7 @@ sys.path.insert(0, str(EVM_ROOT.parent.parent / "Quantum_vertification_artifact"
 from gen_fixtures import (  # noqa: E402
     build_claim,
     flip_bit,
+    puzzle_commitment,
     serialize_claim,
 )
 from timelock_puzzle.tlp_garbling import PythonGarbledTLP  # noqa: E402
@@ -124,7 +126,7 @@ VERIFIED_TOPIC = "0x1fabb2fa1c6487a789cedb257be372193547456bfe9302b917f5a2ceca60
 REJECTED_TOPIC = "0x53250a5d6caa2d5cbb589ba431118f4ecf190aed43bdad5852854f73425a65d4"
 REASONS = {
     0: "puzzle not registered",
-    1: "header Merkle path invalid",
+    1: "header Merkle path invalid (incl. secret commitment)",
     2: "gate Merkle path invalid",
     3: "Yao spot-check failed",
     4: "Goldreich-Levin check failed",
@@ -279,11 +281,16 @@ def main() -> None:
     assert tlp.PVerify(s, y, Z), "honest PVerify failed"
     t0 = time.perf_counter()
     non_reusable = sorted(witness["gate_keys"].keys())
-    honest = build_claim(tlp, Z, witness, s, y, non_reusable[:K], solver=solver20)
+    # Registration-time secret commitment (the client knows (m, s, r) at
+    # PGen; the honest claim's (y, s_claim) = (m, s) — canary-checked).
+    commitment = puzzle_commitment(y, s, Z[1])
+    honest = build_claim(tlp, Z, witness, s, y, non_reusable[:K], solver=solver20,
+                         commitment=commitment)
     offchain_ms["claim_build_ms"] = (time.perf_counter() - t0) * 1000
 
     bench["offchain_ms"] = offchain_ms
-    cheat = build_claim(tlp, Z, witness, s ^ 1, y, non_reusable[:K], solver=solver20)
+    cheat = build_claim(tlp, Z, witness, s ^ 1, y, non_reusable[:K], solver=solver20,
+                        commitment=commitment)
     puzzle_hash = honest["puzzle_hash"]
     claim_hex = serialize_claim(honest).hex()
     cheat_hex = serialize_claim(cheat).hex()
